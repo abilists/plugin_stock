@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abilists.plugins.sample.dao.SSampleDao">
+
+	<select id="sltSampleList" parameterType="map" 
+		resultType="com.abilists.plugins.sample.bean.model.SampleModel">
+		SELECT
+			usm_no,
+		  	usm_sample,
+		  	usm_status,
+		  	usm_delete,
+		  	user_id,
+			insert_time,
+			update_time
+		FROM
+			user_sample
+		WHERE
+			user_id = #{userId} AND
+			usm_delete = '0'
+		ORDER BY
+			usm_no DESC
+		LIMIT
+			#{nowPage}, #{row}
+	</select>
+
+	<select id="sltSample" parameterType="map" 
+		resultType="com.abilists.plugins.sample.bean.model.SampleModel">
+		SELECT
+			usm_no,
+		  	usm_sample,
+		  	usm_status,
+		  	usm_delete,
+		  	user_id,
+			insert_time,
+			update_time
+		FROM
+			user_sample
+		WHERE
+			usm_no = #{usmNo} AND
+			user_id = #{userId} AND
+			usm_delete = '0'
+	</select>
+
+	<select id="sltSampleSum" parameterType="map" resultType="java.lang.Integer">
+		SELECT
+			COUNT(*) as cnt
+		FROM
+			user_sample
+		WHERE
+			user_id = #{userId} AND
+			usm_delete = '0'
+	</select>
+
+</mapper>

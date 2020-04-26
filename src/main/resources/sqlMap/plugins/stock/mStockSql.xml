@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abilists.plugins.stock.dao.MStockDao">
+
+	<insert id="istStock" parameterType="map">
+		INSERT INTO user_stock (
+		  	usm_stock,
+		  	usm_status,
+		  	usm_delete,
+		  	user_id,
+			insert_time,
+			update_time
+		) VALUES (
+			#{usmStock},
+			'0',
+			'0',
+			#{userId},
+			now(),
+			now()
+		)
+	</insert>
+
+	<update id="udtStock" parameterType="map">
+		UPDATE 
+			user_stock
+		SET
+			usm_stock = #{usmStock},
+			update_time = now()
+		WHERE
+			usm_no = #{usmNo} AND
+			user_id = #{userId} AND
+			usm_delete = '0'
+	</update>
+
+	<update id="dltStock" parameterType="map">
+		UPDATE 
+			user_stock
+		SET
+			usm_delete = '1',
+			update_time = now()
+		WHERE
+			usm_no = #{usmNo}
+	</update>
+
+</mapper>

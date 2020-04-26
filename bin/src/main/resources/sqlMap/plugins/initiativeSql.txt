@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS abilists.user_sample (
+  usm_no BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  usm_sample VARCHAR(100) NULL,
+  usm_status VARCHAR(2) NULL,
+  usm_delete CHAR(1) NULL,
+  user_id VARCHAR(100) NULL,
+  insert_time TIMESTAMP NULL,
+  update_time TIMESTAMP NULL,
+  PRIMARY KEY (usm_no)
+) ENGINE=innoDB DEFAULT CHARSET=utf8mb4;
+CREATE INDEX IF NOT EXISTS idx_user_sample_user_id ON abilists.user_time_record (user_id);

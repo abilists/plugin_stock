@@ -1,8 +1,5 @@
-/.settings
-/.gradle
 # Compiled class file
 *.class
-/build/
 
 # Log file
 *.log
@@ -14,7 +11,7 @@
 .mtj.tmp/
 
 # Package Files #
-#*.jar
+*.jar
 *.war
 *.nar
 *.ear
