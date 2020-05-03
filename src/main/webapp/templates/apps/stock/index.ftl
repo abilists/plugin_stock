@@ -15,24 +15,53 @@
 		<#include "/apps/common/errorMessage.ftl"/>
 		<#include "/apps/common/abilistsSuccess.ftl"/>
 
-		<div id="newMdataFormId" class="item-box" style="display: none;">
-		<form name="newForm" class="form-horizontal" action="${configBean.contextPath?if_exists}/plugins/stock/istStock" method="post" id="newFormId" onkeypress="return captureReturnKey(event);">
-		  	<div class="row">
-		  	  	<div class="col-sm-12 col-md-12">
-						<label class="control-label">샘플 내용</label>
+		<div id="newMdataFormId" class="item-box">
+			<form name="newForm" class="form-horizontal" action="${configBean.contextPath?if_exists}/plugins/stock/istStock" method="post" id="newFormId" onkeypress="return captureReturnKey(event);">
+		  	  <div class="row">
+		  	  	<div class="col-sm-3 col-md-3">
+		  	  		<label class="control-label">구분</label>
+					<select id="utrKindId" class="form-control" name="ustClassify" >
+						<option value="1">매수</option>
+						<option value="2">매도</option>
+						<option value="3">기타</option>
+				    </select>
+		  	  	</div>
+		  	  	<div class="col-sm-3 col-md-3">
+		  	  		<label class="control-label">종목이름</label>
 				  	<div class="input-group" style="float:right; width: 100%;">
-				  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-pencil" aria-hidden="true"></span></span>
-				  		<input class="form-control" type="text" name="usmStock" placeholder="stock" autocomplete="off" />
+				  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+				  		<input class="form-control" type="text" name="ustName" placeholder="삼성전자" autocomplete="off" />
 				  	</div>
-				</div>
-		  	</div>
-		  	<input type="hidden" name="token" value="<#if model??>${model.token?if_exists}</#if>" />
-		  	<br/>
-			<p align="center">
-				<button type="button" class="btn btn-primary" onclick="return confirmData('newFormId');" >저장</button>
-				<button class="btn btn-primary" type="button" onClick="newFormCancel();">취소</button>
-			</p>
-		</form>
+		  	  	</div>
+		  	  	<div class="col-sm-3 col-md-3">	
+		  			<label class="control-label">1주당 가격</label>
+				  	<div class="input-group" style="float:right; width: 100%;">
+				  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
+				  		<input class="form-control" type="text" name="ustSaleCost" maxlength="12" size="12" placeholder="2000" />
+				  	</div>
+			  	</div>
+		  	  	<div class="col-sm-3 col-md-3">	
+		  			<label class="control-label">매매 주식수</label>
+				  	<div class="input-group" style="float:right; width: 100%;">
+				  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
+				  		<input class="form-control" type="text" name="ustSaleCnt" maxlength="12" size="12" placeholder="100" />
+				  	</div>
+			  	</div>
+		  	  </div>
+			  <div class="row">
+			  	<div class="col-sm-12 col-md-12">
+		  			<label class="control-label">코멘트</label> <span id="idUtrComment">0</span>/200
+		  			<textarea class="taForm" style="height: 50px;" name="ustComment" placeholder="Add the detail information" rows="3" onkeyup="checkByteLength(this, 'idUtrComment', 200)" onfocus="checkByteLength(this, 'idUtrComment', 200)"></textarea>
+			  	</div>
+		  	  </div>
+			  <input type="hidden" id="utrNoId" name="utrNo" />
+			  <input type="hidden" id="tokenId" name="token" />
+			  <br/>
+				<p align="center">
+			      <button type="button" class="btn btn-primary" onclick="return confirmData('updateFormId');">저장</button>
+			      <button type="button" class="btn btn-primary" onClick="updateFormCancel();">취소</button>
+				</p>
+			</form>
 		</div>
 
 		<div id="udtMdataFormId" class="item-box" style="background-color: #efebe7;margin: 10px; display: none;">

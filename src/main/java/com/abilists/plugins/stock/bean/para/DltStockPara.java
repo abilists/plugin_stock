@@ -4,14 +4,14 @@ import base.bean.para.CommonPara;
 
 public class DltStockPara extends CommonPara {
 
-	private String usmNo;
+	private String ustNo;
 
-	public String getUsmNo() {
-		return usmNo;
+	public String getUstNo() {
+		return ustNo;
 	}
 
-	public void setUsmNo(String usmNo) {
-		this.usmNo = usmNo;
+	public void setUstNo(String ustNo) {
+		this.ustNo = ustNo;
 	}
 
 }

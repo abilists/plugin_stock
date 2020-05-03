@@ -182,7 +182,7 @@ public class StockController extends CommonAbilistsController {
 
 		// Execute the transaction
 		if (!stockService.udtStock(udtStockPara)) {
-			logger.error("udtStock - updating is error. userId={}, usmNo={}", udtStockPara.getUserId(), udtStockPara.getUsmNo());
+			logger.error("udtStock - updating is error. userId={}, usmNo={}", udtStockPara.getUserId(), udtStockPara.getUstNo());
 			mapErrorMessage.put("errorMessage", message.getMessage("parameter.update.error.message", null, locale));
 			model.addAttribute("mapErrorMessage", mapErrorMessage);
 			return "apps/errors/systemErrors";
@@ -230,7 +230,7 @@ public class StockController extends CommonAbilistsController {
 
 		// Execute the transaction
 		if (!stockService.dltStock(dltStockPara)) {
-			logger.error("dltStock - deleting is error. userId={}, usmNo={}", dltStockPara.getUserId(), dltStockPara.getUsmNo());
+			logger.error("dltStock - deleting is error. userId={}, usmNo={}", dltStockPara.getUserId(), dltStockPara.getUstNo());
 			mapErrorMessage.put("errorMessage", message.getMessage("parameter.delete.error.message", null, locale));
 			model.addAttribute("mapErrorMessage", mapErrorMessage);
 			return "apps/errors/systemErrors";

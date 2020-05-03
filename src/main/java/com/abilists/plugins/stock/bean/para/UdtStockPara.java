@@ -1,23 +1,15 @@
 package com.abilists.plugins.stock.bean.para;
 
-import base.bean.para.CommonPara;
+public class UdtStockPara extends IstStockPara {
 
-public class UdtStockPara extends CommonPara {
+	private String ustNo;
 
-	private String usmNo;
-	private String usmStock;
+	public String getUstNo() {
+		return ustNo;
+	}
 
-	public String getUsmNo() {
-		return usmNo;
-	}
-	public void setUsmNo(String usmNo) {
-		this.usmNo = usmNo;
-	}
-	public String getUsmStock() {
-		return usmStock;
-	}
-	public void setUsmStock(String usmStock) {
-		this.usmStock = usmStock;
+	public void setUstNo(String ustNo) {
+		this.ustNo = ustNo;
 	}
 
 }

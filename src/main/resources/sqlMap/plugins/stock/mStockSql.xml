@@ -6,14 +6,28 @@
 
 	<insert id="istStock" parameterType="map">
 		INSERT INTO user_stock (
-		  	usm_stock,
-		  	usm_status,
-		  	usm_delete,
+			ust_classify,
+			ust_code,
+			ust_name,
+			ust_sale_cost,
+			ust_sale_cnt,
+			ust_sale_total,
+			ust_stock_cnt,
+			ust_comment,
+			ust_status,
+			ust_delete,
 		  	user_id,
 			insert_time,
 			update_time
 		) VALUES (
-			#{usmStock},
+			#{ustClassify},
+			#{ustCode},
+			#{ustName},
+			#{ustSaleCost},
+			#{ustSaleCnt},
+			#{ustSaleTotal},
+			#{ustStockCnt},
+			#{ustComment},
 			'0',
 			'0',
 			#{userId},
@@ -26,22 +40,26 @@
 		UPDATE 
 			user_stock
 		SET
-			usm_stock = #{usmStock},
+			ust_classify = #{ustClassify},
+			ust_sale_cost = #{ustSaleCost},
+			ust_sale_cnt = #{ustSaleCnt},
+			ust_sale_total = #{ustSaleTotal},
+			ust_comment = #{ustComment},
 			update_time = now()
 		WHERE
-			usm_no = #{usmNo} AND
+			ust_no = #{ustNo} AND
 			user_id = #{userId} AND
-			usm_delete = '0'
+			ust_delete = '0'
 	</update>
 
 	<update id="dltStock" parameterType="map">
 		UPDATE 
 			user_stock
 		SET
-			usm_delete = '1',
+			ust_delete = '1',
 			update_time = now()
 		WHERE
-			usm_no = #{usmNo}
+			ust_no = #{ustNo}
 	</update>
 
 </mapper>

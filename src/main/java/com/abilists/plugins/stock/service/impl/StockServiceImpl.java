@@ -61,7 +61,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		StockModel Stock = null;
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("usmNo", sltStockPara.getUsmNo());
+		map.put("ustNo", sltStockPara.getUstNo());
 		map.put("userId", sltStockPara.getUserId());
 
 		try {
@@ -94,7 +94,12 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		int intResult = 0;
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("usmStock", istStockPara.getUsmStock());
+		map.put("ustClassify", istStockPara.getUstClassify());
+		map.put("ustCode", istStockPara.getUstCode());
+		map.put("ustName", istStockPara.getUstName());
+		map.put("ustSaleCost", istStockPara.getUstSaleCost());
+		map.put("ustSaleCnt", istStockPara.getUstSaleCnt());
+		map.put("ustComment", istStockPara.getUstComment());
 		map.put("userId", istStockPara.getUserId());
 
 		try {
@@ -123,8 +128,13 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		int intResult = 0;
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("usmNo", udtStockPara.getUsmNo());
-		map.put("usmStock", udtStockPara.getUsmStock());
+		map.put("ustNo", udtStockPara.getUstNo());
+		map.put("ustClassify", udtStockPara.getUstClassify());
+		map.put("ustCode", udtStockPara.getUstCode());
+		map.put("ustName", udtStockPara.getUstName());
+		map.put("ustSaleCost", udtStockPara.getUstSaleCost());
+		map.put("ustSaleCnt", udtStockPara.getUstSaleCnt());
+		map.put("ustComment", udtStockPara.getUstComment());
 		map.put("userId", udtStockPara.getUserId());
 
 		try {
@@ -148,7 +158,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		int intResult = 0;
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("usmNo", dltStockPara.getUsmNo());
+		map.put("ustNo", dltStockPara.getUstNo());
 		map.put("userId", dltStockPara.getUserId());
 
 		try {
@@ -158,7 +168,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		}
 
 		if(intResult < 1) {
-			logger.error("dltStock error, usmNo={}, userId={}", dltStockPara.getUsmNo(), dltStockPara.getUserId());
+			logger.error("dltStock error, usmNo={}, userId={}", dltStockPara.getUstNo(), dltStockPara.getUserId());
 			return false;
 		}
 

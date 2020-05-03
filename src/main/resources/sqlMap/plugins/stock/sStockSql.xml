@@ -7,10 +7,20 @@
 	<select id="sltStockList" parameterType="map" 
 		resultType="com.abilists.plugins.stock.bean.model.StockModel">
 		SELECT
-			usm_no,
-		  	usm_stock,
-		  	usm_status,
-		  	usm_delete,
+			ust_no,
+			ust_classify,
+			ust_code,
+			ust_name,
+			ust_buy_cost,
+			ust_buy_cnt,
+			ust_buy_total,
+			ust_sell_cost,
+			ust_sell_cnt,
+			ust_sell_total,
+			ust_stock_cnt,
+			ust_comment,
+			ust_status,
+			ust_delete,
 		  	user_id,
 			insert_time,
 			update_time
@@ -18,9 +28,9 @@
 			user_stock
 		WHERE
 			user_id = #{userId} AND
-			usm_delete = '0'
+			ust_delete = '0'
 		ORDER BY
-			usm_no DESC
+			ust_no DESC
 		LIMIT
 			#{nowPage}, #{row}
 	</select>
@@ -28,19 +38,29 @@
 	<select id="sltStock" parameterType="map" 
 		resultType="com.abilists.plugins.stock.bean.model.StockModel">
 		SELECT
-			usm_no,
-		  	usm_stock,
-		  	usm_status,
-		  	usm_delete,
+			ust_no,
+			ust_classify,
+			ust_code,
+			ust_name,
+			ust_buy_cost,
+			ust_buy_cnt,
+			ust_buy_total,
+			ust_sell_cost,
+			ust_sell_cnt,
+			ust_sell_total,
+			ust_stock_cnt,
+			ust_comment,
+			ust_status,
+			ust_delete,
 		  	user_id,
 			insert_time,
 			update_time
 		FROM
 			user_stock
 		WHERE
-			usm_no = #{usmNo} AND
+			ust_no = #{ustNo} AND
 			user_id = #{userId} AND
-			usm_delete = '0'
+			ust_delete = '0'
 	</select>
 
 	<select id="sltStockSum" parameterType="map" resultType="java.lang.Integer">
@@ -50,7 +70,7 @@
 			user_stock
 		WHERE
 			user_id = #{userId} AND
-			usm_delete = '0'
+			ust_delete = '0'
 	</select>
 
 </mapper>
