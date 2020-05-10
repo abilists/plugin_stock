@@ -26,29 +26,40 @@ function confirmData(tableName) {
 	table.submit();
 }
 
-var usmNoInput = document.getElementById("usmNoId");
-var usmStockInput = document.getElementById("usmStockId");
+var ustNoInput = document.getElementById("ustNoId");
+var ustClassifyInput = document.getElementById("ustClassifyId");
+var ustNameInput = document.getElementById("ustNameId");
+var ustSaleCostInput = document.getElementById("ustSaleCostId");
+var ustSaleCntInput = document.getElementById("ustSaleCntId");
+var ustCommentInput = document.getElementById("ustCommentId");
+
 var tokenInput = document.getElementById("tokenId");
 
-function selectStock(x, usmNo) {
+function selectStock(x, ustNo) {
 
 	$("#udtMdataFormId").insertAfter($(x));
 
 	$(document).ready(function() {
         $.ajax({
             type: 'POST',
-            url: 'stock/sltStockAjax',
+            url: '${configBean.contextPath?if_exists}/plugins/stock/sltStockAjax',
             contentType: "application/json",
             dataType: "json",
-            data: '{ "usmNo" : "' + usmNo + '", "token" : "' + tokenInput.value + '"}',
+            data: '{ "ustNo" : "' + ustNo + '", "token" : "' + tokenInput.value + '"}',
             cache: false,
             beforeSend: function(xhr, settings) {
             	console.log("before send");
             },
             success: function(data, textStatus, request) {
-            	if(!isBlank(data)) {		
-            		usmNoInput.value = data.usmNo;
-            		usmStockInput.value = data.usmStock;
+            	if(!isBlank(data)) {
+            		ustNoInput.value = data.ustNo;
+            		// ustClassifyInput.value = data.ustClassify;
+            		ustClassifyInput.value = '3';
+            		ustNameInput.value = data.ustName;
+            		ustSaleCostInput.value = data.ustSaleCost;
+            		ustSaleCntInput.value = data.ustSaleCnt;
+            		ustCommentInput.value = data.ustComment;
+
             		tokenInput.value = data.token;
             	}
             },
@@ -72,8 +83,10 @@ function newFormToggle() {
 	$("#newMdataFormId").slideToggle("slow");
 	$("#newToggleId").toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
 
-	usmNoInput.value = "";
-	usmStockInput.value = "";
+	ustNameInput.value = "";
+	ustSaleCostInput.value = "";
+	ustSaleCntInput.value = "";
+	ustCommentInput.value = "";
 
 	udtFormCancel();
 }
@@ -103,7 +116,7 @@ function submitUpdateFormUserReports() {
  * Remove a survey
  */
 function submitDeleteFormReports() {
-	document.updateForm.action = "/plugins/stock/dltStock";
+	document.updateForm.action = "${configBean.contextPath?if_exists}/plugins/stock/dltStock";
 	document.updateForm.submit();
 }
 

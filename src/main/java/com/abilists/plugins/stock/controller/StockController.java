@@ -193,7 +193,6 @@ public class StockController extends CommonAbilistsController {
 		return "redirect:/plugins/stock";
 	}
 
-
 	@RequestMapping(value = { "dltStock" })
 	public String dltStock(@Valid DltStockPara dltStockPara, BindingResult bindingResult, ModelMap model,
 			HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes)
