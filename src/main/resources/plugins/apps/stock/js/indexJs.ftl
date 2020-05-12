@@ -53,8 +53,7 @@ function selectStock(x, ustNo) {
             success: function(data, textStatus, request) {
             	if(!isBlank(data)) {
             		ustNoInput.value = data.ustNo;
-            		// ustClassifyInput.value = data.ustClassify;
-            		ustClassifyInput.value = '3';
+            		ustClassifyInput.value = data.ustClassify;
             		ustNameInput.value = data.ustName;
             		ustSaleCostInput.value = data.ustSaleCost;
             		ustSaleCntInput.value = data.ustSaleCnt;

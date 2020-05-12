@@ -27,7 +27,7 @@
 			user_id = #{userId} AND
 			ust_delete = '0'
 		ORDER BY
-			ust_no DESC
+			ust_name, ust_classify
 		LIMIT
 			#{nowPage}, #{row}
 	</select>
@@ -57,6 +57,24 @@
 			ust_delete = '0'
 	</select>
 
+	<select id="sltStockCompany" parameterType="map" 
+		resultType="com.abilists.plugins.stock.bean.model.StockCompanyModel">
+		SELECT
+			ust_name,
+			SUM(ust_sale_cost) AS sumSaleCost,
+			SUM(ust_sale_cnt) AS sumSaleCnt,
+		  	user_id
+		FROM
+			user_stock
+		WHERE
+			user_id = #{userId} AND
+			ust_delete = '0'
+		GROUP BY 
+			ust_name
+		ORDER BY
+			ust_name
+	</select>
+
 	<select id="sltStockSum" parameterType="map" resultType="java.lang.Integer">
 		SELECT
 			COUNT(*) as cnt
@@ -66,5 +84,7 @@
 			user_id = #{userId} AND
 			ust_delete = '0'
 	</select>
+
+
 
 </mapper>

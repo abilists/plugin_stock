@@ -4,6 +4,25 @@
 
 <div class="row">
 <div class="col-sm-12">
+	<div class="item-box">
+		<ul class="nav nav-tabs" role="tablist">
+		  <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">매매 가격</a></li>
+		  <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">남은 주식</a></li>
+		</ul>
+		<div class="tab-content">
+		  <div role="tabpanel" class="tab-pane active" id="home">
+		  	<canvas id="canvas1" height="100px"></canvas>
+		  </div>
+		  <div role="tabpanel" class="tab-pane" id="profile">
+		  	<canvas id="canvas2" height="100px"></canvas>
+		  </div>
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-sm-12">
 	<div class="caption mittle-size-title middle-works-bg">
 		<h5>
 			<b>주식 관리</b>
@@ -20,6 +39,7 @@
 	  	  	<div class="col-sm-3 col-md-3">
 	  	  		<label class="control-label">구분</label>
 				<select id="ustClassifyId" class="form-control" name="ustClassify">
+					<option value="0">매매선택</option>
 					<option value="1">매수</option>
 					<option value="2">매도</option>
 					<option value="3">기타</option>
@@ -36,14 +56,14 @@
 	  			<label class="control-label">1주당 가격</label>
 			  	<div class="input-group" style="float:right; width: 100%;">
 			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
-			  		<input class="form-control" type="text" name="ustSaleCost" maxlength="12" size="12" placeholder="2000" />
+			  		<input class="form-control" type="text" name="ustSaleCost" maxlength="12" size="12" placeholder="2000" onkeypress="return isNumber(event)"/>
 			  	</div>
 		  	</div>
 	  	  	<div class="col-sm-3 col-md-3">	
 	  			<label class="control-label">매매 주식수</label>
 			  	<div class="input-group" style="float:right; width: 100%;">
 			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
-			  		<input class="form-control" type="text" name="ustSaleCnt" maxlength="12" size="12" placeholder="100" />
+			  		<input class="form-control" type="text" name="ustSaleCnt" maxlength="12" size="12" placeholder="100" onkeypress="return isNumber(event)"/>
 			  	</div>
 		  	</div>
 	  	  </div>
@@ -67,7 +87,8 @@
   	  <div class="row">
   	  	<div class="col-sm-3 col-md-3">
   	  		<label class="control-label">구분</label>
-			<select id="ustClassifyId" class="form-control" name="ustClassify" >
+			<select id="ustClassifyId" class="form-control" name="ustClassify">
+				<option value="0">매매선택</option>
 				<option value="1">매수</option>
 				<option value="2">매도</option>
 				<option value="3">기타</option>
@@ -84,14 +105,14 @@
 	  		<label class="control-label">1주당 가격</label>
 		  	<div class="input-group" style="float:right; width: 100%;">
 		  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
-		  		<input id="ustSaleCostId" class="form-control" type="text" name="ustSaleCost" maxlength="12" size="12" placeholder="2000" />
+		  		<input id="ustSaleCostId" class="form-control" type="text" name="ustSaleCost" maxlength="12" size="12" placeholder="2000" onkeypress="return isNumber(event)" />
 		  	</div>
 		</div>
 	  	<div class="col-sm-3 col-md-3">	
 	  		<label class="control-label">매매 주식수</label>
 		  	<div class="input-group" style="float:right; width: 100%;">
 		  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
-		  		<input id="ustSaleCntId" class="form-control" type="text" name="ustSaleCnt" maxlength="12" size="12" placeholder="100" />
+		  		<input id="ustSaleCntId" class="form-control" type="text" name="ustSaleCnt" maxlength="12" size="12" placeholder="100" onkeypress="return isNumber(event)" />
 		  	</div>
 		</div>
 	  </div>
@@ -106,7 +127,7 @@
 	  <br/>
 	  <p align="center">
 			<button type="button" class="btn btn-primary" onclick="return confirmData('udtFormId');">저장</button>
-		    <button type="button" class="btn btn-primary" onClick="udtFormCancel();">취소</button>
+			<button type="button" class="btn btn-primary" onClick="udtFormCancel();">취소</button>
 	  </p>
 	</form>
 	</div>
@@ -154,7 +175,7 @@
 		</div>
 		</div>
 	</div>
-
+	<br/>
 	<nav class="text-center">
     <ul class="pagination">
 	    <#if model?exists>
@@ -183,7 +204,158 @@
 </div>
 </div>
 
+
 <#include "/apps/common/abilistsPluginsLoadJs.ftl"/>
 <#include "/apps/stock/js/indexJs.ftl"/>
 
+<!-- Chart.js -->
+<script src="/static/apps/lib/chart-2.7/Chart.bundle.min.js?2017092301"></script>
+<script src="/static/apps/lib/chart-2.7/Chart.min.js?2017092301"></script>
+
+<script>
+	var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+	var data1 = {
+		labels: ['10', '20', '5', '8', '12'],
+		datasets: [{
+			type: 'line',
+			label: '매수',
+			fill: false,
+			backgroundColor: window.chartColors.red,
+			borderColor: window.chartColors.red,
+			data: [
+				3000,
+				2500,
+				2200,
+				2000,
+				0
+			]
+		}, {
+			type: 'line',
+			label: '매도',
+			fill: false,
+			backgroundColor: window.chartColors.blue,
+			borderColor: window.chartColors.blue,
+			data: [
+				1500,
+				0,
+				0,
+				1000,
+				1500
+			]
+		}]
+	};
+
+	var option1 = {
+		responsive: true,
+		title: {
+			display: true,
+			text: '나의 주식 관리'
+		},
+		tooltips: {
+			mode: 'index',
+			intersect: false,
+		},
+		hover: {
+			mode: 'nearest',
+			intersect: true
+		},
+		scales: {
+			xAxes: [{
+				display: true,
+				scaleLabel: {
+					display: true,
+					labelString: '주식수'
+				}
+			}],
+			yAxes: [{
+				display: true,
+				scaleLabel: {
+					display: true,
+					labelString: '가격'
+				},
+				ticks: {
+					min: 0
+				}
+			}]
+		}
+	};
+	
+	var ctx = document.getElementById("canvas1").getContext("2d");
+	var myReportsBar = new Chart(ctx, {
+	    type: 'line',
+	    data: data1,
+	    options: option1
+	});
+	
+	
+
+	var data2 = {
+		title: {
+			display: true,
+			text: 'Bar Chart'
+		},
+		labels: ['10', '20', '5', '8', '12'],
+		datasets: [{
+			label: '매수',
+			fill: false,
+			backgroundColor: window.chartColors.red,
+			borderColor: window.chartColors.red,
+			data: [
+				2000,
+				1500,
+				1200,
+				1000,
+				0
+			]
+		}],
+		borderWidth: 1
+	};
+
+	var option2 = {
+		responsive: true,
+		title: {
+			display: true,
+			text: '나의 주식 관리'
+		},
+		tooltips: {
+			mode: 'index',
+			intersect: false,
+		},
+		hover: {
+			mode: 'nearest',
+			intersect: true
+		},
+		scales: {
+	        yAxes: [{
+		            type: "linear",
+		            display: true,
+		            position: "left",
+					gridLines: {
+						display: true,
+						color: "rgba(239,239,239,0.7)"
+					}
+	        	}, {
+		            type: "linear",
+		            display: false,
+		            gridLines: {
+		                drawOnChartArea: true
+		            }
+		        }],
+	        xAxes: [{
+				gridLines: {
+					display: true,
+				}
+			}]
+		}
+	};
+		
+	
+	var ctx = document.getElementById("canvas2").getContext("2d");
+	var myReportsBar = new Chart(ctx, {
+	    type: 'bar',
+	    data: data2,
+	    options: option2
+	});
+</script>
 </@layout.myLayout>
