@@ -12,6 +12,8 @@ import com.abilists.plugins.stock.bean.model.StockModel;
 public interface SStockDao {
 
 	public List<StockModel> sltStockList(Map<String, Object> map) throws SQLException;
+	public List<StockModel> srhStockList(Map<String, Object> map) throws SQLException;
+	public List<StockModel> srhStockCompanyList(Map<String, Object> map) throws SQLException;
 	public StockModel sltStock(Map<String, Object> map) throws SQLException;
 	public int sltStockSum(Map<String, Object> map) throws SQLException;
 

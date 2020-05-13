@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.abilists.bean.para.admin.SrhAutoCompletePara;
 import com.abilists.core.service.AbilistsAbstractService;
 import com.abilists.plugins.stock.bean.model.StockModel;
 import com.abilists.plugins.stock.bean.para.DltStockPara;
@@ -38,7 +39,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 	@Override
 	public List<StockModel> sltStockList(SltStockPara sltStockPara) throws Exception {
 		List<StockModel> StockList = null;
-	
+
 		// Get now page
 		int nowPage = sltStockPara.getNowPage();
 	
@@ -57,6 +58,53 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		return StockList;
 	}
 
+	@Override
+	public List<StockModel> srhStockList(SrhAutoCompletePara srhAutoCompletePara) throws Exception {
+
+		List<StockModel> stockList = null;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("userId", srhAutoCompletePara.getUserId());
+		// Key is title, Value is Contents.
+		map.put("ustName", srhAutoCompletePara.getSrhContents());
+		map.put("nowPage", 0);
+		map.put("row", configuration.getInt("paging.row.ten"));
+
+		try {
+			stockList = sAbilistsDao.getMapper(SStockDao.class).srhStockList(map);
+		} catch (Exception e) {
+			logger.error("Exception error", e);
+			throw e;
+		}
+
+		return stockList;
+	}
+
+	@Override
+	public List<StockModel> srhStockCompanyList(SrhAutoCompletePara srhAutoCompletePara) throws Exception {
+
+		List<StockModel> stockList = null;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("userId", srhAutoCompletePara.getUserId());
+		// Key is title, Value is Contents.
+		map.put("ustName", srhAutoCompletePara.getSrhContents());
+		map.put("nowPage", 0);
+		map.put("row", configuration.getInt("paging.row.ten"));
+
+		try {
+			stockList = sAbilistsDao.getMapper(SStockDao.class).srhStockCompanyList(map);
+		} catch (Exception e) {
+			logger.error("Exception error", e);
+			throw e;
+		}
+
+		return stockList;
+	}
+
+	@Override
 	public StockModel sltStock(SltStockPara sltStockPara) throws Exception {
 		StockModel Stock = null;
 
@@ -89,6 +137,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		return sum;
 	}
 
+	@Transactional(rollbackFor = {IllegalArgumentException.class, Exception.class}, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public boolean istStock(IstStockPara istStockPara) throws Exception {
 		int intResult = 0;

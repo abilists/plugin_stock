@@ -57,6 +57,56 @@
 			ust_delete = '0'
 	</select>
 
+	<select id="srhStockList" parameterType="map" 
+		resultType="com.abilists.plugins.stock.bean.model.StockModel">
+		SELECT
+			ust_no,
+  			ust_classify,
+  			ust_code,
+  			ust_name,
+  			ust_sale_cost,
+  			ust_sale_cnt,
+  			ust_sale_total,
+  			ust_stock_cnt,
+			ust_comment,
+			ust_status,
+			ust_delete,
+		  	user_id,
+			insert_time,
+			update_time
+		FROM
+			user_stock
+		WHERE
+			user_id = #{userId} AND
+			ust_name like '%${ustName}%' AND
+			ust_delete = '0'
+		ORDER BY
+			ust_name, ust_classify
+		LIMIT
+			#{nowPage}, #{row}
+	</select>
+
+	<select id="srhStockCompanyList" parameterType="map" resultType="com.abilists.plugins.stock.bean.model.StockModel">
+		SELECT
+  			ust_name
+		FROM
+			user_stock
+		WHERE
+	    <if test="userId != null and userId != ''">
+			user_id like '${userId}%' AND
+	    </if> 
+	    <if test="ustName != null and ustName != ''">
+			ust_name like '%${ustName}%' AND
+	    </if> 
+	    	ust_delete = '0'
+		GROUP BY 
+			ust_name
+		ORDER BY
+			ust_name
+		LIMIT
+			#{nowPage}, #{row}
+	</select>
+
 	<select id="sltStockCompany" parameterType="map" 
 		resultType="com.abilists.plugins.stock.bean.model.StockCompanyModel">
 		SELECT
