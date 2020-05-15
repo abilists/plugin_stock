@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.abilists.core.service.AbilistsAbstractService;
 import com.abilists.plugins.stock.admin.service.AdminStockService;
-import com.abilists.plugins.stock.bean.model.StockModel;
+import com.abilists.plugins.stock.bean.model.UserStockModel;
 import com.abilists.plugins.stock.dao.SStockDao;
 
 import base.bean.para.CommonPara;
@@ -29,8 +29,8 @@ public class AdminStockServiceImpl extends AbilistsAbstractService implements Ad
     private Configuration configuration;
 
 	@Override
-	public List<StockModel> sltStockList(CommonPara commonPara) throws Exception {
-		List<StockModel> stockList = null;
+	public List<UserStockModel> sltStockList(CommonPara commonPara) throws Exception {
+		List<UserStockModel> stockList = null;
 
 		// Get now page
 		int nowPage = commonPara.getNowPage();
@@ -41,7 +41,7 @@ public class AdminStockServiceImpl extends AbilistsAbstractService implements Ad
 
 		try {
 			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
-			stockList = sAbilistsDao.getMapper(SStockDao.class).sltStockList(map);
+			stockList = sAbilistsDao.getMapper(SStockDao.class).sltPluginsUserStockList(map);
 
 		} catch (Exception e) {
 			logger.error("sltOptions Exception error", e);
@@ -57,7 +57,7 @@ public class AdminStockServiceImpl extends AbilistsAbstractService implements Ad
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		try {
-			sum = sAbilistsDao.getMapper(SStockDao.class).sltStockSum(map);
+			sum = sAbilistsDao.getMapper(SStockDao.class).sltPluginsUserStockSum(map);
 		} catch (Exception e) {
 			logger.error("Exception error", e);
 		}

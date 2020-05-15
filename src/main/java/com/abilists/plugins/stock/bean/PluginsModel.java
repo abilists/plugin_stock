@@ -2,26 +2,42 @@ package com.abilists.plugins.stock.bean;
 
 import java.util.List;
 
-import com.abilists.plugins.stock.bean.model.StockModel;
+import com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel;
+import com.abilists.plugins.stock.bean.model.UserStockModel;
 
 import base.bean.model.CommonModel;
 
 public class PluginsModel extends CommonModel {
 
-	private StockModel Stock;
-	private List<StockModel> StockList;
+	private UserStockModel Stock;
+	private List<UserStockModel> StockList;
+	
+	private PluginsMStockCompanyModel masterStockCompany;
+	private List<PluginsMStockCompanyModel> masterStockCompanyList;
 
-	public StockModel getStock() {
+	public UserStockModel getStock() {
 		return Stock;
 	}
-	public void setStock(StockModel Stock) {
+	public void setStock(UserStockModel Stock) {
 		this.Stock = Stock;
 	}
-	public List<StockModel> getStockList() {
+	public List<UserStockModel> getStockList() {
 		return StockList;
 	}
-	public void setStockList(List<StockModel> StockList) {
+	public void setStockList(List<UserStockModel> StockList) {
 		this.StockList = StockList;
+	}
+	public PluginsMStockCompanyModel getMasterStockCompany() {
+		return masterStockCompany;
+	}
+	public void setMasterStockCompany(PluginsMStockCompanyModel masterStockCompany) {
+		this.masterStockCompany = masterStockCompany;
+	}
+	public List<PluginsMStockCompanyModel> getMasterStockCompanyList() {
+		return masterStockCompanyList;
+	}
+	public void setMasterStockCompanyList(List<PluginsMStockCompanyModel> masterStockCompanyList) {
+		this.masterStockCompanyList = masterStockCompanyList;
 	}
 
 }

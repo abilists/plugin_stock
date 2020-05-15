@@ -4,8 +4,36 @@
 
 <mapper namespace="com.abilists.plugins.stock.dao.MStockDao">
 
-	<insert id="istStock" parameterType="map">
-		INSERT INTO user_stock (
+	<insert id="istPluginsMStockCompany" parameterType="map">
+		INSERT INTO plugins_m_stock_company (
+			msc_code,
+			msc_name,
+			msc_profit,
+			msc_dividend,
+			msc_payout_ratio,
+			msc_comment,
+			msc_status,
+			msc_delete,
+		  	user_id,
+			insert_time,
+			update_time
+		) VALUES (
+			#{mscCode},
+			#{mscName},
+			#{mscProfit},
+			#{mscDividend},
+			#{mscPayoutRatio},
+			#{mscComment},
+			'0',
+			'0',
+			#{userId},
+			now(),
+			now()
+		)
+	</insert>
+
+	<insert id="istPluginsUserStock" parameterType="map">
+		INSERT INTO plugins_user_stock (
 			ust_classify,
 			ust_code,
 			ust_name,
@@ -36,9 +64,26 @@
 		)
 	</insert>
 
-	<update id="udtStock" parameterType="map">
+	<update id="udtPluginsMStockCompany" parameterType="map">
 		UPDATE 
-			user_stock
+			plugins_m_stock_company
+		SET
+			msc_code = #{mscCode},
+			msc_name = #{mscName},
+			msc_profit = #{mscProfit},
+			msc_dividend = #{mscDividend},
+			msc_payout_ratio = #{mscPayoutRatio},
+			msc_comment = #{mscComment},
+			update_time = now()
+		WHERE
+			msc_no = #{mscNo} AND
+			user_id = #{userId} AND
+			msc_delete = '0'
+	</update>
+
+	<update id="udtPluginsUserStock" parameterType="map">
+		UPDATE 
+			plugins_user_stock
 		SET
 			ust_classify = #{ustClassify},
 			ust_sale_cost = #{ustSaleCost},
@@ -52,9 +97,19 @@
 			ust_delete = '0'
 	</update>
 
-	<update id="dltStock" parameterType="map">
+	<update id="dltPluginsMStockCompany" parameterType="map">
 		UPDATE 
-			user_stock
+			plugins_m_stock_company
+		SET
+			ust_delete = '1',
+			update_time = now()
+		WHERE
+			ust_no = #{ustNo}
+	</update>
+
+	<update id="dltPluginsUserStock" parameterType="map">
+		UPDATE 
+			plugins_user_stock
 		SET
 			ust_delete = '1',
 			update_time = now()

@@ -4,41 +4,169 @@
 
 <mapper namespace="com.abilists.plugins.stock.dao.SStockDao">
 
-	<select id="sltStockList" parameterType="map" 
-		resultType="com.abilists.plugins.stock.bean.model.StockModel">
+	<resultMap id="mainPluginsMStockCompanyStockMap" type="com.abilists.plugins.stock.bean.model.PluginsMStockCompanyStockMapModel">
+		<id property="mscNo" column="msc_no"/>
+		<result property="mscCode" column="msc_code"/>
+		<result property="mscName" column="msc_name"/>
+		<result property="mscProfit" column="msc_profit"/>
+		<result property="mscDividend" column="msc_dividend"/>
+		<result property="mscPayoutRatio" column="msc_payout_ratio"/>
+		<result property="mscComment" column="msc_comment"/>
+		<result property="mscStatus" column="msc_status"/>
+		<result property="mscDelete" column="msc_delete"/>
+		<result property="userId" column="user_id"/>
+		<result property="insertTime" column="insert_time"/>
+		<result property="updateTime" column="update_time"/>	
+		<collection property="subUserStockList" javaType="java.util.ArrayList" resultMap="subUserStockMap"/>
+	</resultMap>
+	<resultMap id="subUserStockMap" type="java.util.HashMap">
+		<id property="ustNo" column="ust_no"/>
+		<result property="ustClassify" column="ust_classify"/>
+		<result property="ustCode" column="ust_code"/>
+		<result property="ustName" column="ust_name"/>
+		<result property="ustSaleCost" column="ust_sale_cost"/>
+		<result property="ustSaleCnt" column="ust_sale_cnt"/>
+		<result property="ustSaleTotal" column="ust_sale_total"/>
+		<result property="ustStockCnt" column="ust_stock_cnt"/>
+		<result property="ustComment" column="ust_comment"/>
+		<result property="ustStatus" column="ust_status"/>
+		<result property="userId" column="user_id"/>
+		<result property="insertTime" column="insert_time"/>
+		<result property="updateTime" column="update_time"/>
+	</resultMap>
+
+<!-- master_stock_company Inner Join user_stock -->
+	<select id="sltPluginsMStockCompanyStockMapList" parameterType="map" resultMap="mainPluginsMStockCompanyStockMap">
 		SELECT
-			ust_no,
-  			ust_classify,
-  			ust_code,
-  			ust_name,
-  			ust_sale_cost,
-  			ust_sale_cnt,
-  			ust_sale_total,
-  			ust_stock_cnt,
-			ust_comment,
-			ust_status,
-			ust_delete,
-		  	user_id,
-			insert_time,
-			update_time
+			msc.msc_no,
+			msc.msc_code,
+			msc.msc_name,
+			msc.msc_profit,
+			msc.msc_dividend,
+			msc.msc_payout_ratio,
+			msc.msc_comment,
+			msc.msc_status,
+			msc.msc_delete,
+		  	msc.user_id,
+			msc.insert_time,
+			msc.update_time,
+			us.ust_no,
+  			us.ust_classify,
+  			us.ust_sale_cost,
+  			us.ust_sale_cnt,
+  			us.ust_sale_total,
+  			us.ust_stock_cnt,
+			us.ust_comment,
+			us.ust_status,
+			us.ust_delete,
+			us.msc_no,
+			us.msc_name,
+			us.insert_time,
+			us.update_time
 		FROM
-			user_stock
+			(SELECT 
+				* 
+			FROM 
+				plugins_m_stock_company 
+			WHERE
+				msc_no = #{mscNo} AND
+		        user_id = #{userId} AND
+		    	msc_delete = '0') msc
+			LEFT JOIN
+			plugins_user_stock us
+				ON 
+				msc.msc_no = us.msc_no
 		WHERE
 			user_id = #{userId} AND
-			ust_delete = '0'
+			msc_delete = '0'
 		ORDER BY
-			ust_name, ust_classify
+			msc_no
 		LIMIT
 			#{nowPage}, #{row}
 	</select>
 
-	<select id="sltStock" parameterType="map" 
-		resultType="com.abilists.plugins.stock.bean.model.StockModel">
+	<select id="sltPluginsMStockCompanyList" parameterType="map" 
+		resultType="com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel">
+		SELECT
+			msc_no,
+			msc_code,
+			msc_name,
+			msc_profit,
+			msc_dividend,
+			msc_payout_ratio,
+			msc_comment,
+			msc_status,
+			msc_delete,
+		  	user_id,
+			insert_time,
+			update_time
+		FROM
+			plugins_m_stock_company
+		WHERE
+			user_id = #{userId} AND
+			msc_delete = '0'
+		ORDER BY
+			msc_no
+		LIMIT
+			#{nowPage}, #{row}
+	</select>
+
+	<select id="sltPluginsMStockCompany" parameterType="map" 
+		resultType="com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel">
+		SELECT
+			msc_no,
+			msc_code,
+			msc_name,
+			msc_profit,
+			msc_dividend,
+			msc_payout_ratio,
+			msc_comment,
+			msc_status,
+			msc_delete,
+		  	user_id,
+			insert_time,
+			update_time
+		FROM
+			plugins_m_stock_company
+		WHERE
+			msc_no = #{mscNo} AND
+			user_id = #{userId} AND
+			msc_delete = '0'
+	</select>
+
+	<select id="sltPluginsUserStockList" parameterType="map" 
+		resultType="com.abilists.plugins.stock.bean.model.UserStockModel">
 		SELECT
 			ust_no,
   			ust_classify,
-  			ust_code,
-  			ust_name,
+  			ust_sale_cost,
+  			ust_sale_cnt,
+  			ust_sale_total,
+  			ust_stock_cnt,
+			ust_comment,
+			ust_status,
+			ust_delete,
+			msc_no,
+			msc_name,
+		  	user_id,
+			insert_time,
+			update_time
+		FROM
+			plugins_user_stock
+		WHERE
+			user_id = #{userId} AND
+			ust_delete = '0'
+		ORDER BY
+			ust_classify
+		LIMIT
+			#{nowPage}, #{row}
+	</select>
+
+	<select id="sltPluginsUserStock" parameterType="map" 
+		resultType="com.abilists.plugins.stock.bean.model.UserStockModel">
+		SELECT
+			ust_no,
+  			ust_classify,
   			ust_sale_cost,
   			ust_sale_cnt,
   			ust_sale_total,
@@ -50,20 +178,18 @@
 			insert_time,
 			update_time
 		FROM
-			user_stock
+			plugins_user_stock
 		WHERE
 			ust_no = #{ustNo} AND
 			user_id = #{userId} AND
 			ust_delete = '0'
 	</select>
 
-	<select id="srhStockList" parameterType="map" 
-		resultType="com.abilists.plugins.stock.bean.model.StockModel">
+	<select id="srhPluginsUserStockList" parameterType="map" 
+		resultType="com.abilists.plugins.stock.bean.model.UserStockModel">
 		SELECT
 			ust_no,
   			ust_classify,
-  			ust_code,
-  			ust_name,
   			ust_sale_cost,
   			ust_sale_cnt,
   			ust_sale_total,
@@ -75,22 +201,23 @@
 			insert_time,
 			update_time
 		FROM
-			user_stock
+			plugins_user_stock
 		WHERE
 			user_id = #{userId} AND
 			ust_name like '%${ustName}%' AND
 			ust_delete = '0'
 		ORDER BY
-			ust_name, ust_classify
+			ust_classify
 		LIMIT
 			#{nowPage}, #{row}
 	</select>
 
-	<select id="srhStockCompanyList" parameterType="map" resultType="com.abilists.plugins.stock.bean.model.StockModel">
+<!-- 
+	<select id="srhStockCompanyList" parameterType="map" resultType="com.abilists.plugins.stock.bean.model.UserStockModel">
 		SELECT
   			ust_name
 		FROM
-			user_stock
+			plugins_user_stock
 		WHERE
 	    <if test="userId != null and userId != ''">
 			user_id like '${userId}%' AND
@@ -107,7 +234,7 @@
 			#{nowPage}, #{row}
 	</select>
 
-	<select id="sltStockCompany" parameterType="map" 
+	<select id="sltStockCompanyList" parameterType="map" 
 		resultType="com.abilists.plugins.stock.bean.model.StockCompanyModel">
 		SELECT
 			ust_name,
@@ -124,17 +251,26 @@
 		ORDER BY
 			ust_name
 	</select>
-
-	<select id="sltStockSum" parameterType="map" resultType="java.lang.Integer">
+ -->
+ 
+	<select id="sltPluginsMStockCompanySum" parameterType="map" resultType="java.lang.Integer">
 		SELECT
 			COUNT(*) as cnt
 		FROM
-			user_stock
+			plugins_m_stock_company
+		WHERE
+			user_id = #{userId} AND
+			msc_delete = '0'
+	</select>
+
+	<select id="sltPluginsUserStockSum" parameterType="map" resultType="java.lang.Integer">
+		SELECT
+			COUNT(*) as cnt
+		FROM
+			plugins_user_stock
 		WHERE
 			user_id = #{userId} AND
 			ust_delete = '0'
 	</select>
-
-
 
 </mapper>
