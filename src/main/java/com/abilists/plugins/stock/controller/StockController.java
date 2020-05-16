@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,19 +28,19 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.abilists.bean.AbilistsModel;
 import com.abilists.bean.para.admin.SrhAutoCompletePara;
-import com.abilists.plugins.stock.bean.para.SltMasterStockCompanyPara;
 import com.abilists.core.common.bean.CommonBean;
 import com.abilists.core.controller.AbstractBaseController;
 import com.abilists.core.controller.CommonAbilistsController;
 import com.abilists.plugins.stock.bean.PluginsModel;
 import com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel;
-import com.abilists.plugins.stock.bean.model.UserStockModel;
-import com.abilists.plugins.stock.bean.para.DltMasterStockCompanyPara;
+import com.abilists.plugins.stock.bean.model.PluginsUserStockModel;
+import com.abilists.plugins.stock.bean.para.DltMStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.DltStockPara;
-import com.abilists.plugins.stock.bean.para.IstMasterStockCompanyPara;
+import com.abilists.plugins.stock.bean.para.IstMStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.IstStockPara;
+import com.abilists.plugins.stock.bean.para.SltMStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.SltStockPara;
-import com.abilists.plugins.stock.bean.para.UdtMasterStockCompanyPara;
+import com.abilists.plugins.stock.bean.para.UdtMStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.UdtStockPara;
 import com.abilists.plugins.stock.service.StockService;
 
@@ -55,8 +56,11 @@ public class StockController extends CommonAbilistsController {
 	@Autowired
 	private CommonBean commonBean;
 
+	/*
+	 * Get a company information
+	 */
 	@RequestMapping(value = {"/", "", "index"}, method = RequestMethod.GET)
-	public String index(@Validated SltMasterStockCompanyPara sltMasterStockCompanyPara, HttpServletRequest request, ModelMap model) throws Exception {
+	public String sltMStockCompanyList(@Validated SltMStockCompanyPara sltMasterStockCompanyPara, HttpServletRequest request, ModelMap model) throws Exception {
 		AbilistsModel abilistsModel = new AbilistsModel();
 		abilistsModel.setNavi("plugins");
 		abilistsModel.setMenu("stock");
@@ -70,7 +74,7 @@ public class StockController extends CommonAbilistsController {
 		int intSum = stockService.sltMasterStockCompanySum(sltMasterStockCompanyPara);
 		abilistsModel.setPaging(stockService.makePaging(sltMasterStockCompanyPara, intSum));
 		// Get stock list
-		pluginsModel.setMasterStockCompanyList(stockService.sltMasterStockCompanyList(sltMasterStockCompanyPara));
+		pluginsModel.setmStockCompanyList(stockService.sltMStockCompanyList(sltMasterStockCompanyPara));
 
 		// Get key and token
 		String token = TokenUtility.generateToken(TokenUtility.SHA_256);
@@ -84,25 +88,42 @@ public class StockController extends CommonAbilistsController {
 		return "apps/stock/index";
 	}
 
-	@RequestMapping(value = {"/sltStock/{mscNo}"}, method = RequestMethod.GET)
-	public String sltStock(@PathVariable String mscNo, HttpServletRequest request, ModelMap model) throws Exception {
+	/*
+	 * Get stock of informations from a company
+	 */
+	@RequestMapping(value = {"/sltStockList/{mscNo}"}, method = RequestMethod.GET)
+	public String sltStockList(@PathVariable String mscNo, HttpServletRequest request, ModelMap model) throws Exception {
 		AbilistsModel abilistsModel = new AbilistsModel();
 		abilistsModel.setNavi("plugins");
 		abilistsModel.setMenu("stock");
 
 		PluginsModel pluginsModel = new PluginsModel();
 
-		SltStockPara sltStockPara = new SltStockPara();
-		sltStockPara.setMscNo(mscNo);
+		// Set language in Locale.
+		Locale locale = RequestContextUtils.getLocale(request);
+
+		Map<String, String> mapErrorMessage = new HashMap<String, String>();
+		if (!StringUtils.isNumeric(mscNo)) {
+			logger.error("mscNo is null");
+			mapErrorMessage.put("errorMessage", message.getMessage("parameter.error.token.message", null, locale));
+			model.addAttribute("errorMessage", mapErrorMessage);
+			return "apps/errors/parameterErrors";
+		}
+
+		SltMStockCompanyPara sltMStockCompanyPara = new SltMStockCompanyPara();
+		sltMStockCompanyPara.setMscNo(mscNo);
 
 		// Set user id
-		this.handleSessionInfo(request.getSession(), sltStockPara);
+		this.handleSessionInfo(request.getSession(), sltMStockCompanyPara);
 
-		// Set Paging list
-		int intSum = stockService.sltStockSum(sltStockPara);
-		abilistsModel.setPaging(stockService.makePaging(sltStockPara, intSum));
-		// Get stock list
-		pluginsModel.setStockList(stockService.sltStockList(sltStockPara));
+		// Get a company information
+		pluginsModel.setmStockCompany(stockService.sltMStockCompany(sltMStockCompanyPara));
+
+		SltStockPara sltStockPara = new SltStockPara();
+		sltStockPara.setUserId(sltMStockCompanyPara.getUserId());
+		sltStockPara.setMscNo(mscNo);
+		// Get traded information of a company
+		pluginsModel.setUserStockList(stockService.sltStockList(sltStockPara));
 
 		// Get key and token
 		String token = TokenUtility.generateToken(TokenUtility.SHA_256);
@@ -116,48 +137,91 @@ public class StockController extends CommonAbilistsController {
 		return "apps/stock/stock";
 	}
 
-	@RequestMapping(value = { "/srhForStock" })
-	public String srhForStock(@Valid SrhAutoCompletePara srhAutoCompletePara, 
-			BindingResult bindingResult, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//	@RequestMapping(value = { "/sltStock" })
+//	public String sltStock(@Valid SrhAutoCompletePara srhAutoCompletePara, 
+//			BindingResult bindingResult, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//
+//		AbilistsModel abilistsModel = new AbilistsModel();
+//		abilistsModel.setNavi("works");
+//		abilistsModel.setMenu("srhForStock");
+//
+//		PluginsModel pluginsModel = new PluginsModel();
+//
+//		// Set user id
+//		this.handleSessionInfo(request.getSession(), srhAutoCompletePara);
+//
+//		// Set language in Locale.
+//		Locale locale = RequestContextUtils.getLocale(request);
+//
+//		// If it occurs a error, set the default value.
+//		Map<String, String> mapErrorMessage = null;
+//		// If it occurs errors, set the default value.
+//		if (bindingResult.hasErrors()) {
+//			logger.error("srhForMemo - There are parameter errors.");
+//			response.setStatus(400);
+//			mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors(), locale);
+//			model.addAttribute("mapErrorMessage",  mapErrorMessage);
+//			return "apps/errors/parameterErrors";
+//		}
+//
+//		// Get user information
+//		List<PluginsUserStockModel> userStockList = stockService.srhUserStockList(srhAutoCompletePara);
+//		pluginsModel.setUserStockList(userStockList);
+//
+//		// Get key and token
+//		String token = TokenUtility.generateToken(TokenUtility.SHA_256);
+//		String key = this.makeKey(srhAutoCompletePara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
+//		commonBean.addTokenExpireMap(key, token);
+//		abilistsModel.setToken(token);
+//
+//		model.addAttribute("model", abilistsModel);
+//		model.addAttribute("plugins", pluginsModel);
+//
+//		return "apps/stock/index";
+//	}
 
-		AbilistsModel abilistsModel = new AbilistsModel();
-		abilistsModel.setNavi("works");
-		abilistsModel.setMenu("srhForStock");
-
-		PluginsModel pluginsModel = new PluginsModel();
-
-		// Set user id
-		this.handleSessionInfo(request.getSession(), srhAutoCompletePara);
-
-		// Set language in Locale.
-		Locale locale = RequestContextUtils.getLocale(request);
-
-		// If it occurs a error, set the default value.
-		Map<String, String> mapErrorMessage = null;
-		// If it occurs errors, set the default value.
-		if (bindingResult.hasErrors()) {
-			logger.error("srhForMemo - There are parameter errors.");
-			response.setStatus(400);
-			mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors(), locale);
-			model.addAttribute("mapErrorMessage",  mapErrorMessage);
-			return "apps/errors/parameterErrors";
-		}
-
-		// Get user information
-		List<UserStockModel> stockList = stockService.srhStockList(srhAutoCompletePara);
-		pluginsModel.setStockList(stockList);
-
-		// Get key and token
-		String token = TokenUtility.generateToken(TokenUtility.SHA_256);
-		String key = this.makeKey(srhAutoCompletePara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
-		commonBean.addTokenExpireMap(key, token);
-		abilistsModel.setToken(token);
-
-		model.addAttribute("model", abilistsModel);
-		model.addAttribute("plugins", pluginsModel);
-
-		return "apps/stock/index";
-	}
+//	@RequestMapping(value = { "/srhForStock" })
+//	public String srhForStock(@Valid SrhAutoCompletePara srhAutoCompletePara, 
+//			BindingResult bindingResult, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//
+//		AbilistsModel abilistsModel = new AbilistsModel();
+//		abilistsModel.setNavi("works");
+//		abilistsModel.setMenu("srhForStock");
+//
+//		PluginsModel pluginsModel = new PluginsModel();
+//
+//		// Set user id
+//		this.handleSessionInfo(request.getSession(), srhAutoCompletePara);
+//
+//		// Set language in Locale.
+//		Locale locale = RequestContextUtils.getLocale(request);
+//
+//		// If it occurs a error, set the default value.
+//		Map<String, String> mapErrorMessage = null;
+//		// If it occurs errors, set the default value.
+//		if (bindingResult.hasErrors()) {
+//			logger.error("srhForMemo - There are parameter errors.");
+//			response.setStatus(400);
+//			mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors(), locale);
+//			model.addAttribute("mapErrorMessage",  mapErrorMessage);
+//			return "apps/errors/parameterErrors";
+//		}
+//
+//		// Get user information
+//		List<UserStockModel> userStockList = stockService.srhUserStockList(srhAutoCompletePara);
+//		pluginsModel.setUserStockList(userStockList);
+//
+//		// Get key and token
+//		String token = TokenUtility.generateToken(TokenUtility.SHA_256);
+//		String key = this.makeKey(srhAutoCompletePara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
+//		commonBean.addTokenExpireMap(key, token);
+//		abilistsModel.setToken(token);
+//
+//		model.addAttribute("model", abilistsModel);
+//		model.addAttribute("plugins", pluginsModel);
+//
+//		return "apps/stock/index";
+//	}
 
 //    @RequestMapping(value="/srhForStockAjax")
 //	public @ResponseBody List<StockModel> srhForStockAjax(@Valid @RequestBody SrhAutoCompletePara srhAutoCompletePara, 
@@ -180,19 +244,19 @@ public class StockController extends CommonAbilistsController {
 //    	return stockList;
 //	}
 
-	@RequestMapping(value = "/sltMasterStockCompanyAjax")
-	public @ResponseBody PluginsMStockCompanyModel sltMasterStockCompanyAjax(@RequestBody SltMasterStockCompanyPara sltMasterStockCompanyPara,
+	@RequestMapping(value = "/sltMStockCompanyAjax")
+	public @ResponseBody PluginsMStockCompanyModel sltMStockCompanyAjax(@RequestBody SltMStockCompanyPara sltMStockCompanyPara,
 			HttpSession session) throws Exception {
 
 		// Set user id
-		this.handleSessionInfo(session, sltMasterStockCompanyPara);
+		this.handleSessionInfo(session, sltMStockCompanyPara);
 
 		// Get user Reports.
-		PluginsMStockCompanyModel masterStockCompanyModel = stockService.sltMasterStockCompany(sltMasterStockCompanyPara);
+		PluginsMStockCompanyModel masterStockCompanyModel = stockService.sltMStockCompany(sltMStockCompanyPara);
 
 		// Get key and token
 		String token = TokenUtility.generateToken(TokenUtility.SHA_256);
-		String key = this.makeKey(sltMasterStockCompanyPara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
+		String key = this.makeKey(sltMStockCompanyPara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
 		commonBean.addTokenExpireMap(key, token);
 
 		// Set a token
@@ -202,14 +266,14 @@ public class StockController extends CommonAbilistsController {
 	}
 
 	@RequestMapping(value = "/sltStockAjax")
-	public @ResponseBody UserStockModel sltStockAjax(@RequestBody SltStockPara sltStockPara,
+	public @ResponseBody PluginsUserStockModel sltStockAjax(@RequestBody SltStockPara sltStockPara,
 			HttpSession session) throws Exception {
 
 		// Set user id
 		this.handleSessionInfo(session, sltStockPara);
 
 		// Get user Reports.
-		UserStockModel stock = stockService.sltStock(sltStockPara);
+		PluginsUserStockModel stock = stockService.sltStock(sltStockPara);
 
 		// Get key and token
 		String token = TokenUtility.generateToken(TokenUtility.SHA_256);
@@ -222,8 +286,8 @@ public class StockController extends CommonAbilistsController {
 		return stock;
 	}
 
-	@RequestMapping(value = { "istMasterStockCompany" })
-	public String istMasterStockCompany(@Valid IstMasterStockCompanyPara istMasterStockCompanyPara, BindingResult bindingResult, ModelMap model,
+	@RequestMapping(value = { "istMStockCompany" })
+	public String istMStockCompany(@Valid IstMStockCompanyPara istMStockCompanyPara, BindingResult bindingResult, ModelMap model,
 			HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes)
 			throws Exception {
 
@@ -245,20 +309,20 @@ public class StockController extends CommonAbilistsController {
 		}
 
 		// Set user id
-		this.handleSessionInfo(request.getSession(), istMasterStockCompanyPara);
+		this.handleSessionInfo(request.getSession(), istMStockCompanyPara);
 
 		// Validate token
-		String key = this.makeKey(istMasterStockCompanyPara.getUserId(), AbstractBaseController.PREFIX_IST_KEY);
-		if (!istMasterStockCompanyPara.getToken().equals(commonBean.getTokenExpireMap(key))) {
-			logger.error("istMasterStockCompany - token is wrong. parameter token=" + istMasterStockCompanyPara.getToken() + ", server token=" + commonBean.getTokenExpireMap(key));
+		String key = this.makeKey(istMStockCompanyPara.getUserId(), AbstractBaseController.PREFIX_IST_KEY);
+		if (!istMStockCompanyPara.getToken().equals(commonBean.getTokenExpireMap(key))) {
+			logger.error("istMStockCompany - token is wrong. parameter token=" + istMStockCompanyPara.getToken() + ", server token=" + commonBean.getTokenExpireMap(key));
 			mapErrorMessage.put("errorMessage", message.getMessage("parameter.error.token.message", null, locale));
 			model.addAttribute("errorMessage", mapErrorMessage);
 			return "apps/errors/parameterErrors";
 		}
 
 		// Execute the transaction
-		if (!stockService.istMasterStockCompany(istMasterStockCompanyPara)) {
-			logger.error("istMasterStockCompany - inserting is error. userId={}", istMasterStockCompanyPara.getUserId());
+		if (!stockService.istMStockCompany(istMStockCompanyPara)) {
+			logger.error("istMStockCompany - inserting is error. userId={}", istMStockCompanyPara.getUserId());
 			mapErrorMessage.put("errorMessage", message.getMessage("parameter.insert.error.message", null, locale));
 			model.addAttribute("mapErrorMessage", mapErrorMessage);
 			return "apps/errors/systemErrors";
@@ -294,8 +358,6 @@ public class StockController extends CommonAbilistsController {
 		// Set user id
 		this.handleSessionInfo(request.getSession(), istStockPara);
 
-		logger.info("2 userId=" + istStockPara.getUserId());
-
 		// Validate token
 		String key = this.makeKey(istStockPara.getUserId(), AbstractBaseController.PREFIX_IST_KEY);
 		if (!istStockPara.getToken().equals(commonBean.getTokenExpireMap(key))) {
@@ -315,11 +377,11 @@ public class StockController extends CommonAbilistsController {
 
 		// Pass the parameters with post.
 		redirectAttributes.addFlashAttribute("save", "completed");
-		return "redirect:/plugins/stock";
+		return "redirect:/plugins/stock/sltStockList/" + istStockPara.getMscNo();
 	}
 
-	@RequestMapping(value = { "udtMasterStockCompany" })
-	public String udtMasterStockCompany(@Valid UdtMasterStockCompanyPara udtMasterStockCompanyPara, BindingResult bindingResult, ModelMap model,
+	@RequestMapping(value = { "udtMStockCompany" })
+	public String udtMStockCompany(@Valid UdtMStockCompanyPara udtMStockCompanyPara, BindingResult bindingResult, ModelMap model,
 			HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes)
 			throws Exception {
 
@@ -341,20 +403,20 @@ public class StockController extends CommonAbilistsController {
 		}
 
 		// Set user id
-		this.handleSessionInfo(request.getSession(), udtMasterStockCompanyPara);
+		this.handleSessionInfo(request.getSession(), udtMStockCompanyPara);
 
 		// Validate token
-		String key = this.makeKey(udtMasterStockCompanyPara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
-		if (!udtMasterStockCompanyPara.getToken().equals(commonBean.getTokenExpireMap(key))) {
-			logger.error("udtMasterStockCompany - token is wrong. parameter token=" + udtMasterStockCompanyPara.getToken() + ", server token=" + commonBean.getTokenExpireMap(key));
+		String key = this.makeKey(udtMStockCompanyPara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
+		if (!udtMStockCompanyPara.getToken().equals(commonBean.getTokenExpireMap(key))) {
+			logger.error("udtMasterStockCompany - token is wrong. parameter token=" + udtMStockCompanyPara.getToken() + ", server token=" + commonBean.getTokenExpireMap(key));
 			mapErrorMessage.put("errorMessage", message.getMessage("parameter.error.token.message", null, locale));
 			model.addAttribute("errorMessage", mapErrorMessage);
 			return "apps/errors/parameterErrors";
 		}
 
 		// Execute the transaction
-		if (!stockService.udtMasterStockCompany(udtMasterStockCompanyPara)) {
-			logger.error("udtMasterStockCompany - updating is error. userId={}, usmNo={}", udtMasterStockCompanyPara.getUserId(), udtMasterStockCompanyPara.getMscNo());
+		if (!stockService.udtMStockCompany(udtMStockCompanyPara)) {
+			logger.error("udtMasterStockCompany - updating is error. userId={}, usmNo={}", udtMStockCompanyPara.getUserId(), udtMStockCompanyPara.getMscNo());
 			mapErrorMessage.put("errorMessage", message.getMessage("parameter.update.error.message", null, locale));
 			model.addAttribute("mapErrorMessage", mapErrorMessage);
 			return "apps/errors/systemErrors";
@@ -409,11 +471,11 @@ public class StockController extends CommonAbilistsController {
 
 		// Pass the parameters with post.
 		redirectAttributes.addFlashAttribute("save", "completed");
-		return "redirect:/plugins/stock";
+		return "redirect:/plugins/stock/sltStockList/" + udtStockPara.getMscNo();
 	}
 
-	@RequestMapping(value = { "dltMasterStockCompany" })
-	public String dltMasterStockCompany(@Valid DltMasterStockCompanyPara dltMasterStockCompanyPara, BindingResult bindingResult, ModelMap model,
+	@RequestMapping(value = { "dltMStockCompany" })
+	public String dltMStockCompany(@Valid DltMStockCompanyPara dltMStockCompanyPara, BindingResult bindingResult, ModelMap model,
 			HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes)
 			throws Exception {
 
@@ -435,20 +497,20 @@ public class StockController extends CommonAbilistsController {
 		}
 
 		// Set user id
-		this.handleSessionInfo(request.getSession(), dltMasterStockCompanyPara);
+		this.handleSessionInfo(request.getSession(), dltMStockCompanyPara);
 
 		// Validate token
-		String key = this.makeKey(dltMasterStockCompanyPara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
-		if (!dltMasterStockCompanyPara.getToken().equals(commonBean.getTokenExpireMap(key))) {
-			logger.error("dltMasterStockCompany - token is wrong. parameter token=" + dltMasterStockCompanyPara.getToken() + ", server token=" + commonBean.getTokenExpireMap(key));
+		String key = this.makeKey(dltMStockCompanyPara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
+		if (!dltMStockCompanyPara.getToken().equals(commonBean.getTokenExpireMap(key))) {
+			logger.error("dltMStockCompany - token is wrong. parameter token=" + dltMStockCompanyPara.getToken() + ", server token=" + commonBean.getTokenExpireMap(key));
 			mapErrorMessage.put("errorMessage", message.getMessage("parameter.error.token.message", null, locale));
 			model.addAttribute("errorMessage", mapErrorMessage);
 			return "apps/errors/parameterErrors";
 		}
 
 		// Execute the transaction
-		if (!stockService.dltMasterStockCompany(dltMasterStockCompanyPara)) {
-			logger.error("dltMasterStockCompany - deleting is error. userId={}, usmNo={}", dltMasterStockCompanyPara.getUserId(), dltMasterStockCompanyPara.getMscNo());
+		if (!stockService.dltMStockCompany(dltMStockCompanyPara)) {
+			logger.error("dltMStockCompany - deleting is error. userId={}, usmNo={}", dltMStockCompanyPara.getUserId(), dltMStockCompanyPara.getMscNo());
 			mapErrorMessage.put("errorMessage", message.getMessage("parameter.delete.error.message", null, locale));
 			model.addAttribute("mapErrorMessage", mapErrorMessage);
 			return "apps/errors/systemErrors";
@@ -503,7 +565,7 @@ public class StockController extends CommonAbilistsController {
 
 		// Pass the parameters with post.
 		redirectAttributes.addFlashAttribute("save", "completed");
-		return "redirect:/plugins/stock";
+		return "redirect:/plugins/stock/sltStockList/" + dltStockPara.getMscNo();
 	}
 
 }

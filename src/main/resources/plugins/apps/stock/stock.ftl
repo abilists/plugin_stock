@@ -26,15 +26,18 @@ a.a-button:hover {
 	<li style="width: 100px;">배당성향(%)</li>
 	<li style="width: 100px;">입력한 날짜</li>
 </ul>
+
+<#if plugins.mStockCompany??>
 <ul class="table-ul ul-table">
-	<li style="width: 30px;">aa</li>
-	<li style="width: 150px;">bbb</li>
-	<li style="width: 150px;">cc</li>
-	<li style="width: 100px;">ee</li>
-	<li style="width: 100px;">aaa</li>
-	<li style="width: 100px;">aef</li>
-    <li style="width: 100px;">aef</li>
+	<li style="width: 30px;">${plugins.mStockCompany.mscNo?if_exists}</li>
+	<li style="width: 150px;">${plugins.mStockCompany.mscCode?if_exists}</li>
+	<li style="width: 150px;">${plugins.mStockCompany.mscName?if_exists}</li>
+	<li style="width: 100px;">${plugins.mStockCompany.mscProfit?if_exists}</li>
+	<li style="width: 100px;">${plugins.mStockCompany.mscDividend?if_exists}</li>
+	<li style="width: 100px;">${plugins.mStockCompany.mscPayoutRatio?if_exists}</li>
+    <li style="width: 100px;">${plugins.mStockCompany.updateTime?string('yyyy-MM-dd hh:mm:ss')?if_exists}</li>
 </ul>
+</#if>
 
 <div class="row">
 <div class="col-sm-12">
@@ -96,13 +99,6 @@ a.a-button:hover {
 					<option value="3">기타</option>
 			    </select>
 	  	  	</div>
-	  	  	<div class="col-sm-3 col-md-3">
-	  	  		<label class="control-label">종목이름</label>
-			  	<div class="input-group" style="float:right; width: 100%;">
-			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-th-list" aria-hidden="true"></span></span>
-			  		<input class="form-control" type="text" name="ustName" placeholder="삼성전자" autocomplete="off" />
-			  	</div>
-	  	  	</div>
 	  	  	<div class="col-sm-3 col-md-3">	
 	  			<label class="control-label">1주당 가격</label>
 			  	<div class="input-group" style="float:right; width: 100%;">
@@ -117,6 +113,13 @@ a.a-button:hover {
 			  		<input class="form-control" type="text" name="ustSaleCnt" maxlength="12" size="12" placeholder="100" onkeypress="return isNumber(event)"/>
 			  	</div>
 		  	</div>
+	  	  	<div class="col-sm-3 col-md-3">
+	  	  		<label class="control-label">수수료</label>
+			  	<div class="input-group" style="float:right; width: 100%;">
+			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-usd" aria-hidden="true"></span></span>
+			  		<input class="form-control" type="text" name="ustSaleFee" placeholder="10" autocomplete="off" onkeypress="return isNumber(event)"/>
+			  	</div>
+	  	  	</div>
 	  	  </div>
 		  <div class="row">
 		  	<div class="col-sm-12 col-md-12">
@@ -124,6 +127,7 @@ a.a-button:hover {
 	  			<textarea class="taForm" style="height: 50px;" name="ustComment" placeholder="Add the detail information" rows="3" onkeyup="checkByteLength(this, 'idUstComment', 200)" onfocus="checkByteLength(this, 'idUstComment', 200)"></textarea>
 		  	</div>
 	  	  </div>
+	  	  <input type="hidden" id="mscNoId" name="mscNo" value="<#if plugins.mStockCompany??>${plugins.mStockCompany.mscNo?if_exists}</#if>" />
 	  	  <input type="hidden" name="token" value="<#if model??>${model.token?if_exists}</#if>" />
 		  <br/>
 			<p align="center">
@@ -145,13 +149,6 @@ a.a-button:hover {
 				<option value="3">기타</option>
 		    </select>
 	  	</div>
-	  	<div class="col-sm-3 col-md-3">
-	  	  	<label class="control-label">종목이름</label>
-	  		<div class="input-group" style="float:right; width: 100%;">
-		 		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-th-list" aria-hidden="true"></span></span>
-		  		<input id="ustNameId" class="form-control" type="text" name="ustName" placeholder="삼성전자" autocomplete="off" />
-		  	</div>
-	  	</div>
 	  	<div class="col-sm-3 col-md-3">	
 	  		<label class="control-label">1주당 가격</label>
 		  	<div class="input-group" style="float:right; width: 100%;">
@@ -166,6 +163,13 @@ a.a-button:hover {
 		  		<input id="ustSaleCntId" class="form-control" type="text" name="ustSaleCnt" maxlength="12" size="12" placeholder="100" onkeypress="return isNumber(event)" />
 		  	</div>
 		</div>
+	  	<div class="col-sm-3 col-md-3">
+	  	  	<label class="control-label">수수료</label>
+	  		<div class="input-group" style="float:right; width: 100%;">
+		 		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-usd" aria-hidden="true"></span></span>
+		  		<input id="ustSaleFeeId" class="form-control" type="text" name="ustSaleFee" placeholder="10" autocomplete="off" onkeypress="return isNumber(event)"/>
+		  	</div>
+	  	</div>
 	  </div>
 	  <div class="row">
 		<div class="col-sm-12 col-md-12">
@@ -179,6 +183,7 @@ a.a-button:hover {
 	  <p align="center">
 			<button type="button" class="btn btn-primary" onclick="return confirmData('udtFormId');">저장</button>
 			<button type="button" class="btn btn-primary" onClick="udtFormCancel();">취소</button>
+			<button type="button" class="btn btn-danger" style="width: 80px;" onclick="javascript: dltStock();">삭제</button>
 	  </p>
 	</form>
 	</div>
@@ -188,37 +193,37 @@ a.a-button:hover {
 		<div>
 	    <ul class="table-ul table-ul-header ul-table ul-thead">
 	    	<li style="width: 20px;">No</li>
-	        <li style="width: 150px;">종목 이름</li>
 	    	<li style="width: 50px;">구분</li>
 	        <li style="width: 150px;">1주당 가격</li>
-	        <li style="width: 150px;">매매 주식수</li>
+	        <li style="width: 150px;">주식수</li>
+	        <li style="width: 150px;">수수료</li>
 	        <li style="width: 150px;">입력한 날짜</li>
 	    </ul>
-	    <#if plugins??>
-	    <#if plugins.stockList?has_content>
-	    <#list plugins.stockList as stock>
+	    <#if plugins.userStockList??>
+	    <#if plugins.userStockList?has_content>
+	    <#list plugins.userStockList as userStock>
 		    <ul class="table-ul bg-color ul-hover ul-table"
-			<#if stock.ustClassify??><#if stock.ustClassify == "1">
+			<#if userStock.ustClassify??><#if userStock.ustClassify == "1">
 				style="width: 100%;background-color: #ffefef;color: red;" 
-			  <#elseif stock.ustClassify == "2">
+			  <#elseif userStock.ustClassify == "2">
 				style="width: 100%;background-color: #eff0ff;color: blue;"
 			  <#else>
 				style="width: 100%;background-color: #f7f7f7;color: #737373;"
-			  </#if></#if>onmouseover="overChangeColor(this);" onmouseout="outChangeColor(this);" onclick="selectStock(this, '${stock.ustNo?if_exists}');">
-		    	<li style="width: 20px;"><#if stock.ustNo??>${stock.ustNo?if_exists}</#if></li>
-	        	<li style="width: 150px;"><#if stock.ustName??>${stock.ustName?if_exists}</#if></li>			
-		    <#if stock.ustClassify??>
-			  <#if stock.ustClassify == "1">
+			  </#if></#if>onmouseover="overChangeColor(this);" onmouseout="outChangeColor(this);" onclick="selectStock(this, '${userStock.ustNo?if_exists}');">
+		    	<li style="width: 20px;"><#if userStock.ustNo??>${userStock.ustNo?if_exists}</#if></li>
+		    <#if userStock.ustClassify??>
+			  <#if userStock.ustClassify == "1">
 				<li style="width: 50px;">매수</li>
-			  <#elseif stock.ustClassify == "2">
+			  <#elseif userStock.ustClassify == "2">
 				<li style="width: 50px;">매도</li>
 			  <#else>
 				<li style="width: 50px;">기타</li>
 			  </#if>
 			</#if>
-	        	<li style="width: 150px;"><#if stock.ustSaleCost??>${stock.ustSaleCost?if_exists}</#if></li>
-	        	<li style="width: 150px;"><#if stock.ustSaleCnt??>${stock.ustSaleCnt?if_exists}</#if></li>
-		        <li style="width: 150px;"><#if stock.ustName??>${stock.insertTime?string('yyyy-MM-dd hh:mm:ss')?if_exists}</#if></li>
+	        	<li style="width: 150px;"><#if userStock.ustSaleCost??>${userStock.ustSaleCost?if_exists}</#if></li>
+	        	<li style="width: 150px;"><#if userStock.ustSaleCnt??>${userStock.ustSaleCnt?if_exists}</#if></li>
+				<li style="width: 150px;"><#if userStock.ustSaleFee??>${userStock.ustSaleFee?if_exists}</#if></li>		
+		        <li style="width: 150px;"><#if userStock.insertTime??>${userStock.insertTime?string('yyyy-MM-dd hh:mm:ss')?if_exists}</#if></li>
 		    </ul>
 		</#list>
 		</#if>
@@ -255,296 +260,29 @@ a.a-button:hover {
 </div>
 </div>
 
+<!-- Delete Modal -->
+<div class="modal fade" id="sbtFormDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4 class="modal-title">삭제 확인</h4>
+    </div>
+
+    <div id="confirmMessage" class="modal-body">
+    		선택한 매매 정보를 삭제하시겠습니까?
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+      <button id="submitForm" type="button" class="btn btn-danger" onclick="javascript: sbtDeleteFormStock();">삭제하기</button>
+    </div>
+  </div>
+</div>
+</div>
 
 <#include "/apps/common/abilistsPluginsLoadJs.ftl"/>
 <#include "/apps/stock/js/stockJs.ftl"/>
-
-<!-- Chart.js -->
-<script src="/static/apps/lib/chart-2.7/Chart.bundle.min.js?2017092301"></script>
-<script src="/static/apps/lib/chart-2.7/Chart.min.js?2017092301"></script>
-
-<script>
-	var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-	var data1 = {
-		labels: ['10', '20', '5', '8', '12'],
-		datasets: [{
-			type: 'line',
-			label: '매수',
-			fill: false,
-			backgroundColor: window.chartColors.red,
-			borderColor: window.chartColors.red,
-			data: [
-				3000,
-				2500,
-				2200,
-				2000,
-				0
-			]
-		}, {
-			type: 'line',
-			label: '매도',
-			fill: false,
-			backgroundColor: window.chartColors.blue,
-			borderColor: window.chartColors.blue,
-			data: [
-				1500,
-				0,
-				0,
-				1000,
-				1500
-			]
-		}]
-	};
-
-	var option1 = {
-		responsive: true,
-		title: {
-			display: true,
-			text: '나의 주식 관리'
-		},
-		tooltips: {
-			mode: 'index',
-			intersect: false,
-		},
-		hover: {
-			mode: 'nearest',
-			intersect: true
-		},
-		scales: {
-			xAxes: [{
-				display: true,
-				scaleLabel: {
-					display: true,
-					labelString: '주식수'
-				}
-			}],
-			yAxes: [{
-				display: true,
-				scaleLabel: {
-					display: true,
-					labelString: '가격'
-				},
-				ticks: {
-					min: 0
-				}
-			}]
-		}
-	};
-	
-	var ctx = document.getElementById("canvas1").getContext("2d");
-	var myReportsBar = new Chart(ctx, {
-	    type: 'line',
-	    data: data1,
-	    options: option1
-	});
-	
-	
-
-	var data2 = {
-		title: {
-			display: true,
-			text: 'Bar Chart'
-		},
-		labels: ['10', '20', '5', '8', '12'],
-		datasets: [{
-			label: '매수',
-			fill: false,
-			backgroundColor: window.chartColors.red,
-			borderColor: window.chartColors.red,
-			data: [
-				2000,
-				1500,
-				1200,
-				1000,
-				0
-			]
-		}],
-		borderWidth: 1
-	};
-
-	var option2 = {
-		responsive: true,
-		title: {
-			display: true,
-			text: '나의 주식 관리'
-		},
-		tooltips: {
-			mode: 'index',
-			intersect: false,
-		},
-		hover: {
-			mode: 'nearest',
-			intersect: true
-		},
-		scales: {
-	        yAxes: [{
-		            type: "linear",
-		            display: true,
-		            position: "left",
-					gridLines: {
-						display: true,
-						color: "rgba(239,239,239,0.7)"
-					}
-	        	}, {
-		            type: "linear",
-		            display: false,
-		            gridLines: {
-		                drawOnChartArea: true
-		            }
-		        }],
-	        xAxes: [{
-				gridLines: {
-					display: true,
-				}
-			}]
-		}
-	};
-		
-	
-	var ctx = document.getElementById("canvas2").getContext("2d");
-	var myReportsBar = new Chart(ctx, {
-	    type: 'bar',
-	    data: data2,
-	    options: option2
-	});
-	
-/* start - Autocomplete   */
-	function exceptionKeyByObj(e) {
-	    if(e.keyCode==37 || e.keyCode==38 || 
-	    		e.keyCode==39 || e.keyCode==40 ) {
-	        return false;
-	    }
-	    return true;
-	}
-	
-	var timeout;
-	var ajaxLastNum = 0;
-	
-	function interverKeystroke(e, num, url, ojb) {
-	
-		clearTimeout(timeout);
-		timeout = setTimeout(function() {
-			autoSrhItem(e, num, url, ojb);
-		}, 500);
-	
-	}
-
-	/*
-	// Multi search function
-	// 1, Local object
-	// 2. Array number
-	// 3. Url for the local object
-	// 4. This
-	*/
-	function autoSrhItem(e, num, url, ojb) {
-
-		if(!exceptionKeyByObj(e)) {
-			return false;
-		}
-
-		$(document).ready(function() {
-			// Make a object
-			var $inputSname = $('#searchForm').find('input[name=' + ojb.name + ']:eq(' + num + ')');
-			// Validate value's length
-			if($inputSname.val().length < 2) {
-				return false;
-			}
-			$inputSname.popover('destroy');
-
-			var availableTags = [];
-			var currentAjaxNum = ajaxLastNum;
-
-	        $.ajax({
-	            type: 'POST',
-	            url: url,
-	            contentType: "application/json",
-	            dataType: "json",
-	            data: '{"' + $inputSname.attr("name") + '" : "' + $inputSname.val() + '"}',
-	            cache: false,
-	            beforeSend: function(xhr, settings) {
-	            	ajaxLastNum = ajaxLastNum + 1;
-	            	$('#search' + num).addClass('input-spinner');
-	            },
-	            success: function(data, textStatus, request) {
-	            	$('#search' + num).removeClass('input-spinner');
-	            	if(currentAjaxNum == ajaxLastNum - 1) {
-	                	if(!isBlank(data)) {
-	                		console.log(data);
-	                		availableTags = data;
-	                		$('#statuses').html('<li>' + data + '</li>');
-	                	}
-	                	var availableNames = [];
-	                	for (var i in availableTags) {
-	                		availableNames[i] = availableTags[i].map1;
-	                	}
-	                	$inputSname.autocomplete();
-	                    // Close if already visible
-	                	if ($inputSname.autocomplete("widget").is(":visible")) {
-	                		$inputSname.autocomplete("close");
-	                		return false;
-	                	}
-	                	$inputSname.autocomplete({source: availableTags, 
-	                		autoFocus: false, 
-	                		minLength: 0,
-	                		create: function( event, ui ) {
-	                		    if($(this).autocomplete('widget').is(':visible')) {
-	                		    	console.log(" create >> visible");
-	                		    } else {
-	                		    	console.log(" create >> desable");
-	                		    }
-	                			return true;
-	                		},
-	                		close: function( event, ui ) {},
-	                		open: function( event, ui ) {return true;},
-	                		search: function( event, ui ) {return true;},
-	                		focus: function( event, ui ) {return false;},
-	                		select: function( event, ui ) {
-	                    		if(ojb.name == "srhContents") {
-	                				var str = ui.item.ustName;
-	                				$inputSname.val( str );
-	                    		} else {
-	                    			console.log("Error search in select");
-	                    		}
-	                			return false;
-	                		}
-	                	}).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-	                		var uiAuto;
-	                		if(ojb.name == "srhContents") {
-	                			var uiAuto = $( "<li>" ).attr( "data-value", item.userId );
-	            				var str = item.ustName;
-	            				uiAuto.append('<span>' + str + '</span>');
-
-	                		} else {
-	                			console.log("Error search in data");
-	                		}
-	            			uiAuto.append('</li>');
-	            			dataValue = uiAuto.appendTo( ul );
-
-	                        return dataValue;
-	                    };
-
-	    	            // fire search event
-	                	$inputSname.autocomplete("search", "");
-	                	$inputSname.focus();
-
-	            	}
-	            },
-	            complete: function(xhr, textStatus) {
-	            	//$inputSname.attr('disabled', false);
-	            },
-	            error: function(xhr, status) {
-	                var contentType = xhr.getResponseHeader("Content-Type");
-	                if (xhr.status === 200 && contentType.toLowerCase().indexOf("text/html") >= 0) {
-	                    // Login has expired - reload our current page
-	                    window.location.reload();
-	                }
-	            }
-	        });
-		});
-	}
-/* start - Autocomplete   */
-</script>
-
+<#include "/apps/stock/js/stockChartJs.ftl"/>
 
 </@layout.myLayout>

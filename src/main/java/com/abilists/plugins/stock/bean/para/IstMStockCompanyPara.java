@@ -1,16 +1,14 @@
 package com.abilists.plugins.stock.bean.para;
 
-import java.util.Date;
-
 import base.bean.para.CommonPara;
 
-public class IstMasterStockCompanyPara extends CommonPara {
+public class IstMStockCompanyPara extends CommonPara {
 
 	private String mscCode;
 	private String mscName;
-	private String mscProfit;
-	private String mscDividend;
-	private String mscPayoutRatio;
+	private int mscProfit;
+	private int mscDividend;
+	private int mscPayoutRatio;
 	private String mscComment;
 	private String mscStatus;
 
@@ -26,22 +24,22 @@ public class IstMasterStockCompanyPara extends CommonPara {
 	public void setMscName(String mscName) {
 		this.mscName = mscName;
 	}
-	public String getMscProfit() {
+	public int getMscProfit() {
 		return mscProfit;
 	}
-	public void setMscProfit(String mscProfit) {
+	public void setMscProfit(int mscProfit) {
 		this.mscProfit = mscProfit;
 	}
-	public String getMscDividend() {
+	public int getMscDividend() {
 		return mscDividend;
 	}
-	public void setMscDividend(String mscDividend) {
+	public void setMscDividend(int mscDividend) {
 		this.mscDividend = mscDividend;
 	}
-	public String getMscPayoutRatio() {
+	public int getMscPayoutRatio() {
 		return mscPayoutRatio;
 	}
-	public void setMscPayoutRatio(String mscPayoutRatio) {
+	public void setMscPayoutRatio(int mscPayoutRatio) {
 		this.mscPayoutRatio = mscPayoutRatio;
 	}
 	public String getMscComment() {

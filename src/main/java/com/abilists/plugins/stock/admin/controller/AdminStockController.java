@@ -48,8 +48,8 @@ public class AdminStockController extends AbstractBaseController {
 		int intSum = adminStockService.sltStockSum(commonPara);
 		adminAbilistsModel.setPaging(adminStockService.makePaging(commonPara, intSum));
 
-		// Get time recorded list
-		pluginsModel.setStockList(adminStockService.sltStockList(commonPara));
+//		// Get time recorded list
+//		pluginsModel.setStockList(adminStockService.sltStockList(commonPara));
 
 		model.addAttribute("model", adminAbilistsModel);
 		model.addAttribute("plugins", pluginsModel);

@@ -15,13 +15,13 @@
 	<#include "/apps/common/abilistsSuccess.ftl"/>
 
 	<div id="newMdataFormId" class="item-box" style="display: none;">
-		<form id="newFormId" name="newForm" class="form-horizontal" action="${configBean.contextPath?if_exists}/plugins/stock/istMasterStockCompany" method="post" onkeypress="return captureReturnKey(event);">
+		<form id="newFormId" name="newForm" class="form-horizontal" action="${configBean.contextPath?if_exists}/plugins/stock/istMStockCompany" method="post" onkeypress="return captureReturnKey(event);">
 	  	  <div class="row">
 	  	  	<div class="col-sm-3 col-md-3">
 				<label class="control-label">종목코드</label>
 			  	<div class="input-group" style="float:right; width: 100%;">
 			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-th-list" aria-hidden="true"></span></span>
-			  		<input class="form-control" type="text" name="mscCode" placeholder="삼성전자" autocomplete="off" />
+			  		<input class="form-control" type="text" name="mscCode" placeholder="005930" autocomplete="off" onkeypress="return isNumber(event)"/>
 			  	</div>
 			</div>
 	  	  	<div class="col-sm-3 col-md-3">
@@ -69,13 +69,13 @@
 	</div>
 
 	<div id="udtMdataFormId" class="item-box" style="background-color: #efebe7;margin: 10px; display: none;">
-	<form id="udtFormId" name="udtForm" class="form-horizontal" action="${configBean.contextPath?if_exists}/plugins/stock/udtMasterStockCompany" method="post" onkeypress="return captureReturnKey(event);">
+	<form id="udtFormId" name="udtForm" class="form-horizontal" action="${configBean.contextPath?if_exists}/plugins/stock/udtMStockCompany" method="post" onkeypress="return captureReturnKey(event);">
 	  <div class="row">
 	  	<div class="col-sm-3 col-md-3">
 			<label class="control-label">종목코드</label>
 		  	<div class="input-group" style="float:right; width: 100%;">
 		  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-th-list" aria-hidden="true"></span></span>
-		  		<input id="mscCodeId" class="form-control" type="text" name="mscCode" placeholder="삼성전자" autocomplete="off" />
+		  		<input id="mscCodeId" class="form-control" type="text" name="mscCode" placeholder="005930" autocomplete="off" onkeypress="return isNumber(event)"/>
 		  	</div>
 		</div>
 	  	<div class="col-sm-3 col-md-3">
@@ -110,14 +110,14 @@
 	  <div class="row">
 		<div class="col-sm-12 col-md-12">
 	  		<label class="control-label">코멘트</label> <span id="idUstComment">0</span>/200
-	  		<textarea id="mscCommentId" class="taForm" style="height: 50px;" name="ustComment" placeholder="Add the detail information" rows="3" onkeyup="checkByteLength(this, 'idUstComment', 200)" onfocus="checkByteLength(this, 'idUstComment', 200)"></textarea>
+	  		<textarea id="mscCommentId" class="taForm" style="height: 50px;" name="mscComment" placeholder="Add the detail information" rows="3" onkeyup="checkByteLength(this, 'idUstComment', 200)" onfocus="checkByteLength(this, 'idUstComment', 200)"></textarea>
 		</div>
 	  </div>
 	  <input type="hidden" id="mscNoId" name="mscNo" />
 	  <input type="hidden" id="tokenId" name="token" />
 	  <br/>
 	  <p align="center">
-			<button type="button" class="btn btn-primary" onclick="return confirmData('udtFormId');">재무정보</button>
+			<button type="button" class="btn btn-primary" onclick="return confirmData('udtFormId');">재무정보저장</button>
 			<a id="companyStockId" href="#" class="btn btn-success" style="width: 90px;" role="button">주식매매</a>
 			<button type="button" class="btn btn-primary" onClick="udtFormCancel();">취소</button>
 	  </p>
@@ -137,16 +137,16 @@
 	        <li style="width: 100px;">입력한 날짜</li>
 	    </ul>
 	    <#if plugins??>
-	    <#if plugins.masterStockCompanyList?has_content>
-	    <#list plugins.masterStockCompanyList as masterStockCompany>
-		    <ul class="table-ul bg-color ul-hover ul-table" onmouseover="overChangeColor(this);" onmouseout="outChangeColor(this);" onclick="selectMasterStockCompany(this, '${masterStockCompany.mscNo?if_exists}');">
-		    	<li style="width: 30px;">${masterStockCompany.mscNo?if_exists}</li>
-		    	<li style="width: 150px;">${masterStockCompany.mscCode?if_exists}</li>
-		    	<li style="width: 150px;">${masterStockCompany.mscName?if_exists}</li>
-		    	<li style="width: 100px;"><#if masterStockCompany.mscProfit??>${masterStockCompany.mscProfit?if_exists}</#if></li>
-	        	<li style="width: 100px;"><#if masterStockCompany.mscDividend??>${masterStockCompany.mscDividend?if_exists}</#if></li>
-	        	<li style="width: 100px;"><#if masterStockCompany.mscPayoutRatio??>${masterStockCompany.mscPayoutRatio?if_exists}</#if></li>
-		        <li style="width: 100px;"><#if masterStockCompany.updateTime??>${masterStockCompany.insertTime?string('yyyy-MM-dd hh:mm:ss')?if_exists}</#if></li>
+	    <#if plugins.mStockCompanyList?has_content>
+	    <#list plugins.mStockCompanyList as mStockCompany>
+		    <ul class="table-ul bg-color ul-hover ul-table" onmouseover="overChangeColor(this);" onmouseout="outChangeColor(this);" onclick="selectMasterStockCompany(this, '${mStockCompany.mscNo?if_exists}');">
+		    	<li style="width: 30px;">${mStockCompany.mscNo?if_exists}</li>
+		    	<li style="width: 150px;">${mStockCompany.mscCode?if_exists}</li>
+		    	<li style="width: 150px;">${mStockCompany.mscName?if_exists}</li>
+		    	<li style="width: 100px;"><#if mStockCompany.mscProfit??>${mStockCompany.mscProfit?if_exists}</#if></li>
+	        	<li style="width: 100px;"><#if mStockCompany.mscDividend??>${mStockCompany.mscDividend?if_exists}</#if></li>
+	        	<li style="width: 100px;"><#if mStockCompany.mscPayoutRatio??>${mStockCompany.mscPayoutRatio?if_exists}</#if></li>
+		        <li style="width: 100px;"><#if mStockCompany.updateTime??>${mStockCompany.updateTime?string('yyyy-MM-dd hh:mm:ss')?if_exists}</#if></li>
 		    </ul>
 		</#list>
 		</#if>
@@ -183,9 +183,7 @@
 </div>
 </div>
 
-
 <#include "/apps/common/abilistsPluginsLoadJs.ftl"/>
 <#include "/apps/stock/js/indexJs.ftl"/>
-
 
 </@layout.myLayout>

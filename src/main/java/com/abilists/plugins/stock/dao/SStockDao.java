@@ -7,18 +7,19 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel;
-import com.abilists.plugins.stock.bean.model.UserStockModel;
+import com.abilists.plugins.stock.bean.model.PluginsUserStockModel;
 
 @Repository
 public interface SStockDao {
 
 	public List<PluginsMStockCompanyModel> sltPluginsMStockCompanyList(Map<String, Object> map) throws SQLException;
 	public PluginsMStockCompanyModel sltPluginsMStockCompany(Map<String, Object> map) throws SQLException;
-	
-	public List<UserStockModel> sltPluginsUserStockList(Map<String, Object> map) throws SQLException;
-	public List<UserStockModel> srhPluginsUserStockList(Map<String, Object> map) throws SQLException;
+
+	public List<PluginsUserStockModel> sltPluginsUserStockList(Map<String, Object> map) throws SQLException;
+	public PluginsUserStockModel sltPluginsUserStock(Map<String, Object> map) throws SQLException;
+
+	// public List<PluginsUserStockModel> srhPluginsUserStockList(Map<String, Object> map) throws SQLException;
 	// public List<StockModel> srhStockCompanyList(Map<String, Object> map) throws SQLException;
-	public UserStockModel sltPluginsUserStock(Map<String, Object> map) throws SQLException;
 
 	public int sltPluginsMStockCompanySum(Map<String, Object> map) throws SQLException;
 	public int sltPluginsUserStockSum(Map<String, Object> map) throws SQLException;

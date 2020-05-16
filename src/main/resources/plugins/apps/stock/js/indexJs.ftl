@@ -45,7 +45,7 @@ function selectMasterStockCompany(x, mscNo) {
 	$(document).ready(function() {
         $.ajax({
             type: 'POST',
-            url: '${configBean.contextPath?if_exists}/plugins/stock/sltMasterStockCompanyAjax',
+            url: '${configBean.contextPath?if_exists}/plugins/stock/sltMStockCompanyAjax',
             contentType: "application/json",
             dataType: "json",
             data: '{ "mscNo" : "' + mscNo + '", "token" : "' + tokenInput.value + '"}',
@@ -63,7 +63,7 @@ function selectMasterStockCompany(x, mscNo) {
             		mscPayoutRatioInput.value = data.mscPayoutRatio;
             		mscCommentInput.value = data.mscComment;
             		
-            		companyStockInput.href = "stock/sltStock/" + data.mscNo;
+            		companyStockInput.href = "${configBean.contextPath?if_exists}/plugins/stock/sltStockList/" + data.mscNo;
 
             		tokenInput.value = data.token;
             	}

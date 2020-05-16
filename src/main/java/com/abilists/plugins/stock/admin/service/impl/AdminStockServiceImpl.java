@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.abilists.core.service.AbilistsAbstractService;
 import com.abilists.plugins.stock.admin.service.AdminStockService;
-import com.abilists.plugins.stock.bean.model.UserStockModel;
+import com.abilists.plugins.stock.bean.model.PluginsUserStockModel;
 import com.abilists.plugins.stock.dao.SStockDao;
 
 import base.bean.para.CommonPara;
@@ -29,8 +29,8 @@ public class AdminStockServiceImpl extends AbilistsAbstractService implements Ad
     private Configuration configuration;
 
 	@Override
-	public List<UserStockModel> sltStockList(CommonPara commonPara) throws Exception {
-		List<UserStockModel> stockList = null;
+	public List<PluginsUserStockModel> sltStockList(CommonPara commonPara) throws Exception {
+		List<PluginsUserStockModel> stockList = null;
 
 		// Get now page
 		int nowPage = commonPara.getNowPage();

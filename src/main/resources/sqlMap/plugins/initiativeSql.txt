@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS abilists.plugins_user_stock (
   ust_classify VARCHAR(50) NULL,
   ust_sale_cost INT NULL,
   ust_sale_cnt INT NULL,
-  ust_sale_total BIGINT NULL,
+  ust_sale_fee INT NULL,
   ust_stock_cnt BIGINT NULL,
   ust_comment VARCHAR(250) NULL,
   ust_status VARCHAR(2) NULL,

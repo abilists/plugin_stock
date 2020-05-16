@@ -28,9 +28,9 @@ function confirmData(tableName) {
 
 var ustNoInput = document.getElementById("ustNoId");
 var ustClassifyInput = document.getElementById("ustClassifyId");
-var ustNameInput = document.getElementById("ustNameId");
 var ustSaleCostInput = document.getElementById("ustSaleCostId");
 var ustSaleCntInput = document.getElementById("ustSaleCntId");
+var ustSaleFeeInput = document.getElementById("ustSaleFeeId");
 var ustCommentInput = document.getElementById("ustCommentId");
 
 var tokenInput = document.getElementById("tokenId");
@@ -54,9 +54,9 @@ function selectStock(x, ustNo) {
             	if(!isBlank(data)) {
             		ustNoInput.value = data.ustNo;
             		ustClassifyInput.value = data.ustClassify;
-            		ustNameInput.value = data.ustName;
             		ustSaleCostInput.value = data.ustSaleCost;
             		ustSaleCntInput.value = data.ustSaleCnt;
+            		ustSaleFeeInput.value = data.ustSaleFee;
             		ustCommentInput.value = data.ustComment;
 
             		tokenInput.value = data.token;
@@ -82,9 +82,9 @@ function newFormToggle() {
 	$("#newMdataFormId").slideToggle("slow");
 	$("#newToggleId").toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
 
-	ustNameInput.value = "";
 	ustSaleCostInput.value = "";
 	ustSaleCntInput.value = "";
+	ustSaleFeeInput.value = "";
 	ustCommentInput.value = "";
 
 	udtFormCancel();
@@ -111,12 +111,16 @@ function submitUpdateFormUserReports() {
 	document.updateForm.submit();
 }
 
-/*
- * Remove a survey
- */
-function submitDeleteFormReports() {
-	document.updateForm.action = "${configBean.contextPath?if_exists}/plugins/stock/dltStock";
-	document.updateForm.submit();
+function dltStock() {
+	// Call the modal for deleting
+	$(window).ready(function(){
+		$('#sbtFormDelete').modal('show')
+	});
+}
+
+function sbtDeleteFormStock() {
+	document.udtForm.action = "${configBean.contextPath?if_exists}/plugins/stock/dltStock";
+	document.udtForm.submit();
 }
 
 </script>

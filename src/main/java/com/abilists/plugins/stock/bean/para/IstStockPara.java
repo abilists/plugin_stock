@@ -4,31 +4,38 @@ import base.bean.para.CommonPara;
 
 public class IstStockPara extends CommonPara {
 
+	private String mscNo;
 	private String ustClassify;
-	private String ustCode;
-	private String ustName;
+	private String mscName;
 	private int ustSaleCost;
 	private int ustSaleCnt;
+	private int ustSaleFee;
 	private String ustComment;
 	private String ustStatus;
 
+	public String getMscNo() {
+		return mscNo;
+	}
+	public void setMscNo(String mscNo) {
+		this.mscNo = mscNo;
+	}
 	public String getUstClassify() {
 		return ustClassify;
 	}
 	public void setUstClassify(String ustClassify) {
 		this.ustClassify = ustClassify;
 	}
-	public String getUstCode() {
-		return ustCode;
+	public String getMscName() {
+		return mscName;
 	}
-	public void setUstCode(String ustCode) {
-		this.ustCode = ustCode;
+	public void setMscName(String mscName) {
+		this.mscName = mscName;
 	}
-	public String getUstName() {
-		return ustName;
+	public int getUstSaleFee() {
+		return ustSaleFee;
 	}
-	public void setUstName(String ustName) {
-		this.ustName = ustName;
+	public void setUstSaleFee(int ustSaleFee) {
+		this.ustSaleFee = ustSaleFee;
 	}
 	public int getUstSaleCost() {
 		return ustSaleCost;

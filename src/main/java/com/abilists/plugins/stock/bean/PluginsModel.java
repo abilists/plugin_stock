@@ -3,41 +3,41 @@ package com.abilists.plugins.stock.bean;
 import java.util.List;
 
 import com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel;
-import com.abilists.plugins.stock.bean.model.UserStockModel;
+import com.abilists.plugins.stock.bean.model.PluginsUserStockModel;
 
 import base.bean.model.CommonModel;
 
 public class PluginsModel extends CommonModel {
 
-	private UserStockModel Stock;
-	private List<UserStockModel> StockList;
-	
-	private PluginsMStockCompanyModel masterStockCompany;
-	private List<PluginsMStockCompanyModel> masterStockCompanyList;
+	private PluginsMStockCompanyModel mStockCompany;
+	private List<PluginsMStockCompanyModel> mStockCompanyList;
 
-	public UserStockModel getStock() {
-		return Stock;
+	private PluginsUserStockModel userStock;
+	private List<PluginsUserStockModel> userStockList;
+
+	public PluginsMStockCompanyModel getmStockCompany() {
+		return mStockCompany;
 	}
-	public void setStock(UserStockModel Stock) {
-		this.Stock = Stock;
+	public void setmStockCompany(PluginsMStockCompanyModel mStockCompany) {
+		this.mStockCompany = mStockCompany;
 	}
-	public List<UserStockModel> getStockList() {
-		return StockList;
+	public List<PluginsMStockCompanyModel> getmStockCompanyList() {
+		return mStockCompanyList;
 	}
-	public void setStockList(List<UserStockModel> StockList) {
-		this.StockList = StockList;
+	public void setmStockCompanyList(List<PluginsMStockCompanyModel> mStockCompanyList) {
+		this.mStockCompanyList = mStockCompanyList;
 	}
-	public PluginsMStockCompanyModel getMasterStockCompany() {
-		return masterStockCompany;
+	public PluginsUserStockModel getUserStock() {
+		return userStock;
 	}
-	public void setMasterStockCompany(PluginsMStockCompanyModel masterStockCompany) {
-		this.masterStockCompany = masterStockCompany;
+	public void setUserStock(PluginsUserStockModel userStock) {
+		this.userStock = userStock;
 	}
-	public List<PluginsMStockCompanyModel> getMasterStockCompanyList() {
-		return masterStockCompanyList;
+	public List<PluginsUserStockModel> getUserStockList() {
+		return userStockList;
 	}
-	public void setMasterStockCompanyList(List<PluginsMStockCompanyModel> masterStockCompanyList) {
-		this.masterStockCompanyList = masterStockCompanyList;
+	public void setUserStockList(List<PluginsUserStockModel> userStockList) {
+		this.userStockList = userStockList;
 	}
 
 }

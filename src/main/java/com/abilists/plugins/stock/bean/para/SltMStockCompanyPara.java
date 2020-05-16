@@ -2,7 +2,7 @@ package com.abilists.plugins.stock.bean.para;
 
 import base.bean.para.CommonPara;
 
-public class SltMasterStockCompanyPara extends CommonPara {
+public class SltMStockCompanyPara extends CommonPara {
 
 	private String mscNo;
 

@@ -35,30 +35,28 @@
 	<insert id="istPluginsUserStock" parameterType="map">
 		INSERT INTO plugins_user_stock (
 			ust_classify,
-			ust_code,
-			ust_name,
 			ust_sale_cost,
 			ust_sale_cnt,
-			ust_sale_total,
+			ust_sale_fee,
 			ust_stock_cnt,
 			ust_comment,
 			ust_status,
 			ust_delete,
 		  	user_id,
+		  	msc_no,
 			insert_time,
 			update_time
 		) VALUES (
 			#{ustClassify},
-			#{ustCode},
-			#{ustName},
 			#{ustSaleCost},
 			#{ustSaleCnt},
-			#{ustSaleTotal},
+			#{ustSaleFee},
 			#{ustStockCnt},
 			#{ustComment},
 			'0',
 			'0',
 			#{userId},
+			#{mscNo},
 			now(),
 			now()
 		)
@@ -88,7 +86,7 @@
 			ust_classify = #{ustClassify},
 			ust_sale_cost = #{ustSaleCost},
 			ust_sale_cnt = #{ustSaleCnt},
-			ust_sale_total = #{ustSaleTotal},
+			ust_sale_fee = #{ustSaleFee},
 			ust_comment = #{ustComment},
 			update_time = now()
 		WHERE

@@ -5,7 +5,7 @@ import java.util.Date;
 
 import base.bean.model.BasicModel;
 
-public class UserStockModel extends BasicModel implements Serializable {
+public class PluginsUserStockModel extends BasicModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -13,7 +13,7 @@ public class UserStockModel extends BasicModel implements Serializable {
 	private String ustClassify;
 	private int ustSaleCost;
 	private int ustSaleCnt;
-	private long ustSaleTotal;
+	private int ustSaleFee;
 	private long ustStockCnt;
 	private String ustComment;
 	private String ustStatus;
@@ -46,11 +46,11 @@ public class UserStockModel extends BasicModel implements Serializable {
 	public void setUstSaleCnt(int ustSaleCnt) {
 		this.ustSaleCnt = ustSaleCnt;
 	}
-	public long getUstSaleTotal() {
-		return ustSaleTotal;
+	public int getUstSaleFee() {
+		return ustSaleFee;
 	}
-	public void setUstSaleTotal(long ustSaleTotal) {
-		this.ustSaleTotal = ustSaleTotal;
+	public void setUstSaleFee(int ustSaleFee) {
+		this.ustSaleFee = ustSaleFee;
 	}
 	public long getUstStockCnt() {
 		return ustStockCnt;
