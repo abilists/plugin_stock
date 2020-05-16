@@ -2,8 +2,6 @@
 
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/abilists/plugin_stock)
 
-![markdown](https://github.com/abilists/plugin_stock/blob/master/doc/img/record01.png)
-
 plugin_stock는 어빌리스츠에 설치해서 무료로 쓸 수 있는 플러그인 입니다. 
 개인의 주식과 메모를 관리합니다. 어빌리스츠를 먼저 설치해 주시기 바랍니다.
 
