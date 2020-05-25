@@ -6,7 +6,8 @@ public class SltStockPara extends CommonPara {
 
 	private String mscNo;
 	private String ustNo;
-
+	private String ustSaleDay;
+	
 	public String getMscNo() {
 		return mscNo;
 	}
@@ -21,6 +22,14 @@ public class SltStockPara extends CommonPara {
 
 	public void setUstNo(String ustNo) {
 		this.ustNo = ustNo;
+	}
+
+	public String getUstSaleDay() {
+		return ustSaleDay;
+	}
+
+	public void setUstSaleDay(String ustSaleDay) {
+		this.ustSaleDay = ustSaleDay;
 	}
 
 }

@@ -5,11 +5,12 @@ import java.util.Date;
 
 import base.bean.model.BasicModel;
 
-public class PluginsUserStockModel extends BasicModel implements Serializable {
+public class PluginsUserStockModel extends BasicModel implements Cloneable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private long ustNo;
+	private Date ustSaleDay;
 	private String ustClassify;
 	private int ustSaleCost;
 	private int ustSaleCnt;
@@ -27,6 +28,12 @@ public class PluginsUserStockModel extends BasicModel implements Serializable {
 	}
 	public void setUstNo(long ustNo) {
 		this.ustNo = ustNo;
+	}
+	public Date getUstSaleDay() {
+		return ustSaleDay;
+	}
+	public void setUstSaleDay(Date ustSaleDay) {
+		this.ustSaleDay = ustSaleDay;
 	}
 	public String getUstClassify() {
 		return ustClassify;
@@ -95,4 +102,9 @@ public class PluginsUserStockModel extends BasicModel implements Serializable {
 		this.updateTime = updateTime;
 	}
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+    	//CloneNotSupportedException 처리
+    	return super.clone();
+    }
 }

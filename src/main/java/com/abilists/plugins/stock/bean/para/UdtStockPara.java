@@ -1,8 +1,19 @@
 package com.abilists.plugins.stock.bean.para;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import io.utility.validate.annotation.DateFormat;
+
 public class UdtStockPara extends IstStockPara {
 
 	private String mscNo;
+
+	@NotNull(message = "ustSaleDays")
+	@Size(min = 9, max = 10, message = "It is different String size")
+	@DateFormat(format = "yyyy-MM-dd", message = "Not right format for start of date")
+	private String ustSaleDay;
+
 	private String ustNo;
 	private String ustClassify;
 	private String mscName;

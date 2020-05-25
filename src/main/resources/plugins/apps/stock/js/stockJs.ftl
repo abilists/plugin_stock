@@ -1,5 +1,33 @@
 <script type="text/javascript">
 
+
+$( function() {
+	  $( "#newUstSaleDayId" ).datepicker({
+	      showButtonPanel: true, 
+	      currentText: '<@spring.message "calendar.day.today"/>', 
+	      closeText: '<@spring.message "calendar.day.close"/>',
+	      dateFormat: "yy-mm-dd",
+	      nextText: '<@spring.message "calendar.day.next.month"/>',
+	      prevText: '<@spring.message "calendar.day.previous.month"/>',
+	      dayNames: [<@spring.message "calendar.day.name"/>],
+	      dayNamesMin: [<@spring.message "calendar.day.name.min"/>]
+	  });
+});
+
+$( function() {
+	  $( "#udtUstSaleDayId" ).datepicker({
+	      showButtonPanel: true, 
+	      currentText: '<@spring.message "calendar.day.today"/>', 
+	      closeText: '<@spring.message "calendar.day.close"/>',
+	      dateFormat: "yy-mm-dd",
+	      nextText: '<@spring.message "calendar.day.next.month"/>',
+	      prevText: '<@spring.message "calendar.day.previous.month"/>',
+	      dayNames: [<@spring.message "calendar.day.name"/>],
+	      dayNamesMin: [<@spring.message "calendar.day.name.min"/>]
+	  });
+});
+
+
 function validateForm(table) {
 
 	var blnPopover = true;
@@ -27,6 +55,7 @@ function confirmData(tableName) {
 }
 
 var ustNoInput = document.getElementById("ustNoId");
+var ustSaleDayInput = document.getElementById("udtUstSaleDayId");
 var ustClassifyInput = document.getElementById("ustClassifyId");
 var ustSaleCostInput = document.getElementById("ustSaleCostId");
 var ustSaleCntInput = document.getElementById("ustSaleCntId");
@@ -53,6 +82,23 @@ function selectStock(x, ustNo) {
             success: function(data, textStatus, request) {
             	if(!isBlank(data)) {
             		ustNoInput.value = data.ustNo;
+            		
+            		// Sale Day
+            		var saleDay = new Date(data.ustSaleDay);
+            		// urWorkDayInput.value = saleDay.toISOString().substr(0,10);
+            		var dd = saleDay.getDate();
+            		// January is 0!
+            		var mm = saleDay.getMonth()+1;
+            		var yyyy = saleDay.getFullYear();
+            		if(dd<10){
+            		    dd='0'+dd
+            		} 
+            		if(mm<10){
+            		    mm='0'+mm
+            		} 
+            		var today = yyyy + '-' + mm + '-' + dd;
+            		ustSaleDayInput.value = today;
+
             		ustClassifyInput.value = data.ustClassify;
             		ustSaleCostInput.value = data.ustSaleCost;
             		ustSaleCntInput.value = data.ustSaleCnt;

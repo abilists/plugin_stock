@@ -1,7 +1,6 @@
 package com.abilists.plugins.stock.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -27,11 +26,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.abilists.bean.AbilistsModel;
-import com.abilists.bean.para.admin.SrhAutoCompletePara;
 import com.abilists.core.common.bean.CommonBean;
 import com.abilists.core.controller.AbstractBaseController;
 import com.abilists.core.controller.CommonAbilistsController;
 import com.abilists.plugins.stock.bean.PluginsModel;
+import com.abilists.plugins.stock.bean.StockCountChartsBean;
 import com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel;
 import com.abilists.plugins.stock.bean.model.PluginsUserStockModel;
 import com.abilists.plugins.stock.bean.para.DltMStockCompanyPara;
@@ -119,9 +118,15 @@ public class StockController extends CommonAbilistsController {
 		// Get a company information
 		pluginsModel.setmStockCompany(stockService.sltMStockCompany(sltMStockCompanyPara));
 
+		// Get the stock information from the company
 		SltStockPara sltStockPara = new SltStockPara();
 		sltStockPara.setUserId(sltMStockCompanyPara.getUserId());
 		sltStockPara.setMscNo(mscNo);
+		
+		// Get informations for chart.
+		Map<String, StockCountChartsBean> mapStockChart = stockService.sltStockChartMap(sltStockPara);
+		pluginsModel.setMapStockChart(mapStockChart);
+
 		// Get traded information of a company
 		pluginsModel.setUserStockList(stockService.sltStockList(sltStockPara));
 

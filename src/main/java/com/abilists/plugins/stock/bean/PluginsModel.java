@@ -1,6 +1,7 @@
 package com.abilists.plugins.stock.bean;
 
 import java.util.List;
+import java.util.Map;
 
 import com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel;
 import com.abilists.plugins.stock.bean.model.PluginsUserStockModel;
@@ -14,6 +15,7 @@ public class PluginsModel extends CommonModel {
 
 	private PluginsUserStockModel userStock;
 	private List<PluginsUserStockModel> userStockList;
+	private Map<String, StockCountChartsBean> mapStockChart;
 
 	public PluginsMStockCompanyModel getmStockCompany() {
 		return mStockCompany;
@@ -38,6 +40,12 @@ public class PluginsModel extends CommonModel {
 	}
 	public void setUserStockList(List<PluginsUserStockModel> userStockList) {
 		this.userStockList = userStockList;
+	}
+	public Map<String, StockCountChartsBean> getMapStockChart() {
+		return mapStockChart;
+	}
+	public void setMapStockChart(Map<String, StockCountChartsBean> mapStockChart) {
+		this.mapStockChart = mapStockChart;
 	}
 
 }

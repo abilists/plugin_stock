@@ -10,8 +10,12 @@ a.a-button:hover {
 	color:#ffffff;
 }
 
+div.ui-datepicker {
+	width: 270px;
+}
+
 </style>
-<div class="caption mittle-size-title middle-works-bg">
+<div class="caption mittle-size-title" style="background: #4a9c4a !important;">
 <h5>
 	<b><a id="companyStockId" class="a-button" href="${configBean.contextPath?if_exists}/plugins/stock" role="button"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></b> 종목 회사
 </h5>
@@ -44,7 +48,8 @@ a.a-button:hover {
 	<div class="item-box">
 		<ul class="nav nav-tabs" role="tablist">
 		  <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">매매 가격</a></li>
-		  <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">남은 주식</a></li>
+		  <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">매매 주식수</a></li>
+		  <li role="presentation"><a href="#works" aria-controls="profile" role="tab" data-toggle="tab">남은 주식수</a></li>
 
 		  <li style="float: right;">
 			<form id="searchForm" action="${configBean.contextPath?if_exists}/plugins/stock/srhForStock" method="post" onkeydown="return captureReturnKey(event)">
@@ -70,6 +75,9 @@ a.a-button:hover {
 		  <div role="tabpanel" class="tab-pane" id="profile">
 		  	<canvas id="canvas2" height="100px"></canvas>
 		  </div>
+		  <div role="tabpanel" class="tab-pane" id="works">
+		  	<canvas id="canvas3" height="100px"></canvas>
+		  </div>
 		</div>
 	</div>
 </div>
@@ -77,7 +85,7 @@ a.a-button:hover {
 
 <div class="row">
 <div class="col-sm-12">
-	<div class="caption mittle-size-title middle-works-bg">
+	<div class="caption mittle-size-title">
 		<h5>
 			<b>주식 관리</b>
 			<span id="newToggleId" class="glyphicon glyphicon-chevron-down right-symbol-works-button" aria-hidden="true" onClick="newFormToggle();"></span>
@@ -91,18 +99,28 @@ a.a-button:hover {
 		<form id="newFormId" name="newForm" class="form-horizontal" action="${configBean.contextPath?if_exists}/plugins/stock/istStock" method="post" onkeypress="return captureReturnKey(event);">
 	  	  <div class="row">
 	  	  	<div class="col-sm-3 col-md-3">
+	  	  		<label class="control-label">매매 날짜</label>
+			  	<div class="input-group" style="float:right; width: 100%;">
+			  	    <span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+			  		<input type="text" class="form-control" id="newUstSaleDayId" name="ustSaleDay" placeholder="2020-02-22" autocomplete="off">
+			  	</div>
+	  	  	</div>
+	  	  	<div class="col-sm-3 col-md-3">
 	  	  		<label class="control-label">구분</label>
-				<select id="ustClassifyId" class="form-control" name="ustClassify">
-					<option value="0">매매선택</option>
-					<option value="1">매수</option>
-					<option value="2">매도</option>
-					<option value="3">기타</option>
-			    </select>
+	  	  		<div class="input-group" style="float:right; width: 100%;">
+				  	<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-th-list" aria-hidden="true"></span></span>
+					<select id="ustClassifyId" class="form-control" name="ustClassify">
+						<option value="0">매매선택</option>
+						<option value="1">매수</option>
+						<option value="2">매도</option>
+						<option value="3">기타</option>
+				    </select>
+			  	</div>
 	  	  	</div>
 	  	  	<div class="col-sm-3 col-md-3">	
 	  			<label class="control-label">1주당 가격</label>
 			  	<div class="input-group" style="float:right; width: 100%;">
-			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
+			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-usd" aria-hidden="true"></span></span>
 			  		<input class="form-control" type="text" name="ustSaleCost" maxlength="12" size="12" placeholder="2000" onkeypress="return isNumber(event)"/>
 			  	</div>
 		  	</div>
@@ -113,18 +131,18 @@ a.a-button:hover {
 			  		<input class="form-control" type="text" name="ustSaleCnt" maxlength="12" size="12" placeholder="100" onkeypress="return isNumber(event)"/>
 			  	</div>
 		  	</div>
-	  	  	<div class="col-sm-3 col-md-3">
+	  	  </div>
+		  <div class="row">
+		  	<div class="col-sm-3 col-md-3">
 	  	  		<label class="control-label">수수료</label>
 			  	<div class="input-group" style="float:right; width: 100%;">
 			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-usd" aria-hidden="true"></span></span>
 			  		<input class="form-control" type="text" name="ustSaleFee" placeholder="10" autocomplete="off" onkeypress="return isNumber(event)"/>
 			  	</div>
-	  	  	</div>
-	  	  </div>
-		  <div class="row">
-		  	<div class="col-sm-12 col-md-12">
+		  	</div>
+		  	<div class="col-sm-9 col-md-9">
 	  			<label class="control-label">코멘트</label> <span id="idUstComment">0</span>/200
-	  			<textarea class="taForm" style="height: 50px;" name="ustComment" placeholder="Add the detail information" rows="3" onkeyup="checkByteLength(this, 'idUstComment', 200)" onfocus="checkByteLength(this, 'idUstComment', 200)"></textarea>
+	  			<textarea class="taForm" style="height: 35px;" name="ustComment" placeholder="Add the detail information" rows="3" onkeyup="checkByteLength(this, 'idUstComment', 200)" onfocus="checkByteLength(this, 'idUstComment', 200)"></textarea>
 		  	</div>
 	  	  </div>
 	  	  <input type="hidden" id="mscNoId" name="mscNo" value="<#if plugins.mStockCompany??>${plugins.mStockCompany.mscNo?if_exists}</#if>" />
@@ -140,6 +158,13 @@ a.a-button:hover {
 	<div id="udtMdataFormId" class="item-box" style="background-color: #efebe7;margin: 10px; display: none;">
 	<form id="udtFormId" name="udtForm" class="form-horizontal" action="${configBean.contextPath?if_exists}/plugins/stock/udtStock" method="post" onkeypress="return captureReturnKey(event);">
   	  <div class="row">
+  	  	<div class="col-sm-3 col-md-3">
+  	  		<label class="control-label">매매 날짜</label>
+		  	<div class="input-group" style="float:right; width: 100%;">
+		  	    <span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+		  		<input type="text" class="form-control" id="udtUstSaleDayId" name="ustSaleDay" placeholder="2020-02-22" autocomplete="off">
+		  	</div>
+  	  	</div>
   	  	<div class="col-sm-3 col-md-3">
   	  		<label class="control-label">구분</label>
 			<select id="ustClassifyId" class="form-control" name="ustClassify">
@@ -163,6 +188,8 @@ a.a-button:hover {
 		  		<input id="ustSaleCntId" class="form-control" type="text" name="ustSaleCnt" maxlength="12" size="12" placeholder="100" onkeypress="return isNumber(event)" />
 		  	</div>
 		</div>
+	  </div>
+	  <div class="row">
 	  	<div class="col-sm-3 col-md-3">
 	  	  	<label class="control-label">수수료</label>
 	  		<div class="input-group" style="float:right; width: 100%;">
@@ -170,13 +197,12 @@ a.a-button:hover {
 		  		<input id="ustSaleFeeId" class="form-control" type="text" name="ustSaleFee" placeholder="10" autocomplete="off" onkeypress="return isNumber(event)"/>
 		  	</div>
 	  	</div>
-	  </div>
-	  <div class="row">
-		<div class="col-sm-12 col-md-12">
+		<div class="col-sm-9 col-md-9">
 	  		<label class="control-label">코멘트</label> <span id="idUstComment">0</span>/200
-	  		<textarea id="ustCommentId" class="taForm" style="height: 50px;" name="ustComment" placeholder="Add the detail information" rows="3" onkeyup="checkByteLength(this, 'idUstComment', 200)" onfocus="checkByteLength(this, 'idUstComment', 200)"></textarea>
+	  		<textarea id="ustCommentId" class="taForm" style="height: 35px;" name="ustComment" placeholder="Add the detail information" rows="3" onkeyup="checkByteLength(this, 'idUstComment', 200)" onfocus="checkByteLength(this, 'idUstComment', 200)"></textarea>
 		</div>
 	  </div>
+	  <input type="hidden" id="mscNoId" name="mscNo" value="<#if plugins.mStockCompany??>${plugins.mStockCompany.mscNo?if_exists}</#if>" />
 	  <input type="hidden" id="ustNoId" name="ustNo" />
 	  <input type="hidden" id="tokenId" name="token" />
 	  <br/>
@@ -193,11 +219,11 @@ a.a-button:hover {
 		<div>
 	    <ul class="table-ul table-ul-header ul-table ul-thead">
 	    	<li style="width: 20px;">No</li>
+	    	<li style="width: 150px;">매매 날짜</li>
 	    	<li style="width: 50px;">구분</li>
 	        <li style="width: 150px;">1주당 가격</li>
 	        <li style="width: 150px;">주식수</li>
 	        <li style="width: 150px;">수수료</li>
-	        <li style="width: 150px;">입력한 날짜</li>
 	    </ul>
 	    <#if plugins.userStockList??>
 	    <#if plugins.userStockList?has_content>
@@ -210,7 +236,8 @@ a.a-button:hover {
 			  <#else>
 				style="width: 100%;background-color: #f7f7f7;color: #737373;"
 			  </#if></#if>onmouseover="overChangeColor(this);" onmouseout="outChangeColor(this);" onclick="selectStock(this, '${userStock.ustNo?if_exists}');">
-		    	<li style="width: 20px;"><#if userStock.ustNo??>${userStock.ustNo?if_exists}</#if></li>
+		    	<li style="width: 20px;">${userStock.ustNo?if_exists}</li>
+		    	<li style="width: 150px;">${userStock.ustSaleDay?string('yyyy-MM-dd')?if_exists}</li>
 		    <#if userStock.ustClassify??>
 			  <#if userStock.ustClassify == "1">
 				<li style="width: 50px;">매수</li>
@@ -222,8 +249,7 @@ a.a-button:hover {
 			</#if>
 	        	<li style="width: 150px;"><#if userStock.ustSaleCost??>${userStock.ustSaleCost?if_exists}</#if></li>
 	        	<li style="width: 150px;"><#if userStock.ustSaleCnt??>${userStock.ustSaleCnt?if_exists}</#if></li>
-				<li style="width: 150px;"><#if userStock.ustSaleFee??>${userStock.ustSaleFee?if_exists}</#if></li>		
-		        <li style="width: 150px;"><#if userStock.insertTime??>${userStock.insertTime?string('yyyy-MM-dd hh:mm:ss')?if_exists}</#if></li>
+				<li style="width: 150px;"><#if userStock.ustSaleFee??>${userStock.ustSaleFee?if_exists}</#if></li>
 		    </ul>
 		</#list>
 		</#if>
@@ -283,6 +309,16 @@ a.a-button:hover {
 
 <#include "/apps/common/abilistsPluginsLoadJs.ftl"/>
 <#include "/apps/stock/js/stockJs.ftl"/>
-<#include "/apps/stock/js/stockChartJs.ftl"/>
+<#include "/apps/stock/js/stockSearchJs.ftl"/>
+
+<!-- Chart.js -->
+<script src="/static/apps/lib/chart-2.7/Chart.bundle.min.js?2017092301"></script>
+<script src="/static/apps/lib/chart-2.7/Chart.min.js?2017092301"></script>
+
+<script type="text/javascript">
+<#include "/apps/stock/js/chartStockPriceJs.ftl"/>
+<#include "/apps/stock/js/chartStockCountJs.ftl"/>
+<#include "/apps/stock/js/chartStockLeftJs.ftl"/>
+</script>
 
 </@layout.myLayout>

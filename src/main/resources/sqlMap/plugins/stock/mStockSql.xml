@@ -34,6 +34,7 @@
 
 	<insert id="istPluginsUserStock" parameterType="map">
 		INSERT INTO plugins_user_stock (
+			ust_sale_day,
 			ust_classify,
 			ust_sale_cost,
 			ust_sale_cnt,
@@ -47,6 +48,7 @@
 			insert_time,
 			update_time
 		) VALUES (
+			#{ustSaleDay},
 			#{ustClassify},
 			#{ustSaleCost},
 			#{ustSaleCnt},
@@ -83,6 +85,7 @@
 		UPDATE 
 			plugins_user_stock
 		SET
+			ust_sale_day = #{ustSaleDay},
 			ust_classify = #{ustClassify},
 			ust_sale_cost = #{ustSaleCost},
 			ust_sale_cnt = #{ustSaleCnt},

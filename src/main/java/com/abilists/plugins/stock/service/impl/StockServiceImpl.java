@@ -1,8 +1,12 @@
 package com.abilists.plugins.stock.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.ibatis.session.SqlSession;
@@ -14,6 +18,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.abilists.core.service.AbilistsAbstractService;
+import com.abilists.plugins.stock.bean.StockCountChartsBean;
 import com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel;
 import com.abilists.plugins.stock.bean.model.PluginsUserStockModel;
 import com.abilists.plugins.stock.bean.para.DltMStockCompanyPara;
@@ -29,6 +34,7 @@ import com.abilists.plugins.stock.dao.SStockDao;
 import com.abilists.plugins.stock.service.StockService;
 
 import base.bean.para.CommonPara;
+import io.utility.letter.DateUtility;
 
 @Service
 public class StockServiceImpl extends AbilistsAbstractService implements StockService {
@@ -80,12 +86,96 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 	}
 
 	@Override
+	public Map<String, StockCountChartsBean> sltStockChartMap(SltStockPara sltStockPara) throws CloneNotSupportedException {
+
+		List<PluginsUserStockModel> stockForChartList = null;
+
+		// ustSaleDay
+		SimpleDateFormat format	= new SimpleDateFormat("yyyy-MM-dd");
+		String beforeOneYear = format.format(DateUtility.getEndDayOfMonth(-12));
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ustSaleDay", beforeOneYear);
+		map.put("userId", sltStockPara.getUserId());
+
+		try {
+			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
+			stockForChartList = sAbilistsDao.getMapper(SStockDao.class).sltStockForChartList(map);
+		} catch (Exception e) {
+			logger.error("sltStockList Exception error", e);
+		}
+
+		// Just backu-up source
+//		List<PluginsUserStockModel> pluginsUserStockClone = new ArrayList<>();
+//		Iterator<PluginsUserStockModel> iterator = stockForChartList.iterator();
+//      while(iterator.hasNext()){
+//      	pluginsUserStockClone.add((PluginsUserStockModel)iterator.next().clone());
+//      }
+
+		Map<String, StockCountChartsBean> mapStockCountCharts = new TreeMap<String, StockCountChartsBean>();
+		format = new SimpleDateFormat("MM/dd");
+		int intSaleLeftCount = 0;
+		for(PluginsUserStockModel pluginsUserStock : stockForChartList) {
+			String keySaleDay = format.format(pluginsUserStock.getUstSaleDay());
+
+			logger.info("saleDay = " + keySaleDay);
+
+			if(mapStockCountCharts.containsKey(keySaleDay)) {
+				StockCountChartsBean stockCountCharts = (StockCountChartsBean)mapStockCountCharts.get(keySaleDay);
+				if(pluginsUserStock.getUstClassify().equals("1")) {
+					// If there is the data with the key, Plus with the previous data
+					stockCountCharts.setSaleBuyCost(pluginsUserStock.getUstSaleCost() + stockCountCharts.getSaleBuyCost());
+					stockCountCharts.setSaleBuyCount(pluginsUserStock.getUstSaleCnt() + stockCountCharts.getSaleBuyCount());
+				}  else if(pluginsUserStock.getUstClassify().equals("2")) {
+					// If there is the data with the key, Plus with the previous data
+					stockCountCharts.setSaleSellCost(pluginsUserStock.getUstSaleCost() + stockCountCharts.getSaleSellCost());
+					stockCountCharts.setSaleSellCount(pluginsUserStock.getUstSaleCnt() + stockCountCharts.getSaleSellCount());
+				} else {
+					stockCountCharts.setSaleBuyCost(0);
+					stockCountCharts.setSaleBuyCount(0);
+					stockCountCharts.setSaleSellCost(0);
+					stockCountCharts.setSaleSellCount(0);
+					logger.warn("There is a worng data, please check the data. ustSaleDay = " + pluginsUserStock.getUstSaleDay());
+				}
+				intSaleLeftCount = intSaleLeftCount + pluginsUserStock.getUstSaleCnt();
+				stockCountCharts.setSaleLeftCount(intSaleLeftCount);
+
+				mapStockCountCharts.put(keySaleDay, stockCountCharts);
+			} else {
+				StockCountChartsBean stockCountChartsBean = new StockCountChartsBean();
+
+				if(pluginsUserStock.getUstClassify().equals("1")) {
+					stockCountChartsBean.setSaleBuyCost(pluginsUserStock.getUstSaleCost());
+					stockCountChartsBean.setSaleBuyCount(pluginsUserStock.getUstSaleCnt());
+				}  else if(pluginsUserStock.getUstClassify().equals("2")) {
+					stockCountChartsBean.setSaleSellCost(pluginsUserStock.getUstSaleCost());
+					stockCountChartsBean.setSaleSellCount(pluginsUserStock.getUstSaleCnt());
+				} else {
+					stockCountChartsBean.setSaleBuyCost(0);
+					stockCountChartsBean.setSaleBuyCount(0);
+					stockCountChartsBean.setSaleSellCost(0);
+					stockCountChartsBean.setSaleSellCount(0);
+					stockCountChartsBean.setSaleLeftCount(stockCountChartsBean.getSaleLeftCount());
+					logger.warn("There is a worng data, please check the data. ustSaleDay = " + pluginsUserStock.getUstSaleDay());
+				}
+				intSaleLeftCount = intSaleLeftCount + pluginsUserStock.getUstSaleCnt();
+				stockCountChartsBean.setSaleLeftCount(intSaleLeftCount);
+
+				mapStockCountCharts.put(keySaleDay, stockCountChartsBean);
+			}
+
+		}
+
+		return mapStockCountCharts;
+	}
+
+	@Override
 	public List<PluginsUserStockModel> sltStockList(SltStockPara sltStockPara) throws Exception {
-		List<PluginsUserStockModel> PluginsUserStockList = null;
+		List<PluginsUserStockModel> pluginsUserStockList = null;
 
 		// Get now page
 		int nowPage = sltStockPara.getNowPage();
-	
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mscNo", sltStockPara.getMscNo());
 		map.put("userId", sltStockPara.getUserId());
@@ -94,12 +184,12 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 
 		try {
 			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
-			PluginsUserStockList = sAbilistsDao.getMapper(SStockDao.class).sltPluginsUserStockList(map);	
+			pluginsUserStockList = sAbilistsDao.getMapper(SStockDao.class).sltPluginsUserStockList(map);
 		} catch (Exception e) {
 			logger.error("sltStockList Exception error", e);
 		}
 
-		return PluginsUserStockList;
+		return pluginsUserStockList;
 	}
 
 	@Override
@@ -213,10 +303,16 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 	public boolean istStock(IstStockPara istStockPara) throws Exception {
 		int intResult = 0;
 
+		int intSaleCnt = istStockPara.getUstSaleCnt();
+		if(istStockPara.getUstClassify().equals("2") && intSaleCnt > 0) {
+			intSaleCnt = istStockPara.getUstSaleCnt() * -1;
+		}
+
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ustSaleDay", istStockPara.getUstSaleDay());
 		map.put("ustClassify", istStockPara.getUstClassify());
 		map.put("ustSaleCost", istStockPara.getUstSaleCost());
-		map.put("ustSaleCnt", istStockPara.getUstSaleCnt());
+		map.put("ustSaleCnt", intSaleCnt);
 		map.put("ustSaleFee", istStockPara.getUstSaleFee());
 		map.put("ustComment", istStockPara.getUstComment());
 		map.put("mscName", istStockPara.getMscName());
@@ -277,11 +373,17 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 
 		int intResult = 0;
 
+		int intSaleCnt = udtStockPara.getUstSaleCnt();
+		if(udtStockPara.getUstClassify().equals("2") && intSaleCnt > 0) {
+			intSaleCnt = udtStockPara.getUstSaleCnt() * -1;
+		}
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ustNo", udtStockPara.getUstNo());
+		map.put("ustSaleDay", udtStockPara.getUstSaleDay());
 		map.put("ustClassify", udtStockPara.getUstClassify());
 		map.put("ustSaleCost", udtStockPara.getUstSaleCost());
-		map.put("ustSaleCnt", udtStockPara.getUstSaleCnt());
+		map.put("ustSaleCnt", intSaleCnt);
 		map.put("ustSaleFee", udtStockPara.getUstSaleFee());
 		map.put("ustComment", udtStockPara.getUstComment());
 		map.put("mscName", udtStockPara.getMscName());

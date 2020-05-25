@@ -19,6 +19,7 @@ CREATE INDEX IF NOT EXISTS idx_plugins_m_stock_company_msc_name ON abilists.plug
 
 CREATE TABLE IF NOT EXISTS abilists.plugins_user_stock (
   ust_no BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  ust_sale_day TIMESTAMP NULL,
   ust_classify VARCHAR(50) NULL,
   ust_sale_cost INT NULL,
   ust_sale_cnt INT NULL,
