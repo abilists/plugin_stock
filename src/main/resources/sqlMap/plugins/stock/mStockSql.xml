@@ -94,6 +94,7 @@
 			update_time = now()
 		WHERE
 			ust_no = #{ustNo} AND
+			msc_no = #{mscNo} AND
 			user_id = #{userId} AND
 			ust_delete = '0'
 	</update>

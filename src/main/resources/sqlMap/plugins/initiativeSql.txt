@@ -1,17 +1,17 @@
-CREATE TABLE IF NOT EXISTS abilists.plugins_m_stock_company (
-  msc_no BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  msc_code VARCHAR(200) NULL,
-  msc_name VARCHAR(200) NULL,
-  msc_profit INT NULL,
-  msc_dividend INT NULL,
-  msc_payout_ratio INT NULL,
-  msc_comment VARCHAR(250) NULL,
-  msc_status VARCHAR(2) NULL,
-  msc_delete CHAR(1) NULL,
+CREATE TABLE IF NOT EXISTS abilists.plugins_user_stock_company (
+  usc_no BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  usc_code VARCHAR(200) NULL,
+  usc_name VARCHAR(200) NULL,
+  usc_profit INT NULL,
+  usc_dividend INT NULL,
+  usc_payout_ratio INT NULL,
+  usc_comment VARCHAR(250) NULL,
+  usc_status VARCHAR(2) NULL,
+  usc_delete CHAR(1) NULL,
   user_id VARCHAR(100) NULL,
   insert_time TIMESTAMP NULL,
   update_time TIMESTAMP NULL,
-  PRIMARY KEY (msc_no)
+  PRIMARY KEY (usc_no)
 ) ENGINE=innoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE INDEX IF NOT EXISTS idx_plugins_m_stock_company_user_id ON abilists.plugins_m_stock_company (user_id);

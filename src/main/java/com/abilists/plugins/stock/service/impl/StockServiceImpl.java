@@ -1,9 +1,7 @@
 package com.abilists.plugins.stock.service.impl;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.abilists.bean.para.admin.SrhAutoCompletePara;
 import com.abilists.core.service.AbilistsAbstractService;
 import com.abilists.plugins.stock.bean.StockCountChartsBean;
 import com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel;
@@ -60,7 +59,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 
 		try {
 			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
-			masterStockCompanyList = sAbilistsDao.getMapper(SStockDao.class).sltPluginsMStockCompanyList(map);	
+			masterStockCompanyList = sAbilistsDao.getMapper(SStockDao.class).sltPluginsMStockCompanyList(map);
 		} catch (Exception e) {
 			logger.error("sltStockList Exception error", e);
 		}
@@ -96,6 +95,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ustSaleDay", beforeOneYear);
+		map.put("mscNo", sltStockPara.getMscNo());
 		map.put("userId", sltStockPara.getUserId());
 
 		try {
@@ -210,29 +210,6 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		return userStockModel;
 	}
 
-//	@Override
-//	public List<StockModel> srhStockCompanyList(SrhAutoCompletePara srhAutoCompletePara) throws Exception {
-//
-//		List<StockModel> stockList = null;
-//		
-//		Map<String, Object> map = new HashMap<String, Object>();
-//
-//		map.put("userId", srhAutoCompletePara.getUserId());
-//		// Key is title, Value is Contents.
-//		map.put("ustName", srhAutoCompletePara.getSrhContents());
-//		map.put("nowPage", 0);
-//		map.put("row", configuration.getInt("paging.row.ten"));
-//
-//		try {
-//			stockList = sAbilistsDao.getMapper(SStockDao.class).srhStockCompanyList(map);
-//		} catch (Exception e) {
-//			logger.error("Exception error", e);
-//			throw e;
-//		}
-//
-//		return stockList;
-//	}
-
 	@Override
 	public int sltMasterStockCompanySum(CommonPara commonPara) throws Exception {
 		int sum = 0;
@@ -250,11 +227,12 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 	}
 
 	@Override
-	public int sltStockSum(CommonPara commonPara) throws Exception {
+	public int sltStockSum(SltStockPara sltStockPara) throws Exception {
 		int sum = 0;
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("userId", commonPara.getUserId());
+		map.put("userId", sltStockPara.getUserId());
+		map.put("mscNo", sltStockPara.getMscNo());
 
 		try {
 			sum = sAbilistsDao.getMapper(SStockDao.class).sltPluginsUserStockSum(map);
@@ -263,6 +241,54 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		}
 
 		return sum;
+	}
+
+	@Override
+	public List<PluginsMStockCompanyModel> srhMStockCompanyList(SrhAutoCompletePara srhAutoCompletePara) throws Exception {
+		
+		List<PluginsMStockCompanyModel> masterStockCompanyList = null;
+
+		// Get now page
+		int nowPage = srhAutoCompletePara.getNowPage();
+	
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", srhAutoCompletePara.getUserId());
+		map.put("mscName", srhAutoCompletePara.getSrhContents());
+		map.put("nowPage", (nowPage - 1) * configuration.getInt("paging.row.ten"));
+		map.put("row", configuration.getInt("paging.row.ten"));
+
+		try {
+			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
+			masterStockCompanyList = sAbilistsDao.getMapper(SStockDao.class).sltPluginsMStockCompanyList(map);
+		} catch (Exception e) {
+			logger.error("sltStockList Exception error", e);
+		}
+
+		return masterStockCompanyList;
+	}
+
+	@Override
+	public List<PluginsMStockCompanyModel> srhMStockCompany(SrhAutoCompletePara srhAutoCompletePara) throws Exception {
+	
+		List<PluginsMStockCompanyModel> masterStockCompanyList = null;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+	
+		map.put("userId", srhAutoCompletePara.getUserId());
+		// Key is title, Value is Contents.
+		map.put("mscName", srhAutoCompletePara.getSrhContents());
+		map.put("nowPage", 0);
+		map.put("row", configuration.getInt("paging.row.ten"));
+
+		try {
+			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
+			masterStockCompanyList = sAbilistsDao.getMapper(SStockDao.class).srhMStockCompanyList(map);
+		} catch (Exception e) {
+			logger.error("Exception error", e);
+			throw e;
+		}
+	
+		return masterStockCompanyList;
 	}
 
 	@Transactional(rollbackFor = {IllegalArgumentException.class, Exception.class}, propagation = Propagation.REQUIRES_NEW)
@@ -315,6 +341,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		map.put("ustSaleCnt", intSaleCnt);
 		map.put("ustSaleFee", istStockPara.getUstSaleFee());
 		map.put("ustComment", istStockPara.getUstComment());
+		map.put("mscNo", istStockPara.getMscNo());
 		map.put("mscName", istStockPara.getMscName());
 		map.put("userId", istStockPara.getUserId());
 
@@ -386,6 +413,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		map.put("ustSaleCnt", intSaleCnt);
 		map.put("ustSaleFee", udtStockPara.getUstSaleFee());
 		map.put("ustComment", udtStockPara.getUstComment());
+		map.put("mscNo", udtStockPara.getMscNo());
 		map.put("mscName", udtStockPara.getMscName());
 		map.put("userId", udtStockPara.getUserId());
 

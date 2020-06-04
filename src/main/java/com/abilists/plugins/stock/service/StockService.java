@@ -3,6 +3,7 @@ package com.abilists.plugins.stock.service;
 import java.util.List;
 import java.util.Map;
 
+import com.abilists.bean.para.admin.SrhAutoCompletePara;
 import com.abilists.core.service.PagingService;
 import com.abilists.plugins.stock.bean.StockCountChartsBean;
 import com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel;
@@ -30,12 +31,12 @@ public interface StockService extends PagingService {
 	public List<PluginsUserStockModel> sltStockList(SltStockPara sltStockPara) throws Exception;
 	public PluginsUserStockModel sltStock(SltStockPara sltStockPara) throws Exception;
 
-//	public List<PluginsUserStockModel> srhUserStockList(SrhAutoCompletePara srhAutoCompletePara) throws Exception;
-//	public List<StockModel> srhStockCompanyList(SrhAutoCompletePara srhAutoCompletePara) throws Exception;
-
 	public int sltMasterStockCompanySum(CommonPara commonPara) throws Exception;
-	public int sltStockSum(CommonPara commonPara) throws Exception;
-	
+	public int sltStockSum(SltStockPara sltStockPara) throws Exception;
+
+	public List<PluginsMStockCompanyModel> srhMStockCompany(SrhAutoCompletePara srhAutoCompletePara) throws Exception;
+	public List<PluginsMStockCompanyModel> srhMStockCompanyList(SrhAutoCompletePara srhAutoCompletePara) throws Exception;
+
 	public boolean istMStockCompany(IstMStockCompanyPara istMasterStockCompanyPara) throws Exception;
 	public boolean istStock(IstStockPara istStockPara) throws Exception;
 

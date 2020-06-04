@@ -74,6 +74,7 @@
 		FROM
 			plugins_user_stock
 		WHERE
+			msc_no = #{mscNo} AND
 			user_id = #{userId} AND
 			ust_delete = '0'
 		ORDER BY
@@ -127,6 +128,7 @@
 		FROM
 			plugins_user_stock
 		WHERE
+			msc_no = #{mscNo} AND
 			user_id = #{userId} AND
 			ust_sale_day <![CDATA[>]]> #{ustSaleDay} AND
 			ust_delete = '0'
@@ -150,8 +152,57 @@
 		FROM
 			plugins_user_stock
 		WHERE
+			msc_no = #{mscNo} AND
 			user_id = #{userId} AND
 			ust_delete = '0'
+	</select>
+
+	<select id="srhMStockCompany" parameterType="map" resultType="com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel">
+		SELECT
+  			msc_name
+		FROM
+			plugins_m_stock_company
+		WHERE
+	    <if test="userId != null and userId != ''">
+			user_id like '${userId}%' AND
+	    </if> 
+	    <if test="ustName != null and ustName != ''">
+			msc_name like '%${mscName}%' AND
+	    </if> 
+	    	ust_delete = '0'
+		ORDER BY
+			msc_name
+		LIMIT
+			#{nowPage}, #{row}
+	</select>
+
+	<select id="srhMStockCompanyList" parameterType="map" 
+		resultType="com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel">
+		SELECT
+			msc_no,
+			msc_code,
+			msc_name,
+			msc_profit,
+			msc_dividend,
+			msc_payout_ratio,
+			msc_comment,
+			msc_status,
+			msc_delete,
+		  	user_id,
+			insert_time,
+			update_time
+		FROM
+			plugins_m_stock_company
+		WHERE
+			user_id = #{userId} AND
+	    <if test="ustName != null and ustName != ''">
+			msc_name like '%${mscName}%' AND
+	    </if>
+			msc_delete = '0'
+		ORDER BY
+			msc_name
+		LIMIT
+			#{nowPage}, #{row}
 	</select>
 
 </mapper>

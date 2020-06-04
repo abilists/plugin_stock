@@ -20,6 +20,8 @@ public interface SStockDao {
 
 	public List<PluginsUserStockModel> sltStockForChartList(Map<String, Object> map) throws SQLException;
 
+	public List<PluginsMStockCompanyModel> srhMStockCompanyList(Map<String, Object> map) throws SQLException;
+
 	public int sltPluginsMStockCompanySum(Map<String, Object> map) throws SQLException;
 	public int sltPluginsUserStockSum(Map<String, Object> map) throws SQLException;
 

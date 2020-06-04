@@ -1,4 +1,5 @@
 <#import "/spring.ftl" as spring/>
+
 var data2 = {
 	labels: [
 	    <#if plugins.mapStockChart??>
@@ -29,6 +30,7 @@ var data2 = {
 		]
 	}]
 };
+
 var option2 = {
 	responsive: true,
 	title: {
@@ -56,7 +58,6 @@ var option2 = {
 			},
 		}]
 	}
-
 };
 
 var ctx = document.getElementById("canvas2").getContext("2d");

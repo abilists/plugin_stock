@@ -1,6 +1,8 @@
 package com.abilists.plugins.stock.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -26,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.abilists.bean.AbilistsModel;
+import com.abilists.bean.para.admin.SrhAutoCompletePara;
 import com.abilists.core.common.bean.CommonBean;
 import com.abilists.core.controller.AbstractBaseController;
 import com.abilists.core.controller.CommonAbilistsController;
@@ -185,69 +188,69 @@ public class StockController extends CommonAbilistsController {
 //		return "apps/stock/index";
 //	}
 
-//	@RequestMapping(value = { "/srhForStock" })
-//	public String srhForStock(@Valid SrhAutoCompletePara srhAutoCompletePara, 
-//			BindingResult bindingResult, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//
-//		AbilistsModel abilistsModel = new AbilistsModel();
-//		abilistsModel.setNavi("works");
-//		abilistsModel.setMenu("srhForStock");
-//
-//		PluginsModel pluginsModel = new PluginsModel();
-//
-//		// Set user id
-//		this.handleSessionInfo(request.getSession(), srhAutoCompletePara);
-//
-//		// Set language in Locale.
-//		Locale locale = RequestContextUtils.getLocale(request);
-//
-//		// If it occurs a error, set the default value.
-//		Map<String, String> mapErrorMessage = null;
-//		// If it occurs errors, set the default value.
-//		if (bindingResult.hasErrors()) {
-//			logger.error("srhForMemo - There are parameter errors.");
-//			response.setStatus(400);
-//			mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors(), locale);
-//			model.addAttribute("mapErrorMessage",  mapErrorMessage);
-//			return "apps/errors/parameterErrors";
-//		}
-//
-//		// Get user information
-//		List<UserStockModel> userStockList = stockService.srhUserStockList(srhAutoCompletePara);
-//		pluginsModel.setUserStockList(userStockList);
-//
-//		// Get key and token
-//		String token = TokenUtility.generateToken(TokenUtility.SHA_256);
-//		String key = this.makeKey(srhAutoCompletePara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
-//		commonBean.addTokenExpireMap(key, token);
-//		abilistsModel.setToken(token);
-//
-//		model.addAttribute("model", abilistsModel);
-//		model.addAttribute("plugins", pluginsModel);
-//
-//		return "apps/stock/index";
-//	}
+	@RequestMapping(value = { "/srhMStockCompanyList" })
+	public String srhMStockCompanyList(@Valid SrhAutoCompletePara srhAutoCompletePara, 
+			BindingResult bindingResult, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-//    @RequestMapping(value="/srhForStockAjax")
-//	public @ResponseBody List<StockModel> srhForStockAjax(@Valid @RequestBody SrhAutoCompletePara srhAutoCompletePara, 
-//			BindingResult bindingResult, HttpServletRequest request) throws Exception {
-//
-//    	List<StockModel> stockList = null;
-//
-//		// Set user id
-//		this.handleSessionInfo(request.getSession(), srhAutoCompletePara);
-//
-//		// If it occurs a error, set the default value.
-//		if (bindingResult.hasErrors()) {
-//			logger.warn("srhForStockAjax - Special charaters are included in the parameters.");
-//			return new ArrayList<StockModel>();
-//		}
-//
-//		// Get user information
-//		stockList = stockService.srhStockCompanyList(srhAutoCompletePara);
-//
-//    	return stockList;
-//	}
+		AbilistsModel abilistsModel = new AbilistsModel();
+		abilistsModel.setNavi("works");
+		abilistsModel.setMenu("srhForStock");
+
+		PluginsModel pluginsModel = new PluginsModel();
+
+		// Set user id
+		this.handleSessionInfo(request.getSession(), srhAutoCompletePara);
+
+		// Set language in Locale.
+		Locale locale = RequestContextUtils.getLocale(request);
+
+		// If it occurs a error, set the default value.
+		Map<String, String> mapErrorMessage = null;
+		// If it occurs errors, set the default value.
+		if (bindingResult.hasErrors()) {
+			logger.error("srhForMemo - There are parameter errors.");
+			response.setStatus(400);
+			mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors(), locale);
+			model.addAttribute("mapErrorMessage",  mapErrorMessage);
+			return "apps/errors/parameterErrors";
+		}
+
+		// Get user information
+		List<PluginsMStockCompanyModel> mStockCompanyList = stockService.srhMStockCompanyList(srhAutoCompletePara);
+		pluginsModel.setmStockCompanyList(mStockCompanyList);
+
+		// Get key and token
+		String token = TokenUtility.generateToken(TokenUtility.SHA_256);
+		String key = this.makeKey(srhAutoCompletePara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
+		commonBean.addTokenExpireMap(key, token);
+		abilistsModel.setToken(token);
+
+		model.addAttribute("model", abilistsModel);
+		model.addAttribute("plugins", pluginsModel);
+
+		return "apps/stock/index";
+	}
+
+    @RequestMapping(value="/srhMStockCompanyAjax")
+	public @ResponseBody List<PluginsMStockCompanyModel> srhMStockCompanyAjax(@Valid @RequestBody SrhAutoCompletePara srhAutoCompletePara, 
+			BindingResult bindingResult, HttpServletRequest request) throws Exception {
+
+    	List<PluginsMStockCompanyModel> mStockCompanyList = null;
+
+		// Set user id
+		this.handleSessionInfo(request.getSession(), srhAutoCompletePara);
+
+		// If it occurs a error, set the default value.
+		if (bindingResult.hasErrors()) {
+			logger.warn("srhForStockAjax - Special charaters are included in the parameters.");
+			return new ArrayList<PluginsMStockCompanyModel>();
+		}
+
+		// Get user information
+		mStockCompanyList = stockService.srhMStockCompany(srhAutoCompletePara);
+
+    	return mStockCompanyList;
+	}
 
 	@RequestMapping(value = "/sltMStockCompanyAjax")
 	public @ResponseBody PluginsMStockCompanyModel sltMStockCompanyAjax(@RequestBody SltMStockCompanyPara sltMStockCompanyPara,
