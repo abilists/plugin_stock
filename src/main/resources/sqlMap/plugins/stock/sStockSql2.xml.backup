@@ -5,15 +5,15 @@
 <mapper namespace="com.abilists.plugins.stock.dao.SStockDao">
 
 	<resultMap id="mainPluginsMStockCompanyStockMap" type="com.abilists.plugins.stock.bean.model.PluginsMStockCompanyMapModel">
-		<id property="mscNo" column="msc_no"/>
-		<result property="mscCode" column="msc_code"/>
-		<result property="mscName" column="msc_name"/>
-		<result property="mscProfit" column="msc_profit"/>
-		<result property="mscDividend" column="msc_dividend"/>
-		<result property="mscPayoutRatio" column="msc_payout_ratio"/>
-		<result property="mscComment" column="msc_comment"/>
-		<result property="mscStatus" column="msc_status"/>
-		<result property="mscDelete" column="msc_delete"/>
+		<id property="uscNo" column="usc_no"/>
+		<result property="uscCode" column="usc_code"/>
+		<result property="uscName" column="usc_name"/>
+		<result property="uscProfit" column="usc_profit"/>
+		<result property="uscDividend" column="usc_dividend"/>
+		<result property="uscPayoutRatio" column="usc_payout_ratio"/>
+		<result property="uscComment" column="usc_comment"/>
+		<result property="uscStatus" column="usc_status"/>
+		<result property="uscDelete" column="usc_delete"/>
 		<result property="userId" column="user_id"/>
 		<result property="insertTime" column="insert_time"/>
 		<result property="updateTime" column="update_time"/>	
@@ -38,18 +38,18 @@
 <!-- master_stock_company Inner Join user_stock -->
 	<select id="sltPluginsMStockCompanyMap" parameterType="map" resultMap="mainPluginsMStockCompanyStockMap">
 		SELECT
-			msc.msc_no,
-			msc.msc_code,
-			msc.msc_name,
-			msc.msc_profit,
-			msc.msc_dividend,
-			msc.msc_payout_ratio,
-			msc.msc_comment,
-			msc.msc_status,
-			msc.msc_delete,
-		  	msc.user_id,
-			msc.insert_time,
-			msc.update_time,
+			usc.usc_no,
+			usc.usc_code,
+			usc.usc_name,
+			usc.usc_profit,
+			usc.usc_dividend,
+			usc.usc_payout_ratio,
+			usc.usc_comment,
+			usc.usc_status,
+			usc.usc_delete,
+		  	usc.user_id,
+			usc.insert_time,
+			usc.update_time,
 			us.ust_no,
   			us.ust_classify,
   			us.ust_sale_cost,
@@ -59,75 +59,75 @@
 			us.ust_comment,
 			us.ust_status,
 			us.ust_delete,
-			us.msc_no,
-			us.msc_name,
+			us.usc_no,
+			us.usc_name,
 			us.insert_time,
 			us.update_time
 		FROM
 			(SELECT 
 				* 
 			FROM 
-				plugins_m_stock_company 
+				plugins_user_stock_company 
 			WHERE
-				msc_no = #{mscNo} AND
+				usc_no = #{uscNo} AND
 		        user_id = #{userId} AND
-		    	msc_delete = '0') msc
+		    	usc_delete = '0') usc
 			LEFT JOIN
 			plugins_user_stock us
 				ON 
-				msc.msc_no = us.msc_no
+				usc.usc_no = us.usc_no
 		WHERE
 			us.user_id = #{userId} AND
 			us.ust_delete = '0'
 	</select>
 
 	<select id="sltPluginsMStockCompanyList" parameterType="map" 
-		resultType="com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel">
+		resultType="com.abilists.plugins.stock.bean.model.PluginsUserStockCompanyModel">
 		SELECT
-			msc_no,
-			msc_code,
-			msc_name,
-			msc_profit,
-			msc_dividend,
-			msc_payout_ratio,
-			msc_comment,
-			msc_status,
-			msc_delete,
+			usc_no,
+			usc_code,
+			usc_name,
+			usc_profit,
+			usc_dividend,
+			usc_payout_ratio,
+			usc_comment,
+			usc_status,
+			usc_delete,
 		  	user_id,
 			insert_time,
 			update_time
 		FROM
-			plugins_m_stock_company
+			plugins_user_stock_company
 		WHERE
 			user_id = #{userId} AND
-			msc_delete = '0'
+			usc_delete = '0'
 		ORDER BY
-			msc_no
+			usc_no
 		LIMIT
 			#{nowPage}, #{row}
 	</select>
 
 	<select id="sltPluginsMStockCompany" parameterType="map" 
-		resultType="com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel">
+		resultType="com.abilists.plugins.stock.bean.model.PluginsUserStockCompanyModel">
 		SELECT
-			msc_no,
-			msc_code,
-			msc_name,
-			msc_profit,
-			msc_dividend,
-			msc_payout_ratio,
-			msc_comment,
-			msc_status,
-			msc_delete,
+			usc_no,
+			usc_code,
+			usc_name,
+			usc_profit,
+			usc_dividend,
+			usc_payout_ratio,
+			usc_comment,
+			usc_status,
+			usc_delete,
 		  	user_id,
 			insert_time,
 			update_time
 		FROM
-			plugins_m_stock_company
+			plugins_user_stock_company
 		WHERE
-			msc_no = #{mscNo} AND
+			usc_no = #{uscNo} AND
 			user_id = #{userId} AND
-			msc_delete = '0'
+			usc_delete = '0'
 	</select>
 
 	<select id="sltPluginsUserStockList" parameterType="map" 
@@ -142,8 +142,8 @@
 			ust_comment,
 			ust_status,
 			ust_delete,
-			msc_no,
-			msc_name,
+			usc_no,
+			usc_name,
 		  	user_id,
 			insert_time,
 			update_time
@@ -253,10 +253,10 @@
 		SELECT
 			COUNT(*) as cnt
 		FROM
-			plugins_m_stock_company
+			plugins_user_stock_company
 		WHERE
 			user_id = #{userId} AND
-			msc_delete = '0'
+			usc_delete = '0'
 	</select>
 
 	<select id="sltPluginsUserStockSum" parameterType="map" resultType="java.lang.Integer">

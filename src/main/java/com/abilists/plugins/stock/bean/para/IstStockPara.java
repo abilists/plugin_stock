@@ -8,8 +8,8 @@ import io.utility.validate.annotation.DateFormat;
 
 public class IstStockPara extends CommonPara {
 
-	private String mscNo;
-	private String mscName;
+	private String uscNo;
+	private String uscName;
 
 	@NotNull(message = "ustSaleDay")
 	@Size(min = 9, max = 10, message = "It is different String size")
@@ -22,11 +22,17 @@ public class IstStockPara extends CommonPara {
 	private String ustComment;
 	private String ustStatus;
 
-	public String getMscNo() {
-		return mscNo;
+	public String getUscNo() {
+		return uscNo;
 	}
-	public void setMscNo(String mscNo) {
-		this.mscNo = mscNo;
+	public void setUscNo(String uscNo) {
+		this.uscNo = uscNo;
+	}
+	public String getUscName() {
+		return uscName;
+	}
+	public void setUscName(String uscName) {
+		this.uscName = uscName;
 	}
 	public String getUstSaleDay() {
 		return ustSaleDay;
@@ -39,12 +45,6 @@ public class IstStockPara extends CommonPara {
 	}
 	public void setUstClassify(String ustClassify) {
 		this.ustClassify = ustClassify;
-	}
-	public String getMscName() {
-		return mscName;
-	}
-	public void setMscName(String mscName) {
-		this.mscName = mscName;
 	}
 	public int getUstSaleFee() {
 		return ustSaleFee;

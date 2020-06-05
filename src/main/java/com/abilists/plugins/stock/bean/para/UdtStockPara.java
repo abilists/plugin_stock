@@ -7,7 +7,7 @@ import io.utility.validate.annotation.DateFormat;
 
 public class UdtStockPara extends IstStockPara {
 
-	private String mscNo;
+	private String uscNo;
 
 	@NotNull(message = "ustSaleDays")
 	@Size(min = 9, max = 10, message = "It is different String size")
@@ -16,7 +16,7 @@ public class UdtStockPara extends IstStockPara {
 
 	private String ustNo;
 	private String ustClassify;
-	private String mscName;
+	private String uscName;
 	private int ustSaleCost;
 	private int ustSaleCnt;
 	private int ustSaleFee;
@@ -24,11 +24,11 @@ public class UdtStockPara extends IstStockPara {
 	private String ustStatus;
 
 	public String getMscNo() {
-		return mscNo;
+		return uscNo;
 	}
 
-	public void setMscNo(String mscNo) {
-		this.mscNo = mscNo;
+	public void setMscNo(String uscNo) {
+		this.uscNo = uscNo;
 	}
 
 	public String getUstNo() {
@@ -48,11 +48,11 @@ public class UdtStockPara extends IstStockPara {
 	}
 
 	public String getMscName() {
-		return mscName;
+		return uscName;
 	}
 
-	public void setMscName(String mscName) {
-		this.mscName = mscName;
+	public void setMscName(String uscName) {
+		this.uscName = uscName;
 	}
 
 	public int getUstSaleCost() {

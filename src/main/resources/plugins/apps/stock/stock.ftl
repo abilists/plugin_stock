@@ -17,7 +17,7 @@ div.ui-datepicker {
 </style>
 <div class="caption mittle-size-title" style="background: #4a9c4a !important;">
 <h5>
-	<b><a id="companyStockId" class="a-button" href="${configBean.contextPath?if_exists}/plugins/stock" role="button"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></b> 종목 회사
+	<b><a class="a-button" href="${configBean.contextPath?if_exists}/plugins/stock" role="button"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></b> 종목 회사
 </h5>
 </div>
 
@@ -33,12 +33,12 @@ div.ui-datepicker {
 
 <#if plugins.mStockCompany??>
 <ul class="table-ul ul-table">
-	<li style="width: 30px;">${plugins.mStockCompany.mscNo?if_exists}</li>
-	<li style="width: 150px;">${plugins.mStockCompany.mscCode?if_exists}</li>
-	<li style="width: 150px;">${plugins.mStockCompany.mscName?if_exists}</li>
-	<li style="width: 100px;">${plugins.mStockCompany.mscProfit?if_exists}</li>
-	<li style="width: 100px;">${plugins.mStockCompany.mscDividend?if_exists}</li>
-	<li style="width: 100px;">${plugins.mStockCompany.mscPayoutRatio?if_exists}</li>
+	<li style="width: 30px;">${plugins.mStockCompany.uscNo?if_exists}</li>
+	<li style="width: 150px;">${plugins.mStockCompany.uscCode?if_exists}</li>
+	<li style="width: 150px;">${plugins.mStockCompany.uscName?if_exists}</li>
+	<li style="width: 100px;">${plugins.mStockCompany.uscProfit?if_exists}</li>
+	<li style="width: 100px;">${plugins.mStockCompany.uscDividend?if_exists}</li>
+	<li style="width: 100px;">${plugins.mStockCompany.uscPayoutRatio?if_exists}</li>
     <li style="width: 100px;">${plugins.mStockCompany.updateTime?string('yyyy-MM-dd hh:mm:ss')?if_exists}</li>
 </ul>
 </#if>
@@ -145,7 +145,7 @@ div.ui-datepicker {
 	  			<textarea class="taForm" style="height: 35px;" name="ustComment" placeholder="Add the detail information" rows="3" onkeyup="checkByteLength(this, 'idUstComment', 200)" onfocus="checkByteLength(this, 'idUstComment', 200)"></textarea>
 		  	</div>
 	  	  </div>
-	  	  <input type="hidden" id="mscNoId" name="mscNo" value="<#if plugins.mStockCompany??>${plugins.mStockCompany.mscNo?if_exists}</#if>" />
+	  	  <input type="hidden" id="uscNoId" name="uscNo" value="<#if plugins.mStockCompany??>${plugins.mStockCompany.uscNo?if_exists}</#if>" />
 	  	  <input type="hidden" name="token" value="<#if model??>${model.token?if_exists}</#if>" />
 		  <br/>
 			<p align="center">
@@ -202,7 +202,7 @@ div.ui-datepicker {
 	  		<textarea id="ustCommentId" class="taForm" style="height: 35px;" name="ustComment" placeholder="Add the detail information" rows="3" onkeyup="checkByteLength(this, 'idUstComment', 200)" onfocus="checkByteLength(this, 'idUstComment', 200)"></textarea>
 		</div>
 	  </div>
-	  <input type="hidden" id="mscNoId" name="mscNo" value="<#if plugins.mStockCompany??>${plugins.mStockCompany.mscNo?if_exists}</#if>" />
+	  <input type="hidden" id="uscNoId" name="uscNo" value="<#if plugins.mStockCompany??>${plugins.mStockCompany.uscNo?if_exists}</#if>" />
 	  <input type="hidden" id="ustNoId" name="ustNo" />
 	  <input type="hidden" id="tokenId" name="token" />
 	  <br/>
@@ -309,7 +309,6 @@ div.ui-datepicker {
 
 <#include "/apps/common/abilistsPluginsLoadJs.ftl"/>
 <#include "/apps/stock/js/stockJs.ftl"/>
-<#include "/apps/stock/js/stockSearchJs.ftl"/>
 
 <!-- Chart.js -->
 <script src="/static/apps/lib/chart-2.7/Chart.bundle.min.js?2017092301"></script>

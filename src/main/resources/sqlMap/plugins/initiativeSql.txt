@@ -2,9 +2,9 @@ CREATE TABLE IF NOT EXISTS abilists.plugins_user_stock_company (
   usc_no BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   usc_code VARCHAR(200) NULL,
   usc_name VARCHAR(200) NULL,
-  usc_profit INT NULL,
-  usc_dividend INT NULL,
-  usc_payout_ratio INT NULL,
+  usc_profit VARCHAR(15) NULL,
+  usc_dividend VARCHAR(15) NULL,
+  usc_payout_ratio VARCHAR(15) NULL,
   usc_comment VARCHAR(250) NULL,
   usc_status VARCHAR(2) NULL,
   usc_delete CHAR(1) NULL,
@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS abilists.plugins_user_stock_company (
   PRIMARY KEY (usc_no)
 ) ENGINE=innoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE INDEX IF NOT EXISTS idx_plugins_m_stock_company_user_id ON abilists.plugins_m_stock_company (user_id);
-CREATE INDEX IF NOT EXISTS idx_plugins_m_stock_company_msc_name ON abilists.plugins_m_stock_company (msc_name);
+CREATE INDEX IF NOT EXISTS idx_plugins_user_stock_company_user_id ON abilists.plugins_user_stock_company (user_id);
+CREATE INDEX IF NOT EXISTS idx_plugins_user_stock_company_usc_name ON abilists.plugins_user_stock_company (usc_name);
 
 CREATE TABLE IF NOT EXISTS abilists.plugins_user_stock (
   ust_no BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -29,12 +29,12 @@ CREATE TABLE IF NOT EXISTS abilists.plugins_user_stock (
   ust_status VARCHAR(2) NULL,
   ust_delete CHAR(1) NULL,
   user_id VARCHAR(100) NULL,
-  msc_no BIGINT UNSIGNED NULL,
-  msc_name VARCHAR(200) NULL,
+  usc_no BIGINT UNSIGNED NULL,
+  usc_name VARCHAR(200) NULL,
   insert_time TIMESTAMP NULL,
   update_time TIMESTAMP NULL,
   PRIMARY KEY (ust_no)
 ) ENGINE=innoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE INDEX IF NOT EXISTS idx_plugins_user_stock_user_id ON abilists.plugins_user_stock (user_id);
-CREATE INDEX IF NOT EXISTS idx_plugins_user_stock_msc_no ON abilists.plugins_user_stock (msc_no);
+CREATE INDEX IF NOT EXISTS idx_plugins_user_stock_usc_no ON abilists.plugins_user_stock (usc_no);

@@ -4,53 +4,53 @@
 
 <mapper namespace="com.abilists.plugins.stock.dao.SStockDao">
 
-	<select id="sltPluginsMStockCompanyList" parameterType="map" 
-		resultType="com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel">
+	<select id="sltPluginsUserStockCompanyList" parameterType="map" 
+		resultType="com.abilists.plugins.stock.bean.model.PluginsUserStockCompanyModel">
 		SELECT
-			msc_no,
-			msc_code,
-			msc_name,
-			msc_profit,
-			msc_dividend,
-			msc_payout_ratio,
-			msc_comment,
-			msc_status,
-			msc_delete,
+			usc_no,
+			usc_code,
+			usc_name,
+			usc_profit,
+			usc_dividend,
+			usc_payout_ratio,
+			usc_comment,
+			usc_status,
+			usc_delete,
 		  	user_id,
 			insert_time,
 			update_time
 		FROM
-			plugins_m_stock_company
+			plugins_user_stock_company
 		WHERE
 			user_id = #{userId} AND
-			msc_delete = '0'
+			usc_delete = '0'
 		ORDER BY
-			msc_no
+			usc_no
 		LIMIT
 			#{nowPage}, #{row}
 	</select>
 
-	<select id="sltPluginsMStockCompany" parameterType="map" 
-		resultType="com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel">
+	<select id="sltPluginsUserStockCompany" parameterType="map" 
+		resultType="com.abilists.plugins.stock.bean.model.PluginsUserStockCompanyModel">
 		SELECT
-			msc_no,
-			msc_code,
-			msc_name,
-			msc_profit,
-			msc_dividend,
-			msc_payout_ratio,
-			msc_comment,
-			msc_status,
-			msc_delete,
+			usc_no,
+			usc_code,
+			usc_name,
+			usc_profit,
+			usc_dividend,
+			usc_payout_ratio,
+			usc_comment,
+			usc_status,
+			usc_delete,
 		  	user_id,
 			insert_time,
 			update_time
 		FROM
-			plugins_m_stock_company
+			plugins_user_stock_company
 		WHERE
-			msc_no = #{mscNo} AND
+			usc_no = #{uscNo} AND
 			user_id = #{userId} AND
-			msc_delete = '0'
+			usc_delete = '0'
 	</select>
 
 	<select id="sltPluginsUserStockList" parameterType="map" 
@@ -66,15 +66,15 @@
 			ust_comment,
 			ust_status,
 			ust_delete,
-			msc_no,
-			msc_name,
+			usc_no,
+			usc_name,
 		  	user_id,
 			insert_time,
 			update_time
 		FROM
 			plugins_user_stock
 		WHERE
-			msc_no = #{mscNo} AND
+			usc_no = #{uscNo} AND
 			user_id = #{userId} AND
 			ust_delete = '0'
 		ORDER BY
@@ -120,15 +120,15 @@
 			ust_comment,
 			ust_status,
 			ust_delete,
-			msc_no,
-			msc_name,
+			usc_no,
+			usc_name,
 		  	user_id,
 			insert_time,
 			update_time
 		FROM
 			plugins_user_stock
 		WHERE
-			msc_no = #{mscNo} AND
+			usc_no = #{uscNo} AND
 			user_id = #{userId} AND
 			ust_sale_day <![CDATA[>]]> #{ustSaleDay} AND
 			ust_delete = '0'
@@ -136,14 +136,14 @@
 			ust_sale_day, ust_classify
 	</select>
 
-	<select id="sltPluginsMStockCompanySum" parameterType="map" resultType="java.lang.Integer">
+	<select id="sltPluginsUserStockCompanySum" parameterType="map" resultType="java.lang.Integer">
 		SELECT
 			COUNT(*) as cnt
 		FROM
-			plugins_m_stock_company
+			plugins_user_stock_company
 		WHERE
 			user_id = #{userId} AND
-			msc_delete = '0'
+			usc_delete = '0'
 	</select>
 
 	<select id="sltPluginsUserStockSum" parameterType="map" resultType="java.lang.Integer">
@@ -152,55 +152,36 @@
 		FROM
 			plugins_user_stock
 		WHERE
-			msc_no = #{mscNo} AND
+			usc_no = #{uscNo} AND
 			user_id = #{userId} AND
 			ust_delete = '0'
 	</select>
 
-	<select id="srhMStockCompany" parameterType="map" resultType="com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel">
+	<select id="srhUserStockCompanyList" parameterType="map" 
+		resultType="com.abilists.plugins.stock.bean.model.PluginsUserStockCompanyModel">
 		SELECT
-  			msc_name
-		FROM
-			plugins_m_stock_company
-		WHERE
-	    <if test="userId != null and userId != ''">
-			user_id like '${userId}%' AND
-	    </if> 
-	    <if test="ustName != null and ustName != ''">
-			msc_name like '%${mscName}%' AND
-	    </if> 
-	    	ust_delete = '0'
-		ORDER BY
-			msc_name
-		LIMIT
-			#{nowPage}, #{row}
-	</select>
-
-	<select id="srhMStockCompanyList" parameterType="map" 
-		resultType="com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel">
-		SELECT
-			msc_no,
-			msc_code,
-			msc_name,
-			msc_profit,
-			msc_dividend,
-			msc_payout_ratio,
-			msc_comment,
-			msc_status,
-			msc_delete,
+			usc_no,
+			usc_code,
+			usc_name,
+			usc_profit,
+			usc_dividend,
+			usc_payout_ratio,
+			usc_comment,
+			usc_status,
+			usc_delete,
 		  	user_id,
 			insert_time,
 			update_time
 		FROM
-			plugins_m_stock_company
+			plugins_user_stock_company
 		WHERE
 			user_id = #{userId} AND
-	    <if test="ustName != null and ustName != ''">
-			msc_name like '%${mscName}%' AND
+	    <if test="uscName != null and uscName != ''">
+			usc_name like '%${uscName}%' AND
 	    </if>
-			msc_delete = '0'
+			usc_delete = '0'
 		ORDER BY
-			msc_name
+			usc_name
 		LIMIT
 			#{nowPage}, #{row}
 	</select>

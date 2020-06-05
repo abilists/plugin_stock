@@ -4,16 +4,16 @@ import base.bean.para.CommonPara;
 
 public class SltStockPara extends CommonPara {
 
-	private String mscNo;
+	private String uscNo;
 	private String ustNo;
 	private String ustSaleDay;
 	
 	public String getMscNo() {
-		return mscNo;
+		return uscNo;
 	}
 
-	public void setMscNo(String mscNo) {
-		this.mscNo = mscNo;
+	public void setMscNo(String uscNo) {
+		this.uscNo = uscNo;
 	}
 
 	public String getUstNo() {

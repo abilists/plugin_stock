@@ -92,7 +92,7 @@ function autoSrhItem(e, num, url, ojb) {
                 		focus: function( event, ui ) {return false;},
                 		select: function( event, ui ) {
                     		if(ojb.name == "srhContents") {
-                				var str = ui.item.mscName;
+                				var str = ui.item.uscName;
                 				$inputSname.val( str );
                     		} else {
                     			console.log("Error search in select");
@@ -103,7 +103,7 @@ function autoSrhItem(e, num, url, ojb) {
                 		var uiAuto;
                 		if(ojb.name == "srhContents") {
                 			var uiAuto = $( "<li>" ).attr( "data-value", item.userId );
-            				var str = item.mscName;
+            				var str = item.uscName;
             				uiAuto.append('<span>' + str + '</span>');
 
                 		} else {

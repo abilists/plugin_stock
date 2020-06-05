@@ -18,15 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.abilists.bean.para.admin.SrhAutoCompletePara;
 import com.abilists.core.service.AbilistsAbstractService;
 import com.abilists.plugins.stock.bean.StockCountChartsBean;
-import com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel;
+import com.abilists.plugins.stock.bean.model.PluginsUserStockCompanyModel;
 import com.abilists.plugins.stock.bean.model.PluginsUserStockModel;
-import com.abilists.plugins.stock.bean.para.DltMStockCompanyPara;
+import com.abilists.plugins.stock.bean.para.DltStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.DltStockPara;
-import com.abilists.plugins.stock.bean.para.IstMStockCompanyPara;
+import com.abilists.plugins.stock.bean.para.IstStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.IstStockPara;
-import com.abilists.plugins.stock.bean.para.SltMStockCompanyPara;
+import com.abilists.plugins.stock.bean.para.SltStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.SltStockPara;
-import com.abilists.plugins.stock.bean.para.UdtMStockCompanyPara;
+import com.abilists.plugins.stock.bean.para.UdtStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.UdtStockPara;
 import com.abilists.plugins.stock.dao.MStockDao;
 import com.abilists.plugins.stock.dao.SStockDao;
@@ -46,8 +46,8 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
     private Configuration configuration;
 
 	@Override
-	public List<PluginsMStockCompanyModel> sltMStockCompanyList(CommonPara commonPara) throws Exception {
-		List<PluginsMStockCompanyModel> masterStockCompanyList = null;
+	public List<PluginsUserStockCompanyModel> sltStockCompanyList(CommonPara commonPara) throws Exception {
+		List<PluginsUserStockCompanyModel> masterStockCompanyList = null;
 
 		// Get now page
 		int nowPage = commonPara.getNowPage();
@@ -59,7 +59,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 
 		try {
 			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
-			masterStockCompanyList = sAbilistsDao.getMapper(SStockDao.class).sltPluginsMStockCompanyList(map);
+			masterStockCompanyList = sAbilistsDao.getMapper(SStockDao.class).sltPluginsUserStockCompanyList(map);
 		} catch (Exception e) {
 			logger.error("sltStockList Exception error", e);
 		}
@@ -68,16 +68,16 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 	}
 
 	@Override
-	public PluginsMStockCompanyModel sltMStockCompany(SltMStockCompanyPara sltMStockCompanyPara) throws Exception {
-		PluginsMStockCompanyModel masterStockCompany = null;
+	public PluginsUserStockCompanyModel sltStockCompany(SltStockCompanyPara sltMStockCompanyPara) throws Exception {
+		PluginsUserStockCompanyModel masterStockCompany = null;
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("mscNo", sltMStockCompanyPara.getMscNo());
+		map.put("uscNo", sltMStockCompanyPara.getUscNo());
 		map.put("userId", sltMStockCompanyPara.getUserId());
 
 		try {
 			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
-			masterStockCompany = sAbilistsDao.getMapper(SStockDao.class).sltPluginsMStockCompany(map);
+			masterStockCompany = sAbilistsDao.getMapper(SStockDao.class).sltPluginsUserStockCompany(map);
 		} catch (Exception e) {
 			logger.error("sltMStockCompany Exception error", e);
 		}
@@ -95,7 +95,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ustSaleDay", beforeOneYear);
-		map.put("mscNo", sltStockPara.getMscNo());
+		map.put("uscNo", sltStockPara.getMscNo());
 		map.put("userId", sltStockPara.getUserId());
 
 		try {
@@ -104,13 +104,6 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		} catch (Exception e) {
 			logger.error("sltStockList Exception error", e);
 		}
-
-		// Just backu-up source
-//		List<PluginsUserStockModel> pluginsUserStockClone = new ArrayList<>();
-//		Iterator<PluginsUserStockModel> iterator = stockForChartList.iterator();
-//      while(iterator.hasNext()){
-//      	pluginsUserStockClone.add((PluginsUserStockModel)iterator.next().clone());
-//      }
 
 		Map<String, StockCountChartsBean> mapStockCountCharts = new TreeMap<String, StockCountChartsBean>();
 		format = new SimpleDateFormat("MM/dd");
@@ -177,7 +170,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		int nowPage = sltStockPara.getNowPage();
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("mscNo", sltStockPara.getMscNo());
+		map.put("uscNo", sltStockPara.getMscNo());
 		map.put("userId", sltStockPara.getUserId());
 		map.put("nowPage", (nowPage - 1) * configuration.getInt("paging.row.ten"));
 		map.put("row", configuration.getInt("paging.row.ten"));
@@ -211,14 +204,14 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 	}
 
 	@Override
-	public int sltMasterStockCompanySum(CommonPara commonPara) throws Exception {
+	public int sltStockCompanySum(CommonPara commonPara) throws Exception {
 		int sum = 0;
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userId", commonPara.getUserId());
 
 		try {
-			sum = sAbilistsDao.getMapper(SStockDao.class).sltPluginsMStockCompanySum(map);
+			sum = sAbilistsDao.getMapper(SStockDao.class).sltPluginsUserStockCompanySum(map);
 		} catch (Exception e) {
 			logger.error("Exception error", e);
 		}
@@ -232,7 +225,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userId", sltStockPara.getUserId());
-		map.put("mscNo", sltStockPara.getMscNo());
+		map.put("uscNo", sltStockPara.getMscNo());
 
 		try {
 			sum = sAbilistsDao.getMapper(SStockDao.class).sltPluginsUserStockSum(map);
@@ -244,22 +237,22 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 	}
 
 	@Override
-	public List<PluginsMStockCompanyModel> srhMStockCompanyList(SrhAutoCompletePara srhAutoCompletePara) throws Exception {
+	public List<PluginsUserStockCompanyModel> srhStockCompanyList(SrhAutoCompletePara srhAutoCompletePara) throws Exception {
 		
-		List<PluginsMStockCompanyModel> masterStockCompanyList = null;
+		List<PluginsUserStockCompanyModel> masterStockCompanyList = null;
 
 		// Get now page
 		int nowPage = srhAutoCompletePara.getNowPage();
 	
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userId", srhAutoCompletePara.getUserId());
-		map.put("mscName", srhAutoCompletePara.getSrhContents());
+		map.put("uscName", srhAutoCompletePara.getSrhContents());
 		map.put("nowPage", (nowPage - 1) * configuration.getInt("paging.row.ten"));
 		map.put("row", configuration.getInt("paging.row.ten"));
 
 		try {
 			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
-			masterStockCompanyList = sAbilistsDao.getMapper(SStockDao.class).sltPluginsMStockCompanyList(map);
+			masterStockCompanyList = sAbilistsDao.getMapper(SStockDao.class).srhUserStockCompanyList(map);
 		} catch (Exception e) {
 			logger.error("sltStockList Exception error", e);
 		}
@@ -268,21 +261,21 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 	}
 
 	@Override
-	public List<PluginsMStockCompanyModel> srhMStockCompany(SrhAutoCompletePara srhAutoCompletePara) throws Exception {
+	public List<PluginsUserStockCompanyModel> srhStockCompany(SrhAutoCompletePara srhAutoCompletePara) throws Exception {
 	
-		List<PluginsMStockCompanyModel> masterStockCompanyList = null;
+		List<PluginsUserStockCompanyModel> masterStockCompanyList = null;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 	
 		map.put("userId", srhAutoCompletePara.getUserId());
 		// Key is title, Value is Contents.
-		map.put("mscName", srhAutoCompletePara.getSrhContents());
+		map.put("uscName", srhAutoCompletePara.getSrhContents());
 		map.put("nowPage", 0);
 		map.put("row", configuration.getInt("paging.row.ten"));
 
 		try {
 			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
-			masterStockCompanyList = sAbilistsDao.getMapper(SStockDao.class).srhMStockCompanyList(map);
+			masterStockCompanyList = sAbilistsDao.getMapper(SStockDao.class).srhUserStockCompanyList(map);
 		} catch (Exception e) {
 			logger.error("Exception error", e);
 			throw e;
@@ -293,20 +286,21 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 
 	@Transactional(rollbackFor = {IllegalArgumentException.class, Exception.class}, propagation = Propagation.REQUIRES_NEW)
 	@Override
-	public boolean istMStockCompany(IstMStockCompanyPara istMasterStockCompanyPara) throws Exception {
+	public boolean istStockCompany(IstStockCompanyPara istStockCompanyPara) throws Exception {
 		int intResult = 0;
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("mscCode", istMasterStockCompanyPara.getMscCode());
-		map.put("mscName", istMasterStockCompanyPara.getMscName());
-		map.put("mscProfit", istMasterStockCompanyPara.getMscProfit());
-		map.put("mscDividend", istMasterStockCompanyPara.getMscDividend());
-		map.put("mscPayoutRatio", istMasterStockCompanyPara.getMscPayoutRatio());
-		map.put("mscComment", istMasterStockCompanyPara.getMscComment());
-		map.put("userId", istMasterStockCompanyPara.getUserId());
+		
+		map.put("uscCode", istStockCompanyPara.getUscCode());
+		map.put("uscName", istStockCompanyPara.getUscName());
+		map.put("uscProfit", istStockCompanyPara.getUscProfit());
+		map.put("uscDividend", istStockCompanyPara.getUscDividend());
+		map.put("uscPayoutRatio", istStockCompanyPara.getUscPayoutRatio());
+		map.put("uscComment", istStockCompanyPara.getUscComment());
+		map.put("userId", istStockCompanyPara.getUserId());
 
 		try {
-			intResult = mAbilistsDao.getMapper(MStockDao.class).istPluginsMStockCompany(map);
+			intResult = mAbilistsDao.getMapper(MStockDao.class).istPluginsUserStockCompany(map);
 
 		} catch (IndexOutOfBoundsException ie) {
 			logger.error("IndexOutOfBoundsException error", ie);
@@ -341,8 +335,8 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		map.put("ustSaleCnt", intSaleCnt);
 		map.put("ustSaleFee", istStockPara.getUstSaleFee());
 		map.put("ustComment", istStockPara.getUstComment());
-		map.put("mscNo", istStockPara.getMscNo());
-		map.put("mscName", istStockPara.getMscName());
+		map.put("uscNo", istStockPara.getUscNo());
+		map.put("uscName", istStockPara.getUscName());
 		map.put("userId", istStockPara.getUserId());
 
 		try {
@@ -366,28 +360,31 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 
 	@Transactional(rollbackFor = {IllegalArgumentException.class, Exception.class}, propagation = Propagation.REQUIRES_NEW)
 	@Override
-	public boolean udtMStockCompany(UdtMStockCompanyPara udtMasterStockCompanyPara) throws Exception {
+	public boolean udtStockCompany(UdtStockCompanyPara udtStockCompanyPara) throws Exception {
 
 		int intResult = 0;
 
+		//
+		//int intMscProfit = udtMasterStockCompanyPara.getMscProfit();
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("mscNo", udtMasterStockCompanyPara.getMscNo());
-		map.put("mscCode", udtMasterStockCompanyPara.getMscCode());
-		map.put("mscName", udtMasterStockCompanyPara.getMscName());
-		map.put("mscProfit", udtMasterStockCompanyPara.getMscProfit());
-		map.put("mscDividend", udtMasterStockCompanyPara.getMscDividend());
-		map.put("mscPayoutRatio", udtMasterStockCompanyPara.getMscPayoutRatio());
-		map.put("mscComment", udtMasterStockCompanyPara.getMscComment());
-		map.put("userId", udtMasterStockCompanyPara.getUserId());
+		map.put("uscNo", udtStockCompanyPara.getUscNo());
+		map.put("uscCode", udtStockCompanyPara.getUscCode());
+		map.put("uscName", udtStockCompanyPara.getUscName());
+		map.put("uscProfit", udtStockCompanyPara.getUscProfit());
+		map.put("uscDividend", udtStockCompanyPara.getUscDividend());
+		map.put("uscPayoutRatio", udtStockCompanyPara.getUscPayoutRatio());
+		map.put("uscComment", udtStockCompanyPara.getUscComment());
+		map.put("userId", udtStockCompanyPara.getUserId());
 
 		try {
-			intResult = mAbilistsDao.getMapper(MStockDao.class).udtPluginsMStockCompany(map);
+			intResult = mAbilistsDao.getMapper(MStockDao.class).udtPluginsUserStockCompany(map);
 		} catch (Exception e) {
 			logger.error("Exception error", e);
 		}
 
 		if(intResult < 1) {
-			logger.error("udtStock error, userId={}", udtMasterStockCompanyPara.getUserId());
+			logger.error("udtPluginsUserStockCompany error, userId={}", udtStockCompanyPara.getUserId());
 			return false;
 		}
 
@@ -413,8 +410,8 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		map.put("ustSaleCnt", intSaleCnt);
 		map.put("ustSaleFee", udtStockPara.getUstSaleFee());
 		map.put("ustComment", udtStockPara.getUstComment());
-		map.put("mscNo", udtStockPara.getMscNo());
-		map.put("mscName", udtStockPara.getMscName());
+		map.put("uscNo", udtStockPara.getMscNo());
+		map.put("uscName", udtStockPara.getMscName());
 		map.put("userId", udtStockPara.getUserId());
 
 		try {
@@ -433,11 +430,11 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	@Override
-	public boolean dltMStockCompany(DltMStockCompanyPara dltMasterStockCompanyPara) throws Exception {
+	public boolean dltStockCompany(DltStockCompanyPara dltMasterStockCompanyPara) throws Exception {
 		int intResult = 0;
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("mscNo", dltMasterStockCompanyPara.getMscNo());
+		map.put("uscNo", dltMasterStockCompanyPara.getUscNo());
 		map.put("userId", dltMasterStockCompanyPara.getUserId());
 
 		try {
@@ -447,7 +444,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		}
 
 		if(intResult < 1) {
-			logger.error("dltMasterStockCompany error, mscNo={}, userId={}", dltMasterStockCompanyPara.getMscNo(), dltMasterStockCompanyPara.getUserId());
+			logger.error("dltMasterStockCompany error, uscNo={}, userId={}", dltMasterStockCompanyPara.getUscNo(), dltMasterStockCompanyPara.getUserId());
 			return false;
 		}
 

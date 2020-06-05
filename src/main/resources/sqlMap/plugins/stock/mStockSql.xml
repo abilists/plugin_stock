@@ -4,26 +4,26 @@
 
 <mapper namespace="com.abilists.plugins.stock.dao.MStockDao">
 
-	<insert id="istPluginsMStockCompany" parameterType="map">
-		INSERT INTO plugins_m_stock_company (
-			msc_code,
-			msc_name,
-			msc_profit,
-			msc_dividend,
-			msc_payout_ratio,
-			msc_comment,
-			msc_status,
-			msc_delete,
+	<insert id="istPluginsUserStockCompany" parameterType="map">
+		INSERT INTO plugins_user_stock_company (
+			usc_code,
+			usc_name,
+			usc_profit,
+			usc_dividend,
+			usc_payout_ratio,
+			usc_comment,
+			usc_status,
+			usc_delete,
 		  	user_id,
 			insert_time,
 			update_time
 		) VALUES (
-			#{mscCode},
-			#{mscName},
-			#{mscProfit},
-			#{mscDividend},
-			#{mscPayoutRatio},
-			#{mscComment},
+			#{uscCode},
+			#{uscName},
+			#{uscProfit},
+			#{uscDividend},
+			#{uscPayoutRatio},
+			#{uscComment},
 			'0',
 			'0',
 			#{userId},
@@ -44,7 +44,7 @@
 			ust_status,
 			ust_delete,
 		  	user_id,
-		  	msc_no,
+		  	usc_no,
 			insert_time,
 			update_time
 		) VALUES (
@@ -58,27 +58,27 @@
 			'0',
 			'0',
 			#{userId},
-			#{mscNo},
+			#{uscNo},
 			now(),
 			now()
 		)
 	</insert>
 
-	<update id="udtPluginsMStockCompany" parameterType="map">
+	<update id="udtPluginsUserStockCompany" parameterType="map">
 		UPDATE 
-			plugins_m_stock_company
+			plugins_user_stock_company
 		SET
-			msc_code = #{mscCode},
-			msc_name = #{mscName},
-			msc_profit = #{mscProfit},
-			msc_dividend = #{mscDividend},
-			msc_payout_ratio = #{mscPayoutRatio},
-			msc_comment = #{mscComment},
+			usc_code = #{uscCode},
+			usc_name = #{uscName},
+			usc_profit = #{uscProfit},
+			usc_dividend = #{uscDividend},
+			usc_payout_ratio = #{uscPayoutRatio},
+			usc_comment = #{uscComment},
 			update_time = now()
 		WHERE
-			msc_no = #{mscNo} AND
+			usc_no = #{uscNo} AND
 			user_id = #{userId} AND
-			msc_delete = '0'
+			usc_delete = '0'
 	</update>
 
 	<update id="udtPluginsUserStock" parameterType="map">
@@ -94,14 +94,14 @@
 			update_time = now()
 		WHERE
 			ust_no = #{ustNo} AND
-			msc_no = #{mscNo} AND
+			usc_no = #{uscNo} AND
 			user_id = #{userId} AND
 			ust_delete = '0'
 	</update>
 
-	<update id="dltPluginsMStockCompany" parameterType="map">
+	<update id="dltPluginsUserStockCompany" parameterType="map">
 		UPDATE 
-			plugins_m_stock_company
+			plugins_user_stock_company
 		SET
 			ust_delete = '1',
 			update_time = now()

@@ -12,6 +12,7 @@ var data3 = {
 		</#if>
 		],
 	datasets: [{
+		type: 'bar',
 		label: '주식수',
 		fill: false,
 		backgroundColor: window.chartColors.red,
@@ -23,9 +24,23 @@ var data3 = {
 	    </#list>
 		</#if>
 		]
+	},{
+		type: 'line',
+		label: '주식수',
+		fill: false,
+		backgroundColor: window.chartColors.blue,
+		borderColor: window.chartColors.blue,
+		data: [
+	    <#if plugins.mapStockChart??>
+		<#list plugins.mapStockChart?keys as key>
+		"${plugins.mapStockChart[key].saleLeftCount?if_exists}"<#if key?has_next>,</#if>
+	    </#list>
+		</#if>
+		]
 	}],
 	borderWidth: 1
 };
+
 var option3 = {
 	responsive: true,
 	title: {

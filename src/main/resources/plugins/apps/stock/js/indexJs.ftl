@@ -28,43 +28,45 @@ function confirmData(tableName) {
 
 var companyStockInput = document.getElementById("companyStockId");
 
-var mscNoInput = document.getElementById("mscNoId");
-var mscCodeInput = document.getElementById("mscCodeId");
-var mscNameInput = document.getElementById("mscNameId");
-var mscProfitInput = document.getElementById("mscProfitId");
-var mscDividendInput = document.getElementById("mscDividendId");
-var mscPayoutRatioInput = document.getElementById("mscPayoutRatioId");
-var mscCommentInput = document.getElementById("mscCommentId");
+var uscNoInput = document.getElementById("uscNoId");
+var uscCodeInput = document.getElementById("uscCodeId");
+var uscNameInput = document.getElementById("uscNameId");
+var uscProfitInput = document.getElementById("uscProfitId");
+var uscDividendInput = document.getElementById("uscDividendId");
+var uscPayoutRatioInput = document.getElementById("uscPayoutRatioId");
+var uscCommentInput = document.getElementById("uscCommentId");
 
 var tokenInput = document.getElementById("tokenId");
 
-function selectMasterStockCompany(x, mscNo) {
+function selectStockCompany(x, uscNo) {
 
 	$("#udtMdataFormId").insertAfter($(x));
 
 	$(document).ready(function() {
         $.ajax({
             type: 'POST',
-            url: '${configBean.contextPath?if_exists}/plugins/stock/sltMStockCompanyAjax',
+            url: '${configBean.contextPath?if_exists}/plugins/stock/sltStockCompanyAjax',
             contentType: "application/json",
             dataType: "json",
-            data: '{ "mscNo" : "' + mscNo + '", "token" : "' + tokenInput.value + '"}',
+            data: '{ "uscNo" : "' + uscNo + '", "token" : "' + tokenInput.value + '"}',
             cache: false,
             beforeSend: function(xhr, settings) {
             	console.log("before send");
             },
             success: function(data, textStatus, request) {
             	if(!isBlank(data)) {
-            		mscNoInput.value = data.mscNo;
-            		mscCodeInput.value = data.mscCode;
-            		mscNameInput.value = data.mscName;
-            		mscProfitInput.value = data.mscProfit;
-            		mscDividendInput.value = data.mscDividend;
-            		mscPayoutRatioInput.value = data.mscPayoutRatio;
-            		mscCommentInput.value = data.mscComment;
+            		uscNoInput.value = data.uscNo;
+            		uscCodeInput.value = data.uscCode;
+            		uscNameInput.value = data.uscName;
+            		uscProfitInput.value = data.uscProfit;
+            		uscDividendInput.value = data.uscDividend;
+            		uscPayoutRatioInput.value = data.uscPayoutRatio;
+            		uscCommentInput.value = data.uscComment;
             		
-            		companyStockInput.href = "${configBean.contextPath?if_exists}/plugins/stock/sltStockList/" + data.mscNo;
-
+            		console.log("--- start --- ");
+            		companyStockInput.href = "${configBean.contextPath?if_exists}/plugins/stock/sltStockList/" + data.uscNo;
+            		console.log("--- end --- ");
+            		
             		tokenInput.value = data.token;
             	}
             },
@@ -88,13 +90,13 @@ function newFormToggle() {
 	$("#newMdataFormId").slideToggle("slow");
 	$("#newToggleId").toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
 
-	mscNoInput = "";
-	mscCodeInput = "";
-	mscNameInput = "";
-	mscProfitInput = "";
-	mscDividendInput = "";
-	mscPayoutRatioInput = "";
-	mscCommentInput = "";
+	uscNoInput = "";
+	uscCodeInput = "";
+	uscNameInput = "";
+	uscProfitInput = "";
+	uscDividendInput = "";
+	uscPayoutRatioInput = "";
+	uscCommentInput = "";
 
 	udtFormCancel();
 }

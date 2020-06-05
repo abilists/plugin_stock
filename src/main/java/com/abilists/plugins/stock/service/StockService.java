@@ -6,15 +6,15 @@ import java.util.Map;
 import com.abilists.bean.para.admin.SrhAutoCompletePara;
 import com.abilists.core.service.PagingService;
 import com.abilists.plugins.stock.bean.StockCountChartsBean;
-import com.abilists.plugins.stock.bean.model.PluginsMStockCompanyModel;
+import com.abilists.plugins.stock.bean.model.PluginsUserStockCompanyModel;
 import com.abilists.plugins.stock.bean.model.PluginsUserStockModel;
-import com.abilists.plugins.stock.bean.para.DltMStockCompanyPara;
+import com.abilists.plugins.stock.bean.para.DltStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.DltStockPara;
-import com.abilists.plugins.stock.bean.para.IstMStockCompanyPara;
+import com.abilists.plugins.stock.bean.para.IstStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.IstStockPara;
-import com.abilists.plugins.stock.bean.para.SltMStockCompanyPara;
+import com.abilists.plugins.stock.bean.para.SltStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.SltStockPara;
-import com.abilists.plugins.stock.bean.para.UdtMStockCompanyPara;
+import com.abilists.plugins.stock.bean.para.UdtStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.UdtStockPara;
 
 import base.bean.para.CommonPara;
@@ -22,8 +22,8 @@ import base.bean.para.CommonPara;
 public interface StockService extends PagingService {
 
 	// Company List
-	public List<PluginsMStockCompanyModel> sltMStockCompanyList(CommonPara commonPara) throws Exception;
-	public PluginsMStockCompanyModel sltMStockCompany(SltMStockCompanyPara sltMStockCompanyPara) throws Exception;
+	public List<PluginsUserStockCompanyModel> sltStockCompanyList(CommonPara commonPara) throws Exception;
+	public PluginsUserStockCompanyModel sltStockCompany(SltStockCompanyPara sltMStockCompanyPara) throws Exception;
 
 	public Map<String, StockCountChartsBean> sltStockChartMap(SltStockPara sltStockPara) throws CloneNotSupportedException;
 
@@ -31,19 +31,19 @@ public interface StockService extends PagingService {
 	public List<PluginsUserStockModel> sltStockList(SltStockPara sltStockPara) throws Exception;
 	public PluginsUserStockModel sltStock(SltStockPara sltStockPara) throws Exception;
 
-	public int sltMasterStockCompanySum(CommonPara commonPara) throws Exception;
+	public int sltStockCompanySum(CommonPara commonPara) throws Exception;
 	public int sltStockSum(SltStockPara sltStockPara) throws Exception;
 
-	public List<PluginsMStockCompanyModel> srhMStockCompany(SrhAutoCompletePara srhAutoCompletePara) throws Exception;
-	public List<PluginsMStockCompanyModel> srhMStockCompanyList(SrhAutoCompletePara srhAutoCompletePara) throws Exception;
+	public List<PluginsUserStockCompanyModel> srhStockCompany(SrhAutoCompletePara srhAutoCompletePara) throws Exception;
+	public List<PluginsUserStockCompanyModel> srhStockCompanyList(SrhAutoCompletePara srhAutoCompletePara) throws Exception;
 
-	public boolean istMStockCompany(IstMStockCompanyPara istMasterStockCompanyPara) throws Exception;
+	public boolean istStockCompany(IstStockCompanyPara istMasterStockCompanyPara) throws Exception;
 	public boolean istStock(IstStockPara istStockPara) throws Exception;
 
-	public boolean udtMStockCompany(UdtMStockCompanyPara udtMasterStockCompanyPara) throws Exception;
+	public boolean udtStockCompany(UdtStockCompanyPara udtMasterStockCompanyPara) throws Exception;
 	public boolean udtStock(UdtStockPara udtStockPara) throws Exception;
 
-	public boolean dltMStockCompany(DltMStockCompanyPara dltMasterStockCompanyPara) throws Exception;
+	public boolean dltStockCompany(DltStockCompanyPara dltMasterStockCompanyPara) throws Exception;
 	public boolean dltStock(DltStockPara dltStockPara) throws Exception;
 
 }

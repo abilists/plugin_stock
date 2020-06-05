@@ -43,6 +43,20 @@ function isNumber(evt) {
     }
     return true;
 }
+
+function isAllNumber(obj) {
+	
+	var numbers = /^[-+]?[0-9]+$/;
+
+	if(obj.value.match(numbers)) {
+		console.log("this is a number");
+		return true;
+	} else {
+		console.log("error");
+		return false;
+	}
+}
+
 /**
  * How to use 
  * onkeypress="return isAlphabets(event)"
