@@ -446,7 +446,7 @@ public class StockController extends CommonAbilistsController {
 			throws Exception {
 
 		AbilistsModel abilistsModel = new AbilistsModel();
-		abilistsModel.setNavi("works");
+		abilistsModel.setNavi("plugins");
 		abilistsModel.setMenu("stock");
 
 		// Set language in Locale.
@@ -493,7 +493,7 @@ public class StockController extends CommonAbilistsController {
 			throws Exception {
 
 		AbilistsModel abilistsModel = new AbilistsModel();
-		abilistsModel.setNavi("works");
+		abilistsModel.setNavi("plugins");
 		abilistsModel.setMenu("stock");
 
 		// Set language in Locale.
@@ -531,7 +531,7 @@ public class StockController extends CommonAbilistsController {
 
 		// Pass the parameters with post.
 		redirectAttributes.addFlashAttribute("save", "completed");
-		return "redirect:/plugins/stock/sltStockList/" + dltStockPara.getMscNo();
+		return "redirect:/plugins/stock/sltStockList/" + dltStockPara.getUscNo();
 	}
 
 }

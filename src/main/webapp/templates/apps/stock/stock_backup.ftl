@@ -157,6 +157,7 @@
 	</div>
 
 	<div id="userStockId">
+		
 		<div id="stockTableId" style="border: 1px solid #CDCDCD;">
 		<div>
 	    <ul class="table-ul table-ul-header ul-table ul-thead">
@@ -198,6 +199,7 @@
 		</#if>
 		</div>
 		</div>
+		
 	</div>
 	<br/>
 	<nav class="text-center">

@@ -12,7 +12,7 @@
 		<h3>
 			<ol class="breadcrumb-std">
 			  <li><a href="/admin/"><@spring.message "admin.menu.plugins"/></a></li>
-			  <li class="active">샘플 관리자 화면</li>
+			  <li class="active">주식 관리자 화면</li>
 			</ol>
 		</h3>
 	</div>
@@ -32,19 +32,25 @@
 		<div id="timeTableId" style="border: 1px solid #CDCDCD;">
 		<div>
 	    <ul class="table-ul table-ul-header">
-	    	<li class="time-li6">아이디</li>
-	    	<li class="time-li1">번호</li>
-	        <li class="time-li2">쌤플</li>
-	        <li class="time-li3">날짜</li>
+	    	<li style="width: 30px;">No</li>
+	        <li style="width: 150px;">종목코드</li>
+	    	<li style="width: 150px;">종목이름</li>
+	        <li style="width: 100px;">당기순이익(억원)</li>
+	        <li style="width: 100px;">주당배당금(원)</li>
+	        <li style="width: 100px;">배당성향(%)</li>
+	        <li style="width: 100px;">입력한 날짜</li>
 	    </ul>
 	    <#if plugins??>
-	    <#if plugins.sampleList?has_content>
-	    <#list plugins.sampleList as sample>
-		    <ul class="table-ul bg-color ul-hover"">
-		    	<li class="time-li6">${sample.userId?if_exists}</li>
-			    <li class="time-li1">${sample.usmNo?if_exists}</li>
-			    <li class="time-li2">${sample.usmSample?if_exists}</li>
-			    <li class="time-li3">${sample.insertTime?string('yyyy-MM-dd HH:mm:ss')?if_exists}</li>
+	    <#if plugins.mStockCompanyList?has_content>
+	    <#list plugins.mStockCompanyList as mStockCompany>
+		    <ul class="table-ul bg-color ul-hover ul-table" onmouseover="overChangeColor(this);" onmouseout="outChangeColor(this);" onclick="selectStockCompany(this, '${mStockCompany.uscNo?if_exists}');">
+		    	<li style="width: 30px;">${mStockCompany.uscNo?if_exists}</li>
+		    	<li style="width: 150px;">${mStockCompany.uscCode?if_exists}</li>
+		    	<li style="width: 150px;">${mStockCompany.uscName?if_exists}</li>
+		    	<li style="width: 100px;"><#if mStockCompany.uscProfit??>${mStockCompany.uscProfit?if_exists}</#if></li>
+	        	<li style="width: 100px;"><#if mStockCompany.uscDividend??>${mStockCompany.uscDividend?if_exists}</#if></li>
+	        	<li style="width: 100px;"><#if mStockCompany.uscPayoutRatio??>${mStockCompany.uscPayoutRatio?if_exists}</#if></li>
+		        <li style="width: 100px;"><#if mStockCompany.updateTime??>${mStockCompany.updateTime?string('yyyy-MM-dd hh:mm:ss')?if_exists}</#if></li>
 		    </ul>
 		</#list>
 		</#if>
@@ -59,19 +65,19 @@
 	    <#if model?exists>
 	  	<#if model.paging?exists>
 			<#if model.paging.prevPage?exists>
-			<li><a href="/admin/plugins/sample?nowPage=${model.paging.prevPage.nowPage}&allCount=${model.paging.allCount?c}" title="Prev" accesskey="*">Prev</span></a></li>
+			<li><a href="/admin/plugins/stock?nowPage=${model.paging.prevPage.nowPage}&allCount=${model.paging.allCount?c}" title="Prev" accesskey="*">Prev</span></a></li>
 			</#if>
 			<#if model.paging.pagingInfoList?has_content>
 				<#list model.paging.pagingInfoList as pageList>
 					<#if model.paging.nowPage?if_exists == pageList.pageNumber?if_exists>
 					<li class="active"><a href="#">${pageList.pageNumber} <span class="sr-only">(current)</span></a></li>
 					<#else>
-					<li><a href="/admin/plugins/sample?nowPage=${pageList.pageNumber}&allCount=${model.paging.allCount?c}">${pageList.pageNumber}</a></li>
+					<li><a href="/admin/plugins/stock?nowPage=${pageList.pageNumber}&allCount=${model.paging.allCount?c}">${pageList.pageNumber}</a></li>
 					</#if>
 				</#list>
 			</#if>
 			<#if model.paging.nextPage?exists>
-			<li><a href="/admin/plugins/sample?nowPage=${model.paging.nextPage.nowPage}&allCount=${model.paging.allCount?c}" accesskey="#" title="Next">Next</a></li>
+			<li><a href="/admin/plugins/stock?nowPage=${model.paging.nextPage.nowPage}&allCount=${model.paging.allCount?c}" accesskey="#" title="Next">Next</a></li>
 			</#if>
 		</#if>
 		</#if>

@@ -58,7 +58,7 @@ var option1 = {
 			display: true,
 			scaleLabel: {
 				display: true,
-				labelString: '주식수'
+				labelString: '매매날짜'
 			}
 		}],
 		yAxes: [{

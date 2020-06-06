@@ -111,8 +111,6 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		for(PluginsUserStockModel pluginsUserStock : stockForChartList) {
 			String keySaleDay = format.format(pluginsUserStock.getUstSaleDay());
 
-			logger.info("saleDay = " + keySaleDay);
-
 			if(mapStockCountCharts.containsKey(keySaleDay)) {
 				StockCountChartsBean stockCountCharts = (StockCountChartsBean)mapStockCountCharts.get(keySaleDay);
 				if(pluginsUserStock.getUstClassify().equals("1")) {
@@ -438,7 +436,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		map.put("userId", dltMasterStockCompanyPara.getUserId());
 
 		try {
-			intResult = mAbilistsDao.getMapper(MStockDao.class).dltPluginsUserStock(map);
+			intResult = mAbilistsDao.getMapper(MStockDao.class).dltPluginsUserStockCompany(map);
 		} catch (Exception e) {
 			logger.error("Exception error", e);
 		}

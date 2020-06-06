@@ -3,8 +3,9 @@
 <@layout.myLayout>
 
 <style>
+
 a.a-button {
-	color:#ece2e2;
+	color:#d3ffd3;
 }
 a.a-button:hover {
 	color:#ffffff;
@@ -17,7 +18,7 @@ div.ui-datepicker {
 </style>
 <div class="caption mittle-size-title" style="background: #4a9c4a !important;">
 <h5>
-	<b><a class="a-button" href="${configBean.contextPath?if_exists}/plugins/stock" role="button"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></b> 종목 회사
+	<b><a class="a-button" href="${configBean.contextPath?if_exists}/plugins/stock" role="button"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span></a></b> 종목 회사
 </h5>
 </div>
 
@@ -32,7 +33,7 @@ div.ui-datepicker {
 </ul>
 
 <#if plugins.mStockCompany??>
-<ul class="table-ul ul-table">
+<ul class="table-ul ul-table" style="background-color: #f1f1f1;">
 	<li style="width: 30px;">${plugins.mStockCompany.uscNo?if_exists}</li>
 	<li style="width: 150px;">${plugins.mStockCompany.uscCode?if_exists}</li>
 	<li style="width: 150px;">${plugins.mStockCompany.uscName?if_exists}</li>
@@ -50,23 +51,7 @@ div.ui-datepicker {
 		  <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">매매 가격</a></li>
 		  <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">매매 주식수</a></li>
 		  <li role="presentation"><a href="#works" aria-controls="profile" role="tab" data-toggle="tab">남은 주식수</a></li>
-
-		  <li style="float: right;">
-			<form id="searchForm" action="${configBean.contextPath?if_exists}/plugins/stock/srhForStock" method="post" onkeydown="return captureReturnKey(event)">
-		    <div id="search0" style="display: table;">
-			    <input name="srhContents" type="text" class="form-control" value="" autocomplete="off" autocorrect="off" autocapitilize="off"
-			    		data-toggle="popover" data-trigger="manual" data-placement="top" 
-			    			title="Popover title" data-content="Default popover"
-			    				placeholder="Search for Name" onkeydown="interverKeystroke(event, 0, '/plugins/stock/srhForStockAjax', this);">
-			    <span class="input-group-btn" style="width:10%;">
-			      <button class="btn btn-default" style="padding: 9px;" type="submit">
-			      	<i class="glyphicon glyphicon-search" style="top: 1px;"></i>
-			      </button>
-			    </span>
-		    </div><!-- /input-group -->
-		    </form>
-	      </li>
-
+		  <li style="float: right;"></li>
 		</ul>
 		<div class="tab-content">
 		  <div role="tabpanel" class="tab-pane active" id="home">
@@ -85,10 +70,10 @@ div.ui-datepicker {
 
 <div class="row">
 <div class="col-sm-12">
-	<div class="caption mittle-size-title">
+	<div class="caption mittle-size-title" style="background: #12ad12 !important;">
 		<h5>
 			<b>주식 관리</b>
-			<span id="newToggleId" class="glyphicon glyphicon-chevron-down right-symbol-works-button" aria-hidden="true" onClick="newFormToggle();"></span>
+			<span id="newToggleId" class="glyphicon glyphicon-chevron-down right-symbol-works-button" style="color: #ffffff;" aria-hidden="true" onClick="newFormToggle();"></span>
 		</h5>
 	</div>
 

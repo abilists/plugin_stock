@@ -70,7 +70,7 @@ var option3 = {
 			},
 			scaleLabel: {
 				display: true,
-				labelString: '주식 수'
+				labelString: '매매날짜'
 			}
 		}]
 	}

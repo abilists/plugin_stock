@@ -103,10 +103,10 @@
 		UPDATE 
 			plugins_user_stock_company
 		SET
-			ust_delete = '1',
+			usc_delete = '1',
 			update_time = now()
 		WHERE
-			ust_no = #{ustNo}
+			usc_no = #{uscNo}
 	</update>
 
 	<update id="dltPluginsUserStock" parameterType="map">

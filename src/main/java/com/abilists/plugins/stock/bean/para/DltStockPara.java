@@ -7,10 +7,10 @@ public class DltStockPara extends CommonPara {
 	private int uscNo;
 	private int ustNo;
 
-	public int getMscNo() {
+	public int getUscNo() {
 		return uscNo;
 	}
-	public void setMscNo(int uscNo) {
+	public void setUscNo(int uscNo) {
 		this.uscNo = uscNo;
 	}
 	public int getUstNo() {
@@ -19,5 +19,6 @@ public class DltStockPara extends CommonPara {
 	public void setUstNo(int ustNo) {
 		this.ustNo = ustNo;
 	}
+
 
 }

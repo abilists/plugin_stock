@@ -26,10 +26,10 @@ li.stock-title {
 
 <div class="row">
 <div class="col-sm-12">
-	<div class="caption mittle-size-title middle-works-bg">
+	<div class="caption mittle-size-title" style="background: #4a9c4a !important;">
 
 		<ul class="stock-title">
-		  <li class="stock-title" style="width: 100px;">
+		  <li class="stock-title" style="width: 70px;">
 		  	<h5>
 			  	<#if model??><#if model.subMenu??><#if model.subMenu == "srhStockCompanyList">
 			  	<b><a class="a-button" href="${configBean.contextPath?if_exists}/plugins/stock" role="button"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a></b>
@@ -53,7 +53,7 @@ li.stock-title {
 		    </form>
 		  </li>
 		  <li class="stock-title" style="float: right;">
-		  	<span id="newToggleId" class="glyphicon glyphicon-chevron-down right-symbol-works-button" style="top: 5px;font-size: 22px;" aria-hidden="true" onClick="newFormToggle();"></span>
+		  	<span id="newToggleId" class="glyphicon glyphicon-chevron-down right-symbol-works-button" style="top: 5px;font-size: 22px;color: #ffffff;" aria-hidden="true" onClick="newFormToggle();"></span>
 		  </li>
 		</ul>
 
@@ -168,13 +168,14 @@ li.stock-title {
 			<button type="button" class="btn btn-primary" onclick="return confirmData('udtFormId');">저장</button>
 			<a id="companyStockId" href="#" class="btn btn-success" style="width: 90px;" role="button">주식매매</a>
 			<button type="button" class="btn btn-primary" onClick="udtFormCancel();">취소</button>
+			<button type="button" class="btn btn-danger" style="width: 80px;" onclick="javascript: dltStockCompany();">삭제</button>
 	  </p>
 	</form>
 	</div>
 
 	<div id="userStockId">
 		<div id="stockTableId" style="border: 1px solid #CDCDCD;">
-		<div>
+		<div class="item-box">
 	    <ul class="table-ul table-ul-header ul-table ul-thead">
 	    	<li style="width: 30px;">No</li>
 	        <li style="width: 150px;">종목코드</li>
@@ -231,8 +232,28 @@ li.stock-title {
 </div>
 </div>
 
+<!-- Delete Modal -->
+<div class="modal fade" id="sbtFormDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4 class="modal-title">삭제 확인</h4>
+    </div>
+
+    <div id="confirmMessage" class="modal-body">
+    		선택한 매매 정보를 삭제하시겠습니까?
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+      <button id="submitForm" type="button" class="btn btn-danger" onclick="javascript: sbtDeleteFormStockCompany();">삭제하기</button>
+    </div>
+  </div>
+</div>
+</div>
+
 <#include "/apps/common/abilistsPluginsLoadJs.ftl"/>
-<script src="${configBean.contextPath?if_exists}/static/apps/js/abilists.js?201706212202"></script>
 <#include "/apps/stock/js/indexJs.ftl"/>
 <#include "/apps/stock/js/stockSearchJs.ftl"/>
 

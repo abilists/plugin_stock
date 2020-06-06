@@ -122,12 +122,16 @@ function submitUpdateFormUserReports() {
 	document.updateForm.submit();
 }
 
-/*
- * Remove a survey
- */
-function submitDeleteFormReports() {
-	document.updateForm.action = "${configBean.contextPath?if_exists}/plugins/stock/dltMasterStock";
-	document.updateForm.submit();
+function dltStockCompany() {
+	// Call the modal for deleting
+	$(window).ready(function(){
+		$('#sbtFormDelete').modal('show')
+	});
+}
+
+function sbtDeleteFormStockCompany() {
+	document.udtForm.action = "${configBean.contextPath?if_exists}/plugins/stock/dltStockCompany";
+	document.udtForm.submit();
 }
 
 </script>
