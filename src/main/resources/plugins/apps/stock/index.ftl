@@ -117,7 +117,7 @@ li.stock-title {
 	</div>
 
 	<div id="udtMdataFormId" class="item-box" style="background-color: #efebe7;margin: 10px; display: none;">
-	<form id="udtFormId" name="udtForm" class="form-horizontal" action="${configBean.contextPath?if_exists}/plugins/stock/udtStockCompany" method="post" onkeypress="return captureReturnKey(event);">
+	<form id="udtFormId" name="udtForm" class="form-horizontal" action="${configBean.contextPath?if_exists}/plugins/stock/udtStockCompany?nowPage=<#if model.paging.nowPage?exists>${model.paging.nowPage}</#if>&allCount=${model.paging.allCount?c}" method="post" onkeypress="return captureReturnKey(event);">
 	  <div class="row">
 	  	<div class="col-sm-3 col-md-3">
 			<label class="control-label">종목코드</label>

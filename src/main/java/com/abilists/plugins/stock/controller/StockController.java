@@ -390,7 +390,7 @@ public class StockController extends CommonAbilistsController {
 
 		// Pass the parameters with post.
 		redirectAttributes.addFlashAttribute("save", "completed");
-		return "redirect:/plugins/stock";
+		return "redirect:/plugins/stock?nowPage=" + udtStockCompanyPara.getNowPage() + "&allCount=" + udtStockCompanyPara.getAllCount();
 	}
 
 	@RequestMapping(value = { "udtStock" })
