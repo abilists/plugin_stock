@@ -48,11 +48,11 @@ div.posts:hover {
 div.main-posts {
 	margin-bottom: 7px;
 	border: 0.5px solid #dadada;
+	padding: 0px;
 }
 
 ul.body-posts {
 	list-style-type: none;
-	width: 100%;
 	display: table;
 	padding-left: 0px; 
 	padding-right: 5px;
@@ -69,13 +69,67 @@ li.body-posts-contents {
 }
 
 ul.body-posts-menu {
-	left:10px; top: 15px;
+    left: -10px;
+    top: 0px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.175);
 	min-width: 110px;
 }
 
 div.posts-link {
 	margin-top: 10px; 
-	padding-top: 8px; 
+	padding: 8px; 
 	border-top: 1px solid #f3f3f3;
 }
 
+.editPost {
+	background: white;
+	border: 1px solid #eeeeec;
+	overflow:auto; 
+}
+
+.posts-img {
+	width: 100%; 
+	height: auto; 
+	border: 1px solid #dadada;
+}
+
+.media-width {
+	width: 87%;
+	display: block;	
+}
+
+.filebox label {
+	width: 110px;
+	display: inline-block;
+	padding: 12px;
+	color: #fff;
+	font-size: 15px;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #5cb85c;
+	cursor: pointer;
+	border: 1px solid #4cae4c;
+	border-radius: .25em;
+	-webkit-transition: background-color 0.2s;
+	transition: background-color 0.2s;
+}
+
+.filebox label:hover {
+	background-color: #6ed36e;
+	color: #ffffff;
+}
+
+.filebox label:active {
+	background-color: #ffffff;
+}
+
+.filebox input[type="file"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}

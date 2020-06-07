@@ -154,16 +154,13 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 				mapStockCountCharts.put(keySaleDay, stockCountChartsBean);
 			}
 
+			// Set a data for asset
 			StockCountChartsBean stockCountChartsBean = mapStockCountCharts.get(keySaleDay);
-			
-			logger.info("have (sellCost=" + stockCountChartsBean.getSaleSellCost() + ", SellCount=" + stockCountChartsBean.getSaleSellCount() + 
-					") - (BuyCost=" + stockCountChartsBean.getSaleBuyCost() + ", BuyCount=" + stockCountChartsBean.getSaleBuyCount() + ")");
-
 			stockCountChartsBean.setSaleLeftAsset((stockCountChartsBean.getSaleSellCost() * (stockCountChartsBean.getSaleSellCount() * -1)) 
 					- (stockCountChartsBean.getSaleBuyCost() * stockCountChartsBean.getSaleBuyCount()));
 
 			// mapStockCountCharts.put(keySaleDay, stockCountChartsBean);
-			
+
 		}
 
 		return mapStockCountCharts;

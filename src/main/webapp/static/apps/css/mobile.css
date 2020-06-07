@@ -10,7 +10,7 @@
 		font: 12px/15px Helvetica, Sans-Serif;
 		/*display: none;*/
 	}
-	
+
 	div.left-col-cus {
     	padding-left: 15px !important; 
     	padding-right: 10px;
@@ -22,3 +22,38 @@
 	}
 
 }
+
+
+/* Fixed max width size
+@media (max-width: 1024px) { 
+
+	.show-more-out {
+		width: 100%;
+	}
+	
+	.show-more {
+		width: 100%;
+	}
+
+	ul.body-posts {
+		width: 100%;
+	}
+}
+*/
+/* Fixed max width size
+@media (max-width: 992px) { 
+
+	/* Show more button */
+	.show-more-out {
+		width: 100%;
+	}
+	
+	.show-more {
+		width: 100%;
+	}
+
+	ul.body-posts {
+		width: 100%;
+	}
+}
+*/

@@ -2154,28 +2154,28 @@ module.exports = function(Chart) {
 			var length = pixels.length;
 			var start = ruler.start;
 			var end = ruler.end;
-			var leftStockSize, rightStockSize, leftCategorySize, rightCategorySize, fullBarSize, size;
+			var leftSampleSize, rightSampleSize, leftCategorySize, rightCategorySize, fullBarSize, size;
 
 			if (length === 1) {
-				leftStockSize = base > start ? base - start : end - base;
-				rightStockSize = base < end ? end - base : base - start;
+				leftSampleSize = base > start ? base - start : end - base;
+				rightSampleSize = base < end ? end - base : base - start;
 			} else {
 				if (index > 0) {
-					leftStockSize = (base - pixels[index - 1]) / 2;
+					leftSampleSize = (base - pixels[index - 1]) / 2;
 					if (index === length - 1) {
-						rightStockSize = leftStockSize;
+						rightSampleSize = leftSampleSize;
 					}
 				}
 				if (index < length - 1) {
-					rightStockSize = (pixels[index + 1] - base) / 2;
+					rightSampleSize = (pixels[index + 1] - base) / 2;
 					if (index === 0) {
-						leftStockSize = rightStockSize;
+						leftSampleSize = rightSampleSize;
 					}
 				}
 			}
 
-			leftCategorySize = leftStockSize * options.categoryPercentage;
-			rightCategorySize = rightStockSize * options.categoryPercentage;
+			leftCategorySize = leftSampleSize * options.categoryPercentage;
+			rightCategorySize = rightSampleSize * options.categoryPercentage;
 			fullBarSize = (leftCategorySize + rightCategorySize) / ruler.stackCount;
 			size = fullBarSize * options.barPercentage;
 
