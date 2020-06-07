@@ -24,23 +24,23 @@ div.ui-datepicker {
 
 <ul class="table-ul table-ul-header ul-table">
 	<li style="width: 30px;">No</li>
-	<li style="width: 150px;">종목코드</li>
-	<li style="width: 150px;">종목이름</li>
-	<li style="width: 100px;">당기순이익(억원)</li>
-	<li style="width: 100px;">주당배당금(원)</li>
-	<li style="width: 100px;">배당성향(%)</li>
-	<li style="width: 100px;">입력한 날짜</li>
+	<li style="width: 80px;">종목코드</li>
+	<li style="width: 15%;">종목이름</li>
+	<li style="width: 15%;">당기순이익(억원)</li>
+	<li style="width: 15%;">주당배당금(원)</li>
+	<li style="width: 15%;">배당성향(%)</li>
+	<li>입력한 날짜</li>
 </ul>
 
 <#if plugins.mStockCompany??>
 <ul class="table-ul ul-table" style="background-color: #f1f1f1;">
 	<li style="width: 30px;">${plugins.mStockCompany.uscNo?if_exists}</li>
-	<li style="width: 150px;">${plugins.mStockCompany.uscCode?if_exists}</li>
-	<li style="width: 150px;">${plugins.mStockCompany.uscName?if_exists}</li>
-	<li style="width: 100px;">${plugins.mStockCompany.uscProfit?if_exists}</li>
-	<li style="width: 100px;">${plugins.mStockCompany.uscDividend?if_exists}</li>
-	<li style="width: 100px;">${plugins.mStockCompany.uscPayoutRatio?if_exists}</li>
-    <li style="width: 100px;">${plugins.mStockCompany.updateTime?string('yyyy-MM-dd hh:mm:ss')?if_exists}</li>
+	<li style="width: 80px;">${plugins.mStockCompany.uscCode?if_exists}</li>
+	<li style="width: 15%;">${plugins.mStockCompany.uscName?if_exists}</li>
+	<li style="width: 15%;">${plugins.mStockCompany.uscProfit?if_exists}</li>
+	<li style="width: 15%;">${plugins.mStockCompany.uscDividend?if_exists}</li>
+	<li style="width: 15%;">${plugins.mStockCompany.uscPayoutRatio?if_exists}</li>
+    <li>${plugins.mStockCompany.updateTime?string('yyyy-MM-dd hh:mm:ss')?if_exists}</li>
 </ul>
 </#if>
 
@@ -51,6 +51,7 @@ div.ui-datepicker {
 		  <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">매매 가격</a></li>
 		  <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">매매 주식수</a></li>
 		  <li role="presentation"><a href="#works" aria-controls="profile" role="tab" data-toggle="tab">남은 주식수</a></li>
+		  <li role="presentation"><a href="#money" aria-controls="money" role="tab" data-toggle="tab">현금 매매</a></li>
 		  <li style="float: right;"></li>
 		</ul>
 		<div class="tab-content">
@@ -62,6 +63,9 @@ div.ui-datepicker {
 		  </div>
 		  <div role="tabpanel" class="tab-pane" id="works">
 		  	<canvas id="canvas3" height="100px"></canvas>
+		  </div>
+		  <div role="tabpanel" class="tab-pane" id="money">
+		  	<canvas id="canvas4" height="100px"></canvas>
 		  </div>
 		</div>
 	</div>
@@ -94,7 +98,7 @@ div.ui-datepicker {
 	  	  		<label class="control-label">구분</label>
 	  	  		<div class="input-group" style="float:right; width: 100%;">
 				  	<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-th-list" aria-hidden="true"></span></span>
-					<select id="ustClassifyId" class="form-control" name="ustClassify">
+					<select class="form-control" name="ustClassify">
 						<option value="0">매매선택</option>
 						<option value="1">매수</option>
 						<option value="2">매도</option>
@@ -106,14 +110,14 @@ div.ui-datepicker {
 	  			<label class="control-label">1주당 가격</label>
 			  	<div class="input-group" style="float:right; width: 100%;">
 			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-usd" aria-hidden="true"></span></span>
-			  		<input class="form-control" type="text" name="ustSaleCost" maxlength="12" size="12" placeholder="2000" onkeypress="return isNumber(event)"/>
+			  		<input class="form-control" type="number" name="ustSaleCost" maxlength="12" size="12" placeholder="2000" onkeypress="return isNumber(event)"/>
 			  	</div>
 		  	</div>
 	  	  	<div class="col-sm-3 col-md-3">	
 	  			<label class="control-label">매매 주식수</label>
 			  	<div class="input-group" style="float:right; width: 100%;">
 			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
-			  		<input class="form-control" type="text" name="ustSaleCnt" maxlength="12" size="12" placeholder="100" onkeypress="return isNumber(event)"/>
+			  		<input class="form-control" type="number" name="ustSaleCnt" maxlength="12" size="12" placeholder="100" onkeypress="return isNumber(event)"/>
 			  	</div>
 		  	</div>
 	  	  </div>
@@ -122,7 +126,7 @@ div.ui-datepicker {
 	  	  		<label class="control-label">수수료</label>
 			  	<div class="input-group" style="float:right; width: 100%;">
 			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-usd" aria-hidden="true"></span></span>
-			  		<input class="form-control" type="text" name="ustSaleFee" placeholder="10" autocomplete="off" onkeypress="return isNumber(event)"/>
+			  		<input class="form-control" type="number" name="ustSaleFee" placeholder="10" autocomplete="off" onkeypress="return isNumber(event)" value="0"/>
 			  	</div>
 		  	</div>
 		  	<div class="col-sm-9 col-md-9">
@@ -163,14 +167,14 @@ div.ui-datepicker {
 	  		<label class="control-label">1주당 가격</label>
 		  	<div class="input-group" style="float:right; width: 100%;">
 		  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
-		  		<input id="ustSaleCostId" class="form-control" type="text" name="ustSaleCost" maxlength="12" size="12" placeholder="2000" onkeypress="return isNumber(event)" />
+		  		<input id="ustSaleCostId" class="form-control" type="number" name="ustSaleCost" maxlength="12" size="12" placeholder="2000" onkeypress="return isNumber(event)" />
 		  	</div>
 		</div>
 	  	<div class="col-sm-3 col-md-3">	
 	  		<label class="control-label">매매 주식수</label>
 		  	<div class="input-group" style="float:right; width: 100%;">
 		  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
-		  		<input id="ustSaleCntId" class="form-control" type="text" name="ustSaleCnt" maxlength="12" size="12" placeholder="100" onkeypress="return isNumber(event)" />
+		  		<input id="ustSaleCntId" class="form-control" type="number" name="ustSaleCnt" maxlength="12" size="12" placeholder="100" onkeypress="return isNumber(event)" />
 		  	</div>
 		</div>
 	  </div>
@@ -179,7 +183,7 @@ div.ui-datepicker {
 	  	  	<label class="control-label">수수료</label>
 	  		<div class="input-group" style="float:right; width: 100%;">
 		 		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-usd" aria-hidden="true"></span></span>
-		  		<input id="ustSaleFeeId" class="form-control" type="text" name="ustSaleFee" placeholder="10" autocomplete="off" onkeypress="return isNumber(event)"/>
+		  		<input id="ustSaleFeeId" class="form-control" type="number" name="ustSaleFee" placeholder="10" autocomplete="off" onkeypress="return isNumber(event)"/>
 		  	</div>
 	  	</div>
 		<div class="col-sm-9 col-md-9">
@@ -203,12 +207,13 @@ div.ui-datepicker {
 		<div id="stockTableId" style="border: 1px solid #CDCDCD;">
 		<div>
 	    <ul class="table-ul table-ul-header ul-table ul-thead">
-	    	<li style="width: 20px;">No</li>
-	    	<li style="width: 150px;">매매 날짜</li>
+	    	<li style="width: 30px;">No</li>
+	    	<li style="width: 100px;">매매 날짜</li>
 	    	<li style="width: 50px;">구분</li>
-	        <li style="width: 150px;">1주당 가격</li>
-	        <li style="width: 150px;">주식수</li>
-	        <li style="width: 150px;">수수료</li>
+	        <li style="width: 20%;">1주당 가격</li>
+	        <li style="width: 20%;">주식수</li>
+	        <li style="width: 20%;">수수료</li>
+	        <li style="width: 60px;">코멘트</li>
 	    </ul>
 	    <#if plugins.userStockList??>
 	    <#if plugins.userStockList?has_content>
@@ -221,8 +226,9 @@ div.ui-datepicker {
 			  <#else>
 				style="width: 100%;background-color: #f7f7f7;color: #737373;"
 			  </#if></#if>onmouseover="overChangeColor(this);" onmouseout="outChangeColor(this);" onclick="selectStock(this, '${userStock.ustNo?if_exists}');">
-		    	<li style="width: 20px;">${userStock.ustNo?if_exists}</li>
-		    	<li style="width: 150px;">${userStock.ustSaleDay?string('yyyy-MM-dd')?if_exists}</li>
+
+		    	<li style="width: 30px;">${userStock.ustNo?if_exists}</li>
+		    	<li style="width: 100px;">${userStock.ustSaleDay?string('yyyy-MM-dd')?if_exists}</li>
 		    <#if userStock.ustClassify??>
 			  <#if userStock.ustClassify == "1">
 				<li style="width: 50px;">매수</li>
@@ -232,9 +238,10 @@ div.ui-datepicker {
 				<li style="width: 50px;">기타</li>
 			  </#if>
 			</#if>
-	        	<li style="width: 150px;"><#if userStock.ustSaleCost??>${userStock.ustSaleCost?if_exists}</#if></li>
-	        	<li style="width: 150px;"><#if userStock.ustSaleCnt??>${userStock.ustSaleCnt?if_exists}</#if></li>
-				<li style="width: 150px;"><#if userStock.ustSaleFee??>${userStock.ustSaleFee?if_exists}</#if></li>
+	        	<li style="width: 20%;"><#if userStock.ustSaleCost??>${userStock.ustSaleCost?if_exists}</#if></li>
+	        	<li style="width: 20%;"><#if userStock.ustSaleCnt??>${userStock.ustSaleCnt?if_exists}</#if></li>
+				<li style="width: 20%;"><#if userStock.ustSaleFee??>${userStock.ustSaleFee?if_exists}</#if></li>
+				<li style="width: 60px;"><#if userStock.ustComment?has_content>*</#if></li>
 		    </ul>
 		</#list>
 		</#if>
@@ -303,6 +310,7 @@ div.ui-datepicker {
 <#include "/apps/stock/js/chartStockPriceJs.ftl"/>
 <#include "/apps/stock/js/chartStockCountJs.ftl"/>
 <#include "/apps/stock/js/chartStockLeftJs.ftl"/>
+<#include "/apps/stock/js/chartStockAssetJs.ftl"/>
 </script>
 
 </@layout.myLayout>

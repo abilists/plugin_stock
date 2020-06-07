@@ -23,74 +23,63 @@ public class UdtStockPara extends IstStockPara {
 	private String ustComment;
 	private String ustStatus;
 
-	public String getMscNo() {
+	public String getUscNo() {
 		return uscNo;
 	}
-
-	public void setMscNo(String uscNo) {
+	public void setUscNo(String uscNo) {
 		this.uscNo = uscNo;
 	}
-
+	public String getUstSaleDay() {
+		return ustSaleDay;
+	}
+	public void setUstSaleDay(String ustSaleDay) {
+		this.ustSaleDay = ustSaleDay;
+	}
 	public String getUstNo() {
 		return ustNo;
 	}
-
 	public void setUstNo(String ustNo) {
 		this.ustNo = ustNo;
 	}
-
 	public String getUstClassify() {
 		return ustClassify;
 	}
-
 	public void setUstClassify(String ustClassify) {
 		this.ustClassify = ustClassify;
 	}
-
-	public String getMscName() {
+	public String getUscName() {
 		return uscName;
 	}
-
-	public void setMscName(String uscName) {
+	public void setUscName(String uscName) {
 		this.uscName = uscName;
 	}
-
 	public int getUstSaleCost() {
 		return ustSaleCost;
 	}
-
 	public void setUstSaleCost(int ustSaleCost) {
 		this.ustSaleCost = ustSaleCost;
 	}
-
 	public int getUstSaleCnt() {
 		return ustSaleCnt;
 	}
-
 	public void setUstSaleCnt(int ustSaleCnt) {
 		this.ustSaleCnt = ustSaleCnt;
 	}
-
 	public int getUstSaleFee() {
 		return ustSaleFee;
 	}
-
 	public void setUstSaleFee(int ustSaleFee) {
 		this.ustSaleFee = ustSaleFee;
 	}
-
 	public String getUstComment() {
 		return ustComment;
 	}
-
 	public void setUstComment(String ustComment) {
 		this.ustComment = ustComment;
 	}
-
 	public String getUstStatus() {
 		return ustStatus;
 	}
-
 	public void setUstStatus(String ustStatus) {
 		this.ustStatus = ustStatus;
 	}

@@ -429,7 +429,7 @@ public class StockController extends CommonAbilistsController {
 
 		// Execute the transaction
 		if (!stockService.udtStock(udtStockPara)) {
-			logger.error("udtStock - updating is error. userId={}, usmNo={}", udtStockPara.getUserId(), udtStockPara.getUstNo());
+			logger.error("udtStock - updating is error. userId={}, ustNo={}", udtStockPara.getUserId(), udtStockPara.getUstNo());
 			mapErrorMessage.put("errorMessage", message.getMessage("parameter.update.error.message", null, locale));
 			model.addAttribute("mapErrorMessage", mapErrorMessage);
 			return "apps/errors/systemErrors";
@@ -437,7 +437,7 @@ public class StockController extends CommonAbilistsController {
 
 		// Pass the parameters with post.
 		redirectAttributes.addFlashAttribute("save", "completed");
-		return "redirect:/plugins/stock/sltStockList/" + udtStockPara.getMscNo();
+		return "redirect:/plugins/stock/sltStockList/" + udtStockPara.getUscNo();
 	}
 
 	@RequestMapping(value = { "dltStockCompany" })

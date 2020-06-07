@@ -1,4 +1,5 @@
 <#import "/spring.ftl" as spring/>
+
 var data3 = {
 	title: {
 		display: true,

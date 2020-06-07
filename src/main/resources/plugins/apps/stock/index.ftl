@@ -178,24 +178,26 @@ li.stock-title {
 		<div class="item-box">
 	    <ul class="table-ul table-ul-header ul-table ul-thead">
 	    	<li style="width: 30px;">No</li>
-	        <li style="width: 150px;">종목코드</li>
-	    	<li style="width: 150px;">종목이름</li>
-	        <li style="width: 100px;">당기순이익(억원)</li>
-	        <li style="width: 100px;">주당배당금(원)</li>
-	        <li style="width: 100px;">배당성향(%)</li>
-	        <li style="width: 100px;">입력한 날짜</li>
+	        <li style="width: 80px;">종목코드</li>
+	    	<li style="width: 15%;">종목이름</li>
+	        <li style="width: 15%;">당기순이익(억원)</li>
+	        <li style="width: 15%;">주당배당금(원)</li>
+	        <li style="width: 15%;">배당성향(%)</li>
+	        <li style="width: 15%;">입력한 날짜</li>
+	        <li style="width: 60px;">코멘트</li>
 	    </ul>
 	    <#if plugins??>
 	    <#if plugins.mStockCompanyList?has_content>
 	    <#list plugins.mStockCompanyList as mStockCompany>
 		    <ul class="table-ul bg-color ul-hover ul-table" onmouseover="overChangeColor(this);" onmouseout="outChangeColor(this);" onclick="selectStockCompany(this, '${mStockCompany.uscNo?if_exists}');">
 		    	<li style="width: 30px;">${mStockCompany.uscNo?if_exists}</li>
-		    	<li style="width: 150px;">${mStockCompany.uscCode?if_exists}</li>
-		    	<li style="width: 150px;">${mStockCompany.uscName?if_exists}</li>
-		    	<li style="width: 100px;"><#if mStockCompany.uscProfit??>${mStockCompany.uscProfit?if_exists}</#if></li>
-	        	<li style="width: 100px;"><#if mStockCompany.uscDividend??>${mStockCompany.uscDividend?if_exists}</#if></li>
-	        	<li style="width: 100px;"><#if mStockCompany.uscPayoutRatio??>${mStockCompany.uscPayoutRatio?if_exists}</#if></li>
-		        <li style="width: 100px;"><#if mStockCompany.updateTime??>${mStockCompany.updateTime?string('yyyy-MM-dd hh:mm:ss')?if_exists}</#if></li>
+		    	<li style="width: 80px;">${mStockCompany.uscCode?if_exists}</li>
+		    	<li style="width: 15%;">${mStockCompany.uscName?if_exists}</li>
+		    	<li style="width: 15%;"><#if mStockCompany.uscProfit??>${mStockCompany.uscProfit?if_exists}</#if></li>
+	        	<li style="width: 15%;"><#if mStockCompany.uscDividend??>${mStockCompany.uscDividend?if_exists}</#if></li>
+	        	<li style="width: 15%;"><#if mStockCompany.uscPayoutRatio??>${mStockCompany.uscPayoutRatio?if_exists}</#if></li>
+		        <li style="width: 15%;"><#if mStockCompany.updateTime??>${mStockCompany.updateTime?string('yyyy-MM-dd')?if_exists}</#if></li>
+		        <li style="width: 60px;"><#if mStockCompany.uscComment?has_content>*</#if></li>
 		    </ul>
 		</#list>
 		</#if>

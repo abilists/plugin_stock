@@ -106,7 +106,7 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		}
 
 		Map<String, StockCountChartsBean> mapStockCountCharts = new TreeMap<String, StockCountChartsBean>();
-		format = new SimpleDateFormat("MM/dd");
+		format = new SimpleDateFormat("yy/MM/dd");
 		int intSaleLeftCount = 0;
 		for(PluginsUserStockModel pluginsUserStock : stockForChartList) {
 			String keySaleDay = format.format(pluginsUserStock.getUstSaleDay());
@@ -151,10 +151,19 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 				}
 				intSaleLeftCount = intSaleLeftCount + pluginsUserStock.getUstSaleCnt();
 				stockCountChartsBean.setSaleLeftCount(intSaleLeftCount);
-
 				mapStockCountCharts.put(keySaleDay, stockCountChartsBean);
 			}
 
+			StockCountChartsBean stockCountChartsBean = mapStockCountCharts.get(keySaleDay);
+			
+			logger.info("have (sellCost=" + stockCountChartsBean.getSaleSellCost() + ", SellCount=" + stockCountChartsBean.getSaleSellCount() + 
+					") - (BuyCost=" + stockCountChartsBean.getSaleBuyCost() + ", BuyCount=" + stockCountChartsBean.getSaleBuyCount() + ")");
+
+			stockCountChartsBean.setSaleLeftAsset((stockCountChartsBean.getSaleSellCost() * (stockCountChartsBean.getSaleSellCount() * -1)) 
+					- (stockCountChartsBean.getSaleBuyCost() * stockCountChartsBean.getSaleBuyCount()));
+
+			// mapStockCountCharts.put(keySaleDay, stockCountChartsBean);
+			
 		}
 
 		return mapStockCountCharts;
@@ -408,8 +417,8 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		map.put("ustSaleCnt", intSaleCnt);
 		map.put("ustSaleFee", udtStockPara.getUstSaleFee());
 		map.put("ustComment", udtStockPara.getUstComment());
-		map.put("uscNo", udtStockPara.getMscNo());
-		map.put("uscName", udtStockPara.getMscName());
+		map.put("uscNo", udtStockPara.getUscNo());
+		map.put("uscName", udtStockPara.getUscName());
 		map.put("userId", udtStockPara.getUserId());
 
 		try {
@@ -419,7 +428,8 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 		}
 
 		if(intResult < 1) {
-			logger.error("udtStock error, userId={}", udtStockPara.getUserId());
+			logger.error("udtStock error, uscNo={}, ustNo={}, ustComment={},  userId={}", 
+					udtStockPara.getUscNo(), udtStockPara.getUstNo(), udtStockPara.getUstComment(), udtStockPara.getUserId());
 			return false;
 		}
 

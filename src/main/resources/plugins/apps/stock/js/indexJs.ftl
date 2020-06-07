@@ -62,11 +62,9 @@ function selectStockCompany(x, uscNo) {
             		uscDividendInput.value = data.uscDividend;
             		uscPayoutRatioInput.value = data.uscPayoutRatio;
             		uscCommentInput.value = data.uscComment;
-            		
-            		console.log("--- start --- ");
+
             		companyStockInput.href = "${configBean.contextPath?if_exists}/plugins/stock/sltStockList/" + data.uscNo;
-            		console.log("--- end --- ");
-            		
+
             		tokenInput.value = data.token;
             	}
             },

@@ -9,6 +9,7 @@ public class StockCountChartsBean {
 	private int saleSellCount;
 	
 	private int saleLeftCount;
+	private int saleLeftAsset;
 
 	public int getSaleBuyCost() {
 		return saleBuyCost;
@@ -39,6 +40,12 @@ public class StockCountChartsBean {
 	}
 	public void setSaleLeftCount(int saleLeftCount) {
 		this.saleLeftCount = saleLeftCount;
+	}
+	public int getSaleLeftAsset() {
+		return saleLeftAsset;
+	}
+	public void setSaleLeftAsset(int saleLeftAsset) {
+		this.saleLeftAsset = saleLeftAsset;
 	}
 
 }
