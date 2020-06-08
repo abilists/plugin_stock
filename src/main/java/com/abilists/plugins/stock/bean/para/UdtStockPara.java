@@ -3,15 +3,16 @@ package com.abilists.plugins.stock.bean.para;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import base.bean.para.CommonPara;
 import io.utility.validate.annotation.DateFormat;
 
-public class UdtStockPara extends IstStockPara {
+public class UdtStockPara extends CommonPara {
 
 	private String uscNo;
 
-	@NotNull(message = "ustSaleDays")
-	@Size(min = 9, max = 10, message = "It is different String size")
-	@DateFormat(format = "yyyy-MM-dd", message = "Not right format for start of date")
+	@NotNull(message = "parameter.error.null.message")
+	@Size(min = 9, max = 10, message = "parameter.error.size.max10.message")
+	@DateFormat(format = "yyyy-MM-dd", message = "parameter.error.date.format.message")
 	private String ustSaleDay;
 
 	private String ustNo;

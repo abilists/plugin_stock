@@ -19,7 +19,7 @@ public class DevInterceptor implements PluginsInterceptor {
 			throws Exception {
 
 		UsersModel user = new UsersModel();
-		user.setUserId("admin");
+		user.setUserId("minzi05");
 		user.setUserNo(1);
 		user.setUserName("Developer");
 

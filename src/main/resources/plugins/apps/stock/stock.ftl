@@ -51,7 +51,7 @@ div.ui-datepicker {
 		  <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">매매 가격</a></li>
 		  <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">매매 주식수</a></li>
 		  <li role="presentation"><a href="#works" aria-controls="profile" role="tab" data-toggle="tab">남은 주식수</a></li>
-		  <li role="presentation"><a href="#money" aria-controls="money" role="tab" data-toggle="tab">현금 매매</a></li>
+		  <li role="presentation"><a href="#money" aria-controls="money" role="tab" data-toggle="tab">수익 실현</a></li>
 		  <li style="float: right;"></li>
 		</ul>
 		<div class="tab-content">
