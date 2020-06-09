@@ -117,7 +117,7 @@ jar {
 configure(install.repositories.mavenInstaller) {
     pom.project {
 		group = 'com.abilists.plugins'
-		artifactId 'plugin_time_record'
+		artifactId 'plugin_stock'
         inceptionYear '2020'
         packaging 'jar'
         licenses {
@@ -134,7 +134,7 @@ configure(install.repositories.mavenInstaller) {
 // $ gradle buildJar
 task buildJar << {
 	copy {
-		from "build/libs/plugin_time_record.jar"
+		from "build/libs/plugin_stock.jar"
 		into "${System.getProperty( 'user.dir' )}" + "/../abilists_plugins/plugins"
 //		rename { String fileName -> fileName.replace("plugin_survey-" + version + ".jar", "plugin_survey-" + version + ".sfn")}
 		include '**/*.jar'
