@@ -27,7 +27,6 @@ li.stock-title {
 <div class="row">
 <div class="col-sm-12">
 	<div class="caption mittle-size-title" style="background: #4a9c4a !important;">
-
 		<ul class="stock-title">
 		  <li class="stock-title" style="width: 70px;">
 		  	<h5>
@@ -56,7 +55,6 @@ li.stock-title {
 		  	<span id="newToggleId" class="glyphicon glyphicon-chevron-down right-symbol-works-button" style="top: 5px;font-size: 22px;color: #ffffff;" aria-hidden="true" onClick="newFormToggle();"></span>
 		  </li>
 		</ul>
-
 	</div>
 
 	<#include "/apps/common/errorMessage.ftl"/>
@@ -175,6 +173,15 @@ li.stock-title {
 
 	<div id="userStockId">
 		<div id="stockTableId" style="border: 1px solid #CDCDCD;">
+
+		<div class="row">
+		<div class="col-sm-12">
+			<div class="item-box">
+				<canvas id="canvas1" height="100px"></canvas>
+			</div>
+		</div>
+		</div>
+
 		<div class="item-box">
 	    <ul class="table-ul table-ul-header ul-table ul-thead">
 	    	<li style="width: 30px;">No</li>
@@ -187,17 +194,17 @@ li.stock-title {
 	        <li style="width: 60px;">코멘트</li>
 	    </ul>
 	    <#if plugins??>
-	    <#if plugins.mStockCompanyList?has_content>
-	    <#list plugins.mStockCompanyList as mStockCompany>
-		    <ul class="table-ul bg-color ul-hover ul-table" onmouseover="overChangeColor(this);" onmouseout="outChangeColor(this);" onclick="selectStockCompany(this, '${mStockCompany.uscNo?if_exists}');">
-		    	<li style="width: 30px;">${mStockCompany.uscNo?if_exists}</li>
-		    	<li style="width: 80px;">${mStockCompany.uscCode?if_exists}</li>
-		    	<li style="width: 15%;">${mStockCompany.uscName?if_exists}</li>
-		    	<li style="width: 15%;"><#if mStockCompany.uscProfit??>${mStockCompany.uscProfit?if_exists}</#if></li>
-	        	<li style="width: 15%;"><#if mStockCompany.uscDividend??>${mStockCompany.uscDividend?if_exists}</#if></li>
-	        	<li style="width: 15%;"><#if mStockCompany.uscPayoutRatio??>${mStockCompany.uscPayoutRatio?if_exists}</#if></li>
-		        <li style="width: 15%;"><#if mStockCompany.updateTime??>${mStockCompany.updateTime?string('yyyy-MM-dd')?if_exists}</#if></li>
-		        <li style="width: 60px;"><#if mStockCompany.uscComment?has_content>*</#if></li>
+	    <#if plugins.stockCompanyList?has_content>
+	    <#list plugins.stockCompanyList as stockCompany>
+		    <ul class="table-ul bg-color ul-hover ul-table" onmouseover="overChangeColor(this);" onmouseout="outChangeColor(this);" onclick="selectStockCompany(this, '${stockCompany.uscNo?if_exists}');">
+		    	<li style="width: 30px;">${stockCompany.uscNo?if_exists}</li>
+		    	<li style="width: 80px;">${stockCompany.uscCode?if_exists}</li>
+		    	<li style="width: 15%;">${stockCompany.uscName?if_exists}</li>
+		    	<li style="width: 15%;"><#if stockCompany.uscProfit??>${stockCompany.uscProfit?if_exists}</#if></li>
+	        	<li style="width: 15%;"><#if stockCompany.uscDividend??>${stockCompany.uscDividend?if_exists}</#if></li>
+	        	<li style="width: 15%;"><#if stockCompany.uscPayoutRatio??>${stockCompany.uscPayoutRatio?if_exists}</#if></li>
+		        <li style="width: 15%;"><#if stockCompany.updateTime??>${stockCompany.updateTime?string('yyyy-MM-dd')?if_exists}</#if></li>
+		        <li style="width: 60px;"><#if stockCompany.uscComment?has_content>*</#if></li>
 		    </ul>
 		</#list>
 		</#if>
@@ -249,7 +256,7 @@ li.stock-title {
 
     <div class="modal-footer">
       <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-      <button id="submitForm" type="button" class="btn btn-danger" onclick="javascript: sbtDeleteFormStockCompany();">삭제하기</button>
+      <button id="submitForm" type="button" class="btn btn-danger" onclick="javascript: sbtDeleteForStockCompany();">삭제하기</button>
     </div>
   </div>
 </div>
@@ -258,5 +265,12 @@ li.stock-title {
 <#include "/apps/common/abilistsPluginsLoadJs.ftl"/>
 <#include "/apps/stock/js/indexJs.ftl"/>
 <#include "/apps/stock/js/stockSearchJs.ftl"/>
+<!-- Chart.js -->
+<script src="/static/apps/lib/chart-2.7/Chart.bundle.min.js?2017092301"></script>
+<script src="/static/apps/lib/chart-2.7/Chart.min.js?2017092301"></script>
+
+<script type="text/javascript">
+<#include "/apps/stock/js/chartIndexAssetJs.ftl"/>
+</script>
 
 </@layout.myLayout>

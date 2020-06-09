@@ -8,6 +8,7 @@ import com.abilists.core.service.PagingService;
 import com.abilists.plugins.stock.bean.StockCountChartsBean;
 import com.abilists.plugins.stock.bean.model.PluginsUserStockCompanyModel;
 import com.abilists.plugins.stock.bean.model.PluginsUserStockModel;
+import com.abilists.plugins.stock.bean.model.StockCompanyForChartModel;
 import com.abilists.plugins.stock.bean.para.DltStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.DltStockPara;
 import com.abilists.plugins.stock.bean.para.IstStockCompanyPara;
@@ -27,6 +28,7 @@ public interface StockService extends PagingService {
 
 	public Map<String, StockCountChartsBean> sltStockChartMap(SltStockPara sltStockPara) throws CloneNotSupportedException;
 
+	public List<StockCompanyForChartModel> sltStockCompanyForChartList(CommonPara commonPara) throws Exception;
 	// Stock List
 	public List<PluginsUserStockModel> sltStockList(SltStockPara sltStockPara) throws Exception;
 	public PluginsUserStockModel sltStock(SltStockPara sltStockPara) throws Exception;

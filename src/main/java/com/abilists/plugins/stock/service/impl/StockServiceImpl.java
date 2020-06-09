@@ -20,6 +20,7 @@ import com.abilists.core.service.AbilistsAbstractService;
 import com.abilists.plugins.stock.bean.StockCountChartsBean;
 import com.abilists.plugins.stock.bean.model.PluginsUserStockCompanyModel;
 import com.abilists.plugins.stock.bean.model.PluginsUserStockModel;
+import com.abilists.plugins.stock.bean.model.StockCompanyForChartModel;
 import com.abilists.plugins.stock.bean.para.DltStockCompanyPara;
 import com.abilists.plugins.stock.bean.para.DltStockPara;
 import com.abilists.plugins.stock.bean.para.IstStockCompanyPara;
@@ -82,6 +83,24 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 			logger.error("sltMStockCompany Exception error", e);
 		}
 		return masterStockCompany;
+	}
+
+	@Override
+	public List<StockCompanyForChartModel> sltStockCompanyForChartList(CommonPara commonPara) throws Exception {
+		List<StockCompanyForChartModel> stockCompanyForChartList = null;
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", commonPara.getUserId());
+		map.put("nowPage", 0);
+		map.put("row", configuration.getInt("paging.row.twenty"));
+
+		try {
+			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
+			stockCompanyForChartList = sAbilistsDao.getMapper(SStockDao.class).sltStockCompanyForChartList(map);
+		} catch (Exception e) {
+			logger.error("sltMStockCompany Exception error", e);
+		}
+		return stockCompanyForChartList;
 	}
 
 	@Override
@@ -160,7 +179,6 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 					- (stockCountChartsBean.getSaleBuyCost() * stockCountChartsBean.getSaleBuyCount()));
 
 			// mapStockCountCharts.put(keySaleDay, stockCountChartsBean);
-
 		}
 
 		return mapStockCountCharts;

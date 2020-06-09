@@ -5,13 +5,15 @@ import java.util.Map;
 
 import com.abilists.plugins.stock.bean.model.PluginsUserStockCompanyModel;
 import com.abilists.plugins.stock.bean.model.PluginsUserStockModel;
+import com.abilists.plugins.stock.bean.model.StockCompanyForChartModel;
 
 import base.bean.model.CommonModel;
 
 public class PluginsModel extends CommonModel {
 
 	private PluginsUserStockCompanyModel mStockCompany;
-	private List<PluginsUserStockCompanyModel> mStockCompanyList;
+	private List<PluginsUserStockCompanyModel> stockCompanyList;
+	private List<StockCompanyForChartModel> stockCompanyForChartList;
 
 	private PluginsUserStockModel userStock;
 	private List<PluginsUserStockModel> userStockList;
@@ -23,11 +25,17 @@ public class PluginsModel extends CommonModel {
 	public void setmStockCompany(PluginsUserStockCompanyModel mStockCompany) {
 		this.mStockCompany = mStockCompany;
 	}
-	public List<PluginsUserStockCompanyModel> getmStockCompanyList() {
-		return mStockCompanyList;
+	public List<PluginsUserStockCompanyModel> getStockCompanyList() {
+		return stockCompanyList;
 	}
-	public void setmStockCompanyList(List<PluginsUserStockCompanyModel> mStockCompanyList) {
-		this.mStockCompanyList = mStockCompanyList;
+	public void setStockCompanyList(List<PluginsUserStockCompanyModel> stockCompanyList) {
+		this.stockCompanyList = stockCompanyList;
+	}
+	public List<StockCompanyForChartModel> getStockCompanyForChartList() {
+		return stockCompanyForChartList;
+	}
+	public void setStockCompanyForChartList(List<StockCompanyForChartModel> stockCompanyForChartList) {
+		this.stockCompanyForChartList = stockCompanyForChartList;
 	}
 	public PluginsUserStockModel getUserStock() {
 		return userStock;

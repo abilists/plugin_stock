@@ -41,16 +41,16 @@
 	        <li style="width: 100px;">입력한 날짜</li>
 	    </ul>
 	    <#if plugins??>
-	    <#if plugins.mStockCompanyList?has_content>
-	    <#list plugins.mStockCompanyList as mStockCompany>
-		    <ul class="table-ul bg-color ul-hover ul-table" onmouseover="overChangeColor(this);" onmouseout="outChangeColor(this);" onclick="selectStockCompany(this, '${mStockCompany.uscNo?if_exists}');">
-		    	<li style="width: 30px;">${mStockCompany.uscNo?if_exists}</li>
-		    	<li style="width: 150px;">${mStockCompany.uscCode?if_exists}</li>
-		    	<li style="width: 150px;">${mStockCompany.uscName?if_exists}</li>
-		    	<li style="width: 100px;"><#if mStockCompany.uscProfit??>${mStockCompany.uscProfit?if_exists}</#if></li>
-	        	<li style="width: 100px;"><#if mStockCompany.uscDividend??>${mStockCompany.uscDividend?if_exists}</#if></li>
-	        	<li style="width: 100px;"><#if mStockCompany.uscPayoutRatio??>${mStockCompany.uscPayoutRatio?if_exists}</#if></li>
-		        <li style="width: 100px;"><#if mStockCompany.updateTime??>${mStockCompany.updateTime?string('yyyy-MM-dd hh:mm:ss')?if_exists}</#if></li>
+	    <#if plugins.stockCompanyList?has_content>
+	    <#list plugins.stockCompanyList as stockCompany>
+		    <ul class="table-ul bg-color ul-hover ul-table" onmouseover="overChangeColor(this);" onmouseout="outChangeColor(this);" onclick="selectStockCompany(this, '${stockCompany.uscNo?if_exists}');">
+		    	<li style="width: 30px;">${stockCompany.uscNo?if_exists}</li>
+		    	<li style="width: 150px;">${stockCompany.uscCode?if_exists}</li>
+		    	<li style="width: 150px;">${stockCompany.uscName?if_exists}</li>
+		    	<li style="width: 100px;"><#if stockCompany.uscProfit??>${stockCompany.uscProfit?if_exists}</#if></li>
+	        	<li style="width: 100px;"><#if stockCompany.uscDividend??>${stockCompany.uscDividend?if_exists}</#if></li>
+	        	<li style="width: 100px;"><#if stockCompany.uscPayoutRatio??>${stockCompany.uscPayoutRatio?if_exists}</#if></li>
+		        <li style="width: 100px;"><#if stockCompany.updateTime??>${stockCompany.updateTime?string('yyyy-MM-dd hh:mm:ss')?if_exists}</#if></li>
 		    </ul>
 		</#list>
 		</#if>

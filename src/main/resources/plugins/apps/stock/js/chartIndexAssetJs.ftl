@@ -1,52 +1,54 @@
 <#import "/spring.ftl" as spring/>
 var color = Chart.helpers.color;
-var data4 = {
+var data1 = {
 	labels: [
-	    <#if plugins.mapStockChart??>
-		<#list plugins.mapStockChart?keys as key>
-		"${key?if_exists}"<#if key?has_next>,</#if>
+	    <#if plugins.stockCompanyForChartList?has_content>
+	    <#list plugins.stockCompanyForChartList as stockCompanyForChart>
+	    <#if stockCompanyForChart.ustClassify == "1">
+		"${stockCompanyForChart.uscName?if_exists}"<#if stockCompanyForChart?has_next>,</#if>
+		</#if>
 	    </#list>
 		</#if>
 		],
 	datasets: [{
-		label: '매수금액',
+		label: '매수 총가격',
 		backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 		borderWidth: 2,
+		borderColor: window.chartColors.red,
 		data: [
-	    <#if plugins.mapStockChart??>
-		<#list plugins.mapStockChart?keys as key>
-
-		<#assign buyMoney = plugins.mapStockChart[key].saleBuyCost * plugins.mapStockChart[key].saleBuyCount>
-		"${buyMoney?c?if_exists}"<#if key?has_next>,</#if>
-
-	    </#list>
-		</#if>
+		    <#if plugins.stockCompanyForChartList?has_content>
+		    <#list plugins.stockCompanyForChartList as stockCompanyForChart>
+		    <#if stockCompanyForChart.ustClassify == "1">
+			"${stockCompanyForChart.costCnt?c?if_exists}"<#if stockCompanyForChart?has_next>,</#if>
+			</#if>
+		    </#list>
+			</#if>
 		]
 	}, {
-		label: '매도금액',
+		label: '매도 총가격',
 		backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
 		borderWidth: 2,
+		borderColor: window.chartColors.blue,
 		data: [
-	    <#if plugins.mapStockChart??>
-		<#list plugins.mapStockChart?keys as key>
-
-		<#assign sellMoney = plugins.mapStockChart[key].saleSellCost * plugins.mapStockChart[key].saleSellCount>
-		"${sellMoney?c?if_exists}"<#if key?has_next>,</#if>
-
-	    </#list>
-		</#if>
+		    <#if plugins.stockCompanyForChartList?has_content>
+		    <#list plugins.stockCompanyForChartList as stockCompanyForChart>
+		    <#if stockCompanyForChart.ustClassify == "2">
+			"${stockCompanyForChart.costCnt?c?if_exists}"<#if stockCompanyForChart?has_next>,</#if>
+			</#if>
+		    </#list>
+			</#if>
 		]
 	}]
 };
 
-var option4 = {
+var option1 = {
 	responsive: true,
 	legend: {
 		position: 'top',
 	},
 	title: {
 		display: true,
-		text: '현금기준 매매금액'
+		text: '각 종목의 매매금액'
 	},
 	tooltips: {
 		mode: 'index',
@@ -57,7 +59,7 @@ var option4 = {
 			barThickness: 50,
 			scaleLabel: {
 				display: true,
-				labelString: '매매날짜'
+				labelString: '종목이름'
 			}
 		}],
 		yAxes: [{
@@ -82,10 +84,9 @@ var option4 = {
 	}
 };
 
-var ctx = document.getElementById("canvas4").getContext("2d");
+var ctx = document.getElementById("canvas1").getContext("2d");
 var myReportsBar = new Chart(ctx, {
     type: 'bar',
-    data: data4,
-    options: option4
+    data: data1,
+    options: option1
 });
-

@@ -25,7 +25,7 @@
 			user_id = #{userId} AND
 			usc_delete = '0'
 		ORDER BY
-			usc_no
+			usc_name, usc_no
 		LIMIT
 			#{nowPage}, #{row}
 	</select>
@@ -105,6 +105,33 @@
 			ust_no = #{ustNo} AND
 			user_id = #{userId} AND
 			ust_delete = '0'
+	</select>
+
+	<select id="sltStockCompanyForChartList" parameterType="map" 
+		resultType="com.abilists.plugins.stock.bean.model.StockCompanyForChartModel">
+		SELECT
+			pusc.usc_name as uscName,
+			pus.ust_classify as ustClassify,
+			SUM(pus.ust_sale_cost * pus.ust_sale_cnt) AS costCnt,
+			SUM(pus.ust_sale_cost) AS saleCost,
+			SUM(pus.ust_sale_cnt) AS saleCnt,
+			COUNT(pus.ust_sale_cost) AS cnt
+		FROM
+			plugins_user_stock_company pusc
+		INNER JOIN 
+			plugins_user_stock pus
+			ON 
+			pusc.usc_no = pus.usc_no
+		WHERE
+			pus.user_id = #{userId} AND
+			pusc.usc_delete = '0' AND
+			pus.ust_delete = '0'
+		GROUP BY
+			pusc.usc_name, pus.ust_classify
+		ORDER BY
+			pusc.usc_name, pus.ust_classify
+		LIMIT
+			#{nowPage}, #{row}
 	</select>
 
 	<select id="sltStockForChartList" parameterType="map" 

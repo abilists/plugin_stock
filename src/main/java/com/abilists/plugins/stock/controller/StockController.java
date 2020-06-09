@@ -76,7 +76,10 @@ public class StockController extends CommonAbilistsController {
 		int intSum = stockService.sltStockCompanySum(sltMasterStockCompanyPara);
 		abilistsModel.setPaging(stockService.makePaging(sltMasterStockCompanyPara, intSum));
 		// Get stock list
-		pluginsModel.setmStockCompanyList(stockService.sltStockCompanyList(sltMasterStockCompanyPara));
+		pluginsModel.setStockCompanyList(stockService.sltStockCompanyList(sltMasterStockCompanyPara));
+
+		// Get stock list
+		pluginsModel.setStockCompanyForChartList(stockService.sltStockCompanyForChartList(sltMasterStockCompanyPara));
 
 		// Get key and token
 		String token = TokenUtility.generateToken(TokenUtility.SHA_256);
@@ -175,7 +178,7 @@ public class StockController extends CommonAbilistsController {
 
 		// Get user information
 		List<PluginsUserStockCompanyModel> mStockCompanyList = stockService.srhStockCompanyList(srhAutoCompletePara);
-		pluginsModel.setmStockCompanyList(mStockCompanyList);
+		pluginsModel.setStockCompanyList(mStockCompanyList);
 
 		// Get key and token
 		String token = TokenUtility.generateToken(TokenUtility.SHA_256);

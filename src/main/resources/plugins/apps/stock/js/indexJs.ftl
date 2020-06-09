@@ -127,7 +127,7 @@ function dltStockCompany() {
 	});
 }
 
-function sbtDeleteFormStockCompany() {
+function sbtDeleteForStockCompany() {
 	document.udtForm.action = "${configBean.contextPath?if_exists}/plugins/stock/dltStockCompany";
 	document.udtForm.submit();
 }

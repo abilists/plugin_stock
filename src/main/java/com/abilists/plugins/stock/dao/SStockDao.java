@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.abilists.plugins.stock.bean.model.PluginsUserStockCompanyModel;
 import com.abilists.plugins.stock.bean.model.PluginsUserStockModel;
+import com.abilists.plugins.stock.bean.model.StockCompanyForChartModel;
 
 @Repository
 public interface SStockDao {
@@ -18,6 +19,7 @@ public interface SStockDao {
 	public List<PluginsUserStockModel> sltPluginsUserStockList(Map<String, Object> map) throws SQLException;
 	public PluginsUserStockModel sltPluginsUserStock(Map<String, Object> map) throws SQLException;
 
+	public List<StockCompanyForChartModel> sltStockCompanyForChartList(Map<String, Object> map) throws SQLException;
 	public List<PluginsUserStockModel> sltStockForChartList(Map<String, Object> map) throws SQLException;
 	public List<PluginsUserStockCompanyModel> srhUserStockCompanyList(Map<String, Object> map) throws SQLException;
 
