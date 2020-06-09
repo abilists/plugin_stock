@@ -1,4 +1,3 @@
-# 업데이트 중(On the construction)
 # plugin_stock <a href="http://www.abilists.com" ><img src="https://github.com/minziappa/abilists_client/blob/master/src/main/webapp/static/apps/img/abilists/logo01.png" height="22" alt="Abilists"></a>
 
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/abilists/plugin_stock)
@@ -14,7 +13,7 @@ plugin_stock는 어빌리스츠에 설치해서 무료로 쓸 수 있는 플러�
 
 ---
 
-## New in v0.0.5
+## New in v0.1.0
 
 - 종목의 주식 정보관리
 - 주식의 매수, 매도를 관리
