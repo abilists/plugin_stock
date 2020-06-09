@@ -89,9 +89,12 @@ public class StockServiceImpl extends AbilistsAbstractService implements StockSe
 	public List<StockCompanyForChartModel> sltStockCompanyForChartList(CommonPara commonPara) throws Exception {
 		List<StockCompanyForChartModel> stockCompanyForChartList = null;
 
+		// Get now page
+		int nowPage = commonPara.getNowPage();
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userId", commonPara.getUserId());
-		map.put("nowPage", 0);
+		map.put("nowPage", (nowPage - 1) * configuration.getInt("paging.row.twenty"));
 		map.put("row", configuration.getInt("paging.row.twenty"));
 
 		try {
