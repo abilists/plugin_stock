@@ -70,7 +70,7 @@ public class StockController extends CommonAbilistsController {
 		PluginsModel pluginsModel = new PluginsModel();
 
 		// Set user id
-		this.handleSessionInfo(request.getSession(), sltMasterStockCompanyPara);
+		this.handleSessionInfo(request.getSession(), sltMasterStockCompanyPara, false);
 
 		// Set Paging list
 		int intSum = stockService.sltStockCompanySum(sltMasterStockCompanyPara);
@@ -119,7 +119,7 @@ public class StockController extends CommonAbilistsController {
 		sltMStockCompanyPara.setUscNo(uscNo);
 
 		// Set user id
-		this.handleSessionInfo(request.getSession(), sltMStockCompanyPara);
+		this.handleSessionInfo(request.getSession(), sltMStockCompanyPara, false);
 
 		// Get a company information
 		pluginsModel.setmStockCompany(stockService.sltStockCompany(sltMStockCompanyPara));
@@ -160,7 +160,7 @@ public class StockController extends CommonAbilistsController {
 		PluginsModel pluginsModel = new PluginsModel();
 
 		// Set user id
-		this.handleSessionInfo(request.getSession(), srhAutoCompletePara);
+		this.handleSessionInfo(request.getSession(), srhAutoCompletePara, false);
 
 		// Set language in Locale.
 		Locale locale = RequestContextUtils.getLocale(request);
@@ -197,7 +197,7 @@ public class StockController extends CommonAbilistsController {
 			HttpSession session) throws Exception {
 
 		// Set user id
-		this.handleSessionInfo(session, sltMStockCompanyPara);
+		this.handleSessionInfo(session, sltMStockCompanyPara, false);
 
 		// Get user Reports.
 		PluginsUserStockCompanyModel masterStockCompanyModel = stockService.sltStockCompany(sltMStockCompanyPara);
@@ -218,7 +218,7 @@ public class StockController extends CommonAbilistsController {
 			HttpSession session) throws Exception {
 
 		// Set user id
-		this.handleSessionInfo(session, sltStockPara);
+		this.handleSessionInfo(session, sltStockPara, false);
 
 		// Get user Reports.
 		PluginsUserStockModel stock = stockService.sltStock(sltStockPara);
@@ -241,7 +241,7 @@ public class StockController extends CommonAbilistsController {
 		List<PluginsUserStockCompanyModel> mStockCompanyList = null;
 	
 		// Set user id
-		this.handleSessionInfo(request.getSession(), srhAutoCompletePara);
+		this.handleSessionInfo(request.getSession(), srhAutoCompletePara, false);
 	
 		// If it occurs a error, set the default value.
 		if (bindingResult.hasErrors()) {
@@ -278,7 +278,7 @@ public class StockController extends CommonAbilistsController {
 		}
 
 		// Set user id
-		this.handleSessionInfo(request.getSession(), istStockCompanyPara);
+		this.handleSessionInfo(request.getSession(), istStockCompanyPara, false);
 
 		// Validate token
 		String key = this.makeKey(istStockCompanyPara.getUserId(), AbstractBaseController.PREFIX_IST_KEY);
@@ -325,7 +325,7 @@ public class StockController extends CommonAbilistsController {
 		}
 
 		// Set user id
-		this.handleSessionInfo(request.getSession(), istStockPara);
+		this.handleSessionInfo(request.getSession(), istStockPara, false);
 
 		// Validate token
 		String key = this.makeKey(istStockPara.getUserId(), AbstractBaseController.PREFIX_IST_KEY);
@@ -372,7 +372,7 @@ public class StockController extends CommonAbilistsController {
 		}
 
 		// Set user id
-		this.handleSessionInfo(request.getSession(), udtStockCompanyPara);
+		this.handleSessionInfo(request.getSession(), udtStockCompanyPara, false);
 
 		// Validate token
 		String key = this.makeKey(udtStockCompanyPara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
@@ -419,7 +419,7 @@ public class StockController extends CommonAbilistsController {
 		}
 
 		// Set user id
-		this.handleSessionInfo(request.getSession(), udtStockPara);
+		this.handleSessionInfo(request.getSession(), udtStockPara, false);
 
 		// Validate token
 		String key = this.makeKey(udtStockPara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
@@ -466,7 +466,7 @@ public class StockController extends CommonAbilistsController {
 		}
 
 		// Set user id
-		this.handleSessionInfo(request.getSession(), dltMStockCompanyPara);
+		this.handleSessionInfo(request.getSession(), dltMStockCompanyPara, false);
 
 		// Validate token
 		String key = this.makeKey(dltMStockCompanyPara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);
@@ -513,7 +513,7 @@ public class StockController extends CommonAbilistsController {
 		}
 
 		// Set user id
-		this.handleSessionInfo(request.getSession(), dltStockPara);
+		this.handleSessionInfo(request.getSession(), dltStockPara, false);
 
 		// Validate token
 		String key = this.makeKey(dltStockPara.getUserId(), AbstractBaseController.PREFIX_UDT_KEY);

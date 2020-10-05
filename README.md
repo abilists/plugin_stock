@@ -13,7 +13,7 @@ plugin_stock는 어빌리스츠에 설치해서 무료로 쓸 수 있는 플러�
 
 ---
 
-## New in v0.1.0
+## New in v0.1.3
 
 - 종목의 주식 정보관리
 - 주식의 매수, 매도를 관리
@@ -37,11 +37,11 @@ plugin_stock는 어빌리스츠에 설치해서 무료로 쓸 수 있는 플러�
 
 1, Download the image of Docker for Abilists
 ```
-$ docker pull abilists/tomcat8.5:0.8.9
+$ docker pull abilists/tomcat8.5:1.0.0
 ```
 2, Start the tomcat on Docker
 ```
-$ docker container run -d -p 80:8080 -v ~/.abilists:/root/.abilists abilists/tomcat8.5:0.8.9
+$ docker container run -d -p 80:8080 -v ~/.abilists:/root/.abilists abilists/tomcat8.5:1.0.0
 ```
 
 ### 플러그인 설치 (아래는 [근태관리](https://github.com/abilists/plugin_time_record)를 예시로 들었습니다)
@@ -68,7 +68,7 @@ $ docker start <CONTAINER ID>
 ```
 $ docker ps -a
 CONTAINER ID        IMAGE                      COMMAND             CREATED             STATUS              PORTS                  NAMES
-1f297cc69e9a        abilists/tomcat8.5:0.7.7   "catalina.sh run"   7 minutes ago       Up 7 minutes        0.0.0.0:80->8080/tcp   nice_goldberg
+1f297cc69e9a        abilists/tomcat8.5:1.0.0   "catalina.sh run"   7 minutes ago       Up 7 minutes        0.0.0.0:80->8080/tcp   nice_goldberg
 $ docker stop 1f297cc69e9a
 1f297cc69e9a
 $ docker start 1f297cc69e9a
@@ -81,7 +81,7 @@ $ /usr/local/tomcat/bin/shutdown.sh
 $ /usr/local/tomcat/bin/startup.sh 
 ```
 
-** 근태관리 주요기능 **
+** 주식관리 주요기능 **
 * **종목정보** : 회사주식에 대한 기본정보를 입력합니다.
 * **매매주식** : 회사에 대하여 주식를 매매합니다..
 * **차트** : 매매를 시각화합니다.
@@ -93,7 +93,7 @@ $ /usr/local/tomcat/bin/startup.sh
 아래의 유틸리티를 Clone을 해서 Local에 설치할 필요가 있습니다.
 
 * [io.utility:security:0.0.1](https://github.com/abilists/security_utility)
-* [io.utility:letter:0.0.4](https://github.com/abilists/letter_utility)
+* [io.utility:letter:0.0.7](https://github.com/abilists/letter_utility)
 * [io.utility:api:0.0.4](https://github.com/abilists/api_utility)
 
 Local 시스템에서 설치합니다.

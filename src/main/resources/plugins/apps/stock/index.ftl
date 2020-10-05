@@ -26,6 +26,7 @@ li.stock-title {
 
 <div class="row">
 <div class="col-sm-12">
+
 	<div class="caption mittle-size-title" style="background: #4a9c4a !important;">
 		<ul class="stock-title">
 		  <li class="stock-title" style="width: 70px;">
@@ -77,21 +78,21 @@ li.stock-title {
 			  		<input class="form-control" type="text" name="uscName" placeholder="삼성전자" autocomplete="off" />
 			  	</div>
 	  	  	</div>
-	  	  	<div class="col-sm-3 col-md-2">	
+	  	  	<div class="col-sm-2 col-md-2">	
 	  			<label class="control-label">당기순이익(억원)</label>
 			  	<div class="input-group" style="float:right; width: 100%;">
 			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
 			  		<input class="form-control" type="number" name="uscProfit" maxlength="10" size="10" placeholder="2000" value="0" />
 			  	</div>
 		  	</div>
-	  	  	<div class="col-sm-3 col-md-2">	
+	  	  	<div class="col-sm-2 col-md-2">	
 	  			<label class="control-label">주당배당금(원)</label>
 			  	<div class="input-group" style="float:right; width: 100%;">
 			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
 			  		<input class="form-control" type="number" name="uscDividend" maxlength="10" size="10" placeholder="100" value="0" />
 			  	</div>
 		  	</div>
-	  	  	<div class="col-sm-3 col-md-2">	
+	  	  	<div class="col-sm-2 col-md-2">	
 	  			<label class="control-label">배당성향(%)</label>
 			  	<div class="input-group" style="float:right; width: 100%;">
 			  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
@@ -131,21 +132,21 @@ li.stock-title {
 		  		<input id="uscNameId" class="form-control" type="text" name="uscName" placeholder="삼성전자" autocomplete="off" />
 		  	</div>
 	  	</div>
-	  	<div class="col-sm-3 col-md-2">	
+	  	<div class="col-sm-2 col-md-2">	
 			<label class="control-label">당기순이익(억원)</label>
 		  	<div class="input-group" style="float:right; width: 100%;">
 		  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
 		  		<input id="uscProfitId" class="form-control" type="number" name="uscProfit" maxlength="10" size="10" placeholder="2000"/>
 		  	</div>
 	  	</div>
-	  	<div class="col-sm-3 col-md-2">	
+	  	<div class="col-sm-2 col-md-2">	
 			<label class="control-label">주당배당금(원)</label>
 		  	<div class="input-group" style="float:right; width: 100%;">
 		  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
 		  		<input id="uscDividendId" class="form-control" type="number" name="uscDividend" maxlength="10" size="10" placeholder="100"/>
 		  	</div>
 	  	</div>
-	  	<div class="col-sm-3 col-md-2">	
+	  	<div class="col-sm-2 col-md-2">	
 			<label class="control-label">배당성향(%)</label>
 		  	<div class="input-group" style="float:right; width: 100%;">
 		  		<span class="input-group-addon"><span id="calendarId" class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
